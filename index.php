@@ -81,15 +81,65 @@
     <header>
         <div class="hero">
             <div class="ads">
-                <h1>
-                    here the ads will run
-                </h1>
+                <div class="ad-slider">
+                    <img src="uploads/gym-ads.png" alt="Ad 1" class="ad-img">
+                    <img src="uploads/gym-ads (1).png" alt="Ad 2" class="ad-img">
+                    <img src="uploads/gym-ad-3.jpg" alt="Ad 3" class="ad-img">
+                </div>
             </div>
             <div class="aboutus">
-                <h1>This will present the about us </h1>
+                <div class="aboutus-card">
+                    <h2>Features We Provide :</h2>
+                    <ul>
+                        <li>Membership Tracking</li>
+                        <li>Real-time Attendance</li>
+                        <li>Class Scheduling</li>
+                        <li>Billing & Invoices</li>
+                        <li>Staff Management</li>
+                    </ul>
+                    <p class="card-subtitle">"All-in-one gym control center."</p>
+                </div>
+
+                <div class="aboutus-card">
+                    <h2>Why Choose Us?</h2>
+                    <ul>
+                        <li>Easy to Use</li>
+                        <li>Cloud-Based Access</li>
+                        <li>Customizable Plans</li>
+                        <li>24/7 Support</li>
+                        <li>Built for Nepali Gyms</li>
+                    </ul>
+                      <p class="card-subtitle">"Simple. Scalable. Localized."</p>
+                </div>
+
+                <div class="aboutus-card">
+                    <h2>Ready to Launch</h2>
+                    <ul>
+                        <li>Quick Setup</li>
+                        <li>Runs on Any Device</li>
+                        <li>No Installation Needed</li>
+                        <li>Secure & Fast</li>
+                        <li>Launch in Minutes</li>
+                    </ul>
+                      <p class="card-subtitle">"Be live in no time, stress-free."</p>
+                </div>
+
             </div>
         </div>
+
     </header>
+
+
+
+
+
+
+
+
+
+
+
+
 
     <main>
         <div class="card_header">
