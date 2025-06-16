@@ -7,6 +7,7 @@
     <title>FitNest</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/landing.css">
+    <link rel="stylesheet" href="assets/css/contactus.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
 </head>
@@ -43,8 +44,8 @@
                             <i class="fas fa-location-arrow"></i> Recommendation</a>
                     </li>
                     <li class="nav-item navbar-content">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-envelope"></i> Contact Us</a>
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">
+                            <i class="fas fa-envelope"></i> Contact Us
                     </li>
                 </ul>
 
@@ -105,7 +106,7 @@
                         <li>24/7 Support</li>
                         <li>Built for Nepali Gyms</li>
                     </ul>
-                      <p class="card-subtitle">"Simple. Scalable. Localized."</p>
+                    <p class="card-subtitle">"Simple. Scalable. Localized."</p>
                 </div>
 
                 <div class="aboutus-card">
@@ -117,24 +118,47 @@
                         <li>Secure & Fast</li>
                         <li>Launch in Minutes</li>
                     </ul>
-                      <p class="card-subtitle">"Be live in no time, stress-free."</p>
+                    <p class="card-subtitle">"Be live in no time, stress-free."</p>
                 </div>
 
             </div>
         </div>
 
     </header>
+    <!-- Contact Us Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content p-3" style="border-radius: 20px; overflow: hidden;">
+                <div class="contact_inner" style="height: auto; border-radius: 0;">
+                    <!-- Contact Form -->
+                    <div class="contact_field">
+                        <h3 class="contact_title">Contact Us</h3>
+                        <p class="contact_subtitle">Feel free to contact us any time. We'll get back to you as soon as we can!</p>
 
+                        <input type="text" class="form-control" placeholder="Name" />
+                        <input type="text" class="form-control" placeholder="Email" />
+                        <textarea class="form-control message_box" placeholder="Message"></textarea>
+                        <button class="contact_form_submit">Send</button>
+                    </div>
 
-
-
-
-
-
-
-
-
-
+                    <!-- Contact Info -->
+                    <div class="contact_info_sec">
+                        <div>
+                            <h4>Contact Info</h4>
+                            <div class="info_single"><i class="fas fa-headset"></i><span>‪+977 9825160781‬</span></div>
+                            <div class="info_single"><i class="fas fa-envelope-open-text"></i><span>fitnest@gmail.com</span></div>
+                            <div class="info_single"><i class="fas fa-map-marked-alt"></i><span>Pokhara, Nepal</span></div>
+                        </div>
+                        <ul class="socil_item_inner">
+                            <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <main>
