@@ -34,21 +34,17 @@
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <!-- Left Links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                    <li class="nav-item navbar-content">
+                        <a class="nav-link " href="#">
+                            <i class="fas fa-home"></i> Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                    <li class="nav-item navbar-content">
+                        <a class="nav-link" href="#recommendation">
+                            <i class="fas fa-location-arrow"></i> Recommendation</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownId">
-                            <li><a class="dropdown-item" href="superAdmin/login.php">SuperAdminPage</a></li>
-                            <li><a class="dropdown-item" href="#">Action 2</a></li>
-                        </ul>
+                    <li class="nav-item navbar-content">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-envelope"></i> Contact Us</a>
                     </li>
                 </ul>
 
@@ -66,12 +62,12 @@
                             <i class="fas fa-user fa-fw"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">Settings</a></li>
-                            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                            <li><a class="dropdown-item" href="login.php">Customer</a></li>
+                            <li><a class="dropdown-item" href="login.php">Trainer</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="login.php">Logout</a></li>
+                            <li><a class="dropdown-item" href="SuperAdmin/login.php">Admin</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -142,20 +138,20 @@
 
 
     <main>
-        <div class="card_header">
+        <div class="card_header" id="recommendation">
             <h1>Recommendation</h1>
             <hr>
         </div>
         <div class="card-container">
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
@@ -166,13 +162,13 @@
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
@@ -183,13 +179,13 @@
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
@@ -200,13 +196,13 @@
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
@@ -217,13 +213,13 @@
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
@@ -234,13 +230,13 @@
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
@@ -251,13 +247,13 @@
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
@@ -268,13 +264,13 @@
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
@@ -285,13 +281,13 @@
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
@@ -302,13 +298,13 @@
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Fancy Product">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
                         <h5 class="card-title">Fancy Product</h5>
-                        <p class="card-price">Rs 999</p>
+
                     </div>
 
                     <div class="d-flex gap-2">
