@@ -227,11 +227,6 @@ main .card_header {
   margin-bottom: 0.5rem;
 }
 
-.card-price {
-  font-weight: bold;
-  color: #28a745;
-  margin-bottom: 1rem;
-}
 .btn-outline-primary {
   background-color: #fff !important;
   border: 1px solid #20677c;
