@@ -105,7 +105,7 @@
                         <li>24/7 Support</li>
                         <li>Built for Nepali Gyms</li>
                     </ul>
-                      <p class="card-subtitle">"Simple. Scalable. Localized."</p>
+                    <p class="card-subtitle">"Simple. Scalable. Localized."</p>
                 </div>
 
                 <div class="aboutus-card">
@@ -117,19 +117,13 @@
                         <li>Secure & Fast</li>
                         <li>Launch in Minutes</li>
                     </ul>
-                      <p class="card-subtitle">"Be live in no time, stress-free."</p>
+                    <p class="card-subtitle">"Be live in no time, stress-free."</p>
                 </div>
 
             </div>
         </div>
 
     </header>
-
-
-
-
-
-
 
 
 
@@ -145,171 +139,171 @@
         <div class="card-container">
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
             <div class="card custom-card">
                 <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Fancy Product">
+                    <img src="uploads/gym.jpg" alt="Gym Name">
                 </div>
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Fancy Product</h5>
+                        <h5 class="card-title">Gym Name</h5>
 
                     </div>
 
                     <div class="d-flex gap-2">
                         <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
                     </div>
                 </div>
             </div>
