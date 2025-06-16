@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
         <div class="container-fluid">
             <!-- Brand -->
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.php">
                 <img src="uploads/logo_transparent.png" alt="Logo">
             </a>
 
@@ -44,8 +44,9 @@
                             <i class="fas fa-location-arrow"></i> Recommendation</a>
                     </li>
                     <li class="nav-item navbar-content">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">
+                        <button type="button" class="btn btn-link nav-link" data-bs-toggle="modal" data-bs-target="#contactModal">
                             <i class="fas fa-envelope"></i> Contact Us
+                        </button>
                     </li>
                 </ul>
 
@@ -141,21 +142,20 @@
                         <button class="contact_form_submit">Send</button>
                     </div>
 
-                    <<<<<<< HEAD
-                        <!-- Contact Info -->
-                        <div class="contact_info_sec">
-                            <div>
-                                <h4>Contact Info</h4>
-                                <div class="info_single"><i class="fas fa-headset"></i><span>‪+977 9825160781‬</span></div>
-                                <div class="info_single"><i class="fas fa-envelope-open-text"></i><span>fitnest@gmail.com</span></div>
-                                <div class="info_single"><i class="fas fa-map-marked-alt"></i><span>Pokhara, Nepal</span></div>
-                            </div>
-                            <ul class="socil_item_inner">
-                                <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                            </ul>
+                    <!-- Contact Info -->
+                    <div class="contact_info_sec">
+                        <div>
+                            <h4>Contact Info</h4>
+                            <div class="info_single"><i class="fas fa-headset"></i><span>‪+977 9825160781‬</span></div>
+                            <div class="info_single"><i class="fas fa-envelope-open-text"></i><span>fitnest@gmail.com</span></div>
+                            <div class="info_single"><i class="fas fa-map-marked-alt"></i><span>Pokhara, Nepal</span></div>
                         </div>
+                        <ul class="socil_item_inner">
+                            <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

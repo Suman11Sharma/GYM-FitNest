@@ -9,7 +9,7 @@
         <div class="input-group">
             <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
                 aria-describedby="btnNavbarSearch" />
-            <button class="btn btn-success" id="btnNavbarSearch" type="button"><i
+            <button class="btn btn-our" id="btnNavbarSearch" type="button"><i
                     class="fas fa-search"></i></button>
         </div>
     </form>
