@@ -9273,7 +9273,6 @@ fieldset:disabled .btn {
 }
 
 
-
 .bg-secondary {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity)) !important;
@@ -9307,7 +9306,7 @@ fieldset:disabled .btn {
 
 .bg-dark {
   --bs-bg-opacity: 1;
-  background-color: #1c8b98 !important;
+  background-color: #000 !important;
 }
 
 .bg-black {

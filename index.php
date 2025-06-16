@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
         <div class="container-fluid">
             <!-- Brand -->
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.php">
                 <img src="uploads/logo_transparent.png" alt="Logo">
             </a>
 
@@ -44,8 +44,9 @@
                             <i class="fas fa-location-arrow"></i> Recommendation</a>
                     </li>
                     <li class="nav-item navbar-content">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">
+                        <button type="button" class="btn btn-link nav-link" data-bs-toggle="modal" data-bs-target="#contactModal">
                             <i class="fas fa-envelope"></i> Contact Us
+                        </button>
                     </li>
                 </ul>
 
