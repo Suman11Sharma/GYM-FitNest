@@ -5010,6 +5010,8 @@ fieldset:disabled .btn {
   margin-bottom: var(--bs-card-group-margin);
 }
 
+
+
 @media (min-width: 576px) {
   .card-group {
     display: flex;
@@ -8153,7 +8155,7 @@ fieldset:disabled .btn {
 }
 
 .shadow {
-  box-shadow: 0 2rem 1rem  1rem rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 2rem 1rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
 .shadow-sm {
