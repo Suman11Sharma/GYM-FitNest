@@ -21,7 +21,7 @@
         <div class="container-fluid">
             <!-- Brand -->
             <a class="navbar-brand" href="#">
-                <img src="uploads/logo.png" alt="Logo" height="30">
+                <img src="uploads/logo_transparent.png" alt="Logo">
             </a>
 
             <!-- Toggler -->
@@ -97,90 +97,177 @@
             <hr>
         </div>
         <div class="card-container">
-            <div class="card">
-                <div class="card_image">
-                    <img src="assets/images/solution.jpg" alt="">
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
                 </div>
-                <div class="card-body">
-                    <div class="card-subcontent">
-                        <h2>Fancy Product</h2>
-                        <span>Rs999</span>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
                     </div>
-                    <a href="">
-                        <button class="btn-add-cart ">Add to cart</button>
-                    </a>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card_image">
-                    <img src="assets/images/solution.jpg" alt="">
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
                 </div>
-                <div class="card-body">
-                    <div class="card-subcontent">
-                        <h2>Fancy Product</h2>
-                        <span>Rs999</span>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
                     </div>
-                    <a href="">
-                        <button class="btn-add-cart ">Add to cart</button>
-                    </a>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card_image">
-                    <img src="" alt="">
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
                 </div>
-                <div class="card-body">
-                    <div class="card-subcontent">
-                        <h2>Fancy Product</h2>
-                        <span>Rs999</span>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
                     </div>
-                    <a href="">
-                        <button class="btn-add-cart ">Add to cart</button>
-                    </a>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card_image">
-                    <img src="" alt="">
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
                 </div>
-                <div class="card-body">
-                    <div class="card-subcontent">
-                        <h2>Fancy Product</h2>
-                        <span>Rs999</span>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
                     </div>
-                    <a href="">
-                        <button class="btn-add-cart ">Add to cart</button>
-                    </a>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card_image">
-                    <img src="" alt="">
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
                 </div>
-                <div class="card-body">
-                    <div class="card-subcontent">
-                        <h2>Fancy Product</h2>
-                        <span>Rs999</span>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
                     </div>
-                    <a href="">
-                        <button class="btn-add-cart ">Add to cart</button>
-                    </a>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card_image">
-                    <img src="" alt="">
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
                 </div>
-                <div class="card-body">
-                    <div class="card-subcontent">
-                        <h2>Fancy Product</h2>
-                        <span>Rs999</span>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
                     </div>
-                    <a href="">
-                        <button class="btn-add-cart ">Add to cart</button>
-                    </a>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
                 </div>
             </div>
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                </div>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                </div>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                </div>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card custom-card">
+                <div class="card-image">
+                    <img src="uploads/personal.jpg" alt="Fancy Product">
+                </div>
+
+                <div class="card-body card-body-custom">
+                    <div>
+                        <h5 class="card-title">Fancy Product</h5>
+                        <p class="card-price">Rs 999</p>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                        <a href="#" class="btn btn-primary btn-cool w-100">Get Pass</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 

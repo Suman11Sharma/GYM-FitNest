@@ -10,19 +10,23 @@ html {
     scroll-behavior: smooth;
 }
 
+.navbar {
+    height: 60px;
+    padding: 0;
+}
+
 .navbar-brand {
     margin-left: 1rem;
 }
 
 .bg-primary {
-    background-color: #20677c !important;
+    background-color: #1c8b98 !important;
 }
 
-.navbar a img {
-    height: 90px;
-    width: 90px;
-    border: none;
-    border-radius: 50%;
+
+.navbar-brand img {
+    height: 130px;
+
 }
 
 .collapse ul li {
@@ -74,36 +78,59 @@ main .card_header {
     position: relative;
 }
 
-.card {
-    height: 50vh;
-    width: calc(100% / 4 - 30px);
-    display: flex;
-    border: 1px solid #d2d2d2;
-    border-radius: 10px;
+.custom-card {
+    width: 18rem;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.card:hover {
-    transform: scale(1.05);
-}
-
-.card_image {
+.card-image {
+    width: 100%;
     height: 50%;
-    background-color: rgb(179, 182, 184);
 }
 
-main .card-body {
+.card-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+}
+
+.card-body-custom {
     height: 50%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
     flex-direction: column;
-    align-content: space-around;
+    justify-content: space-between;
+    padding: 1rem;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card-price {
+    font-weight: bold;
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+.btn-cool {
+    border-radius: 25px;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.btn-cool:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 footer {
-    background-color: #20677c;
+    background-color: #1c8b98;
     height: 60px;
     width: 100%;
     justify-content: center;
@@ -128,6 +155,10 @@ footer {
 }
 
 @media screen and (max-width: 576px) {
+    .navbar {
+        height: auto;
+    }
+
     .card {
         width: calc(100%);
     }
