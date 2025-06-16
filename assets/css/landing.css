@@ -230,21 +230,37 @@ main .card_header {
     margin-bottom: 0.5rem;
 }
 
-.card-price {
-    font-weight: bold;
-    color: #28a745;
-    margin-bottom: 1rem;
+.btn-outline-primary {
+    background-color: #fff !important;
+    border: 1px solid #20677c;
+    border-radius: 25px;
+    color: #20677c;
+    transition: 0.3s;
 }
 
-.btn-cool {
+.btn-outline-primary:hover {
+    transform: translateY(-2px);
+    background-color: #20677c !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    color: #fff !important;
+    border: 1px solid #20677c;
+}
+
+.btn-bgcolor {
     border-radius: 25px;
     transition: 0.3s;
     font-weight: 500;
+    background-color: #20677c !important;
+    border: 1px solid #20677c;
+    color: #fff;
 }
 
-.btn-cool:hover {
+.btn-bgcolor:hover {
+    background-color: #fff !important;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #20677c;
+    color: #20677c !important;
 }
 
 footer {
