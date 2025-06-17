@@ -1,6 +1,6 @@
-<?php require("sidelayout.php"); ?>
+<?php require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main>
-        <h1>hello people this is main content</h1>
+
     </main>
     <?php require("../layouts/footer.php"); ?>
