@@ -9,6 +9,7 @@
     <meta name="author" content="" />
     <title>Login - SB Admin</title>
     <link href="../assets/css/styles.css" rel="stylesheet" />
+       <link href="../assets/css/landing.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
@@ -44,7 +45,7 @@
                                     </form>
                                 </div>
                                 <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="register.php"> <a class="btn btn-primary" href="superAdminPage.php">Login</a></div>
+                                    <div class="small"><a href="register.php"> <a class="btn btn-our" href="superAdminPage.php">Login</a></div>
                                 </div>
                             </div>
                         </div>
