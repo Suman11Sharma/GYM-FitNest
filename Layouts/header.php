@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="../assets/css/landing.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<style>
 
-</style>
 
 <body class="sb-nav-fixed">
