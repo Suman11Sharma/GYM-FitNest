@@ -395,7 +395,7 @@
 
                 <div class="card-body card-body-custom">
                     <div>
-                        <h5 class="card-title">Gym Name</h5>
+                        <h5 class="card-title">Fitnest Gym</h5>
 
                     </div>
 
@@ -446,7 +446,7 @@
     <footer class="py-4 mt-auto">
         <div class="container-fluid px-4 ">
             <div class="d-flex justify-content-between footer-text">
-                <span>Copyright &copy; Your Website 2023</span>
+                <span> &copy; 2025 FitNest. All Rights Reserved.</span>
                 <span>fitnest@gmail.com</span>
             </div>
         </div>
