@@ -8002,6 +8002,9 @@ fieldset:disabled .btn {
   z-index: 1030;
 }
 
+.navbar-brand img {
+  height: 130px;
+}
 .fixed-bottom {
   position: fixed;
   right: 0;

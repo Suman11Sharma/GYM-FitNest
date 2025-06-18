@@ -9,10 +9,12 @@
     <meta name="author" content="" />
     <title>FitNest</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    <link href="../assets/css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../assets/css/landing.css">
+    <link href="../css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/landing.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
+<style>
 
+</style>
 
 <body class="sb-nav-fixed">
