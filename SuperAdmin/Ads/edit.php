@@ -3,4 +3,4 @@
     <main>
         <h1>hello </h1>
     </main>
-    <?php require("../layouts/footer.php"); ?>
+    <?php require("../assets/link.php"); ?>
