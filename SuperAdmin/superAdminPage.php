@@ -90,6 +90,7 @@
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+<<<<<<< HEAD
                             data-bs-target="#collapseRegister" aria-expanded="false" aria-controls="collapseRegister">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
                             Register
@@ -102,6 +103,17 @@
                                 <a class="nav-link" href="Register/index.php">Index</a>
                                 <a class="nav-link" href="Register/create.php">Create</a>
                                 <a class="nav-link" href="Register/edit.php">Edit</a>
+=======
+                            data-bs-target="#collapseContactUs" aria-expanded="false" aria-controls="collapseConatctus">
+                            <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
+                            Contact us Message
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapseContactUs" aria-labelledby="headingContactUs" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="contactUs/index.php">Index</a>
+>>>>>>> 40e11b25bf86228c1d663164212f25742563f19f
                             </nav>
                         </div>
                     </div>
@@ -112,9 +124,269 @@
                 </div>
             </nav>
         </div>
+        <div class="modal fade" id="gymDetailModal" tabindex="-1" aria-labelledby="gymDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="gymDetailModalLabel">Gym Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <h6>🏋️ FitNest Gym, Pokhara</h6>
+                        <p>FitNest Gym offers a complete fitness solution with modern equipment, professional trainers, and various classes including strength training, cardio, Zumba, and yoga.</p>
+                        <ul>
+                            <li>Opening Hours: 5:00 AM – 9:00 PM</li>
+                            <li>Location: Lakeside, Pokhara</li>
+                            <li>Contact: +977 9825160781</li>
+                            <li>Email: info@fitnest.com</li>
+                        </ul>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="renewModal" tabindex="-1" aria-labelledby="renewModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content needs-validation" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="renewModalLabel">Renew Subscription</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <!-- Name -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                            <div class="invalid-feedback">Please enter your name.</div>
+                        </div>
+
+                        <!-- Contact -->
+                        <div class="mb-3">
+                            <label for="contact" class="form-label">Contact Number</label>
+                            <input type="tel" class="form-control" id="contact" pattern="^[0-9]{7,15}$" required>
+                            <div class="invalid-feedback">Please enter a valid contact number.</div>
+                        </div>
+
+                        <!-- From Date -->
+                        <div class="mb-3">
+                            <label for="fromDate" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="fromDate" min="<?= date('Y-m-d'); ?>" required>
+                            <div class="invalid-feedback">Start date must be today or later.</div>
+                        </div>
+
+                        <!-- To Date -->
+                        <div class="mb-3">
+                            <label for="toDate" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="toDate" required>
+                            <div class="invalid-feedback">Please select a valid end date.</div>
+                        </div>
+
+                        <!-- Payment -->
+                        <div class="mb-3">
+                            <label for="payment" class="form-label">Payment Amount (Rs)</label>
+                            <input type="number" class="form-control" id="payment" min="1" required>
+                            <div class="invalid-feedback">Please enter the payment amount.</div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-our w-100">Submit Renewal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div id="layoutSidenav_content">
             <main>
-                <h1>hello people this is main content</h1>
+
+                <div class="card_header" id="recommendation">
+                    <h1>Subscription available</h1>
+                    <hr>
+                </div>
+                <div class="card-container">
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+                                <span class="text-success">Days Remaining 78</span>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card custom-card">
+                        <div class="card-image">
+                            <img src="uploads/gym.jpg" alt="Gym Name">
+                        </div>
+
+                        <div class="card-body card-body-custom">
+                            <div>
+                                <h5 class="card-title">Gym Name</h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </main>
             <footer class="py-4 bg-dark mt-auto">
                 <div class="container-fluid px-4">

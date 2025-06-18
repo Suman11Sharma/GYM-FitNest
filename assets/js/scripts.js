@@ -1,11 +1,4 @@
-/*!
-    * Start Bootstrap - SB Admin v7.0.7 (https://startbootstrap.com/template/sb-admin)
-    * Copyright 2013-2023 Start Bootstrap
-    * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
-    */
-// 
-// Scripts
-// 
+
 
 window.addEventListener('DOMContentLoaded', event => {
 
@@ -59,4 +52,109 @@ function validateForm(event) {
 
     return true;
 }
+
+
+
+// ads index table js
+const adsData = Array.from({
+    length: 50
+}, (_, i) => ({
+    adsId: 'AD' + (1000 + i),
+    companyName: 'Company ' + (i + 1),
+    duration: (10 + (i % 5)) + ' days',
+    visibility: true,
+    image: '../Uploads/gym.jpg'
+}));
+
+let currentPage = 1;
+const rowsPerPage = 15;
+
+function displayTable(data, page = 1) {
+    const tbody = document.getElementById('adsTableBody');
+    tbody.innerHTML = '';
+
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const pageData = data.slice(start, end);
+
+    pageData.forEach((item, index) => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td>${start + index + 1}</td>
+          <td>${item.adsId}</td>
+          <td><img src="${item.image}" alt="Ad Image" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px;"></td>
+          <td>${item.companyName}</td>
+          <td>${item.duration}</td>
+          <td>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" ${item.visibility ? 'checked' : ''} onchange="toggleVisibility(${start + index})">
+            </div>
+          </td>
+          <td class="table-actions">
+            <button class="btn btn-sm btn-warning" onclick="editAd(${start + index})">Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteAd(${start + index})">Delete</button>
+          </td>
+        `;
+
+        tbody.appendChild(row);
+    });
+
+    displayPagination(data.length);
+}
+
+function displayPagination(totalRows) {
+    const pageCount = Math.ceil(totalRows / rowsPerPage);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    for (let i = 1; i <= pageCount; i++) {
+        const li = document.createElement('li');
+        li.className = 'page-item' + (i === currentPage ? ' active' : '');
+        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        li.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentPage = i;
+            filterAndDisplay();
+        });
+        pagination.appendChild(li);
+    }
+}
+
+function toggleVisibility(index) {
+    adsData[index].visibility = !adsData[index].visibility;
+    console.log(`Ad ${adsData[index].adsId} visibility: ${adsData[index].visibility}`);
+}
+
+function editAd(index) {
+    alert(`Edit clicked for ${adsData[index].adsId}`);
+}
+
+function deleteAd(index) {
+    if (confirm(`Are you sure to delete ${adsData[index].adsId}?`)) {
+        adsData.splice(index, 1);
+        const maxPage = Math.ceil(adsData.length / rowsPerPage);
+        if (currentPage > maxPage) currentPage = maxPage;
+        filterAndDisplay();
+    }
+}
+
+function filterAndDisplay() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = adsData.filter(item => item.companyName.toLowerCase().includes(query));
+    displayTable(filtered, currentPage);
+}
+
+document.getElementById('searchInput').addEventListener('input', () => {
+    currentPage = 1;
+    filterAndDisplay();
+});
+
+document.getElementById('btnNavbarSearch').addEventListener('click', () => {
+    currentPage = 1;
+    filterAndDisplay();
+});
+
+filterAndDisplay();
+
 
