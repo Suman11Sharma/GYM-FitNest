@@ -8,8 +8,8 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Login - SB Admin</title>
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="../assets/css/landing.css" rel="stylesheet" />
+    <link href="assets/css/styles.css" rel="stylesheet" />
+    <link href="assets/css/landing.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 

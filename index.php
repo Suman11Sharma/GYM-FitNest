@@ -65,11 +65,11 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="login.php">Customer</a></li>
-                            <li><a class="dropdown-item" href="login.php">Trainer</a></li>
+                            <li><a class="dropdown-item" href="Admin/adminPage.php">Admin</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="SuperAdmin/login.php">Admin</a></li>
+                            <li><a class="dropdown-item" href="SuperAdmin/login.php">Super Admin</a></li>
                         </ul>
                     </li>
                 </ul>
