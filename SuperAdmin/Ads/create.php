@@ -12,7 +12,6 @@
         </head>
 
         <body class="bg-light">
-x
             <div class="container-md py-5">
                 <h2 class="mb-4 text-center">Advertisement</h2>
 
