@@ -88,7 +88,7 @@
             </div>
             <!-- Submit -->
             <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary px-5 py-2">Submit</button>
+                <button type="submit" class="btn btn-our px-5 py-2">Submit</button>
             </div>
         </form>
     </div>
@@ -108,7 +108,6 @@
                 icon.classList.add('bi-eye-slash');
             }
         }
-
     </script>
 
 

@@ -112,4 +112,4 @@
         </script>
 
     </main>
-    <?php require("../layouts/footer.php"); ?>
+    <?php require("../assets/link.php"); ?>

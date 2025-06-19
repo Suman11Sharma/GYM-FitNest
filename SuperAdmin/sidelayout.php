@@ -53,6 +53,7 @@
                             <a class="nav-link" href="../contactUs/index.php">Index</a>
                         </nav>
                     </div>
+
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapseRegister" aria-expanded="false" aria-controls="collapseRegister">
                         <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>

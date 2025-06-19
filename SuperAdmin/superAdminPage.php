@@ -9,8 +9,9 @@
     <meta name="author" content="" />
     <title>FitNest</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/landing.css">
+    <link href="assets/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/landing.css">
+
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <style>
@@ -73,7 +74,6 @@
                                 <a class="nav-link" href="Ads/create.php">Create</a>
                                 <a class="nav-link" href="Ads/edit.php">Edit</a>
                             </nav>
-
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseAboutUs" aria-expanded="false" aria-controls="collapseAboutUs">
@@ -89,21 +89,9 @@
                                 <a class="nav-link" href="AboutUs/edit.php">Edit</a>
                             </nav>
                         </div>
+
+
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-<<<<<<< HEAD
-                            data-bs-target="#collapseRegister" aria-expanded="false" aria-controls="collapseRegister">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
-                            Register
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-
-
-                        <div class="collapse" id="collapseRegister" aria-labelledby="headingRegister" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="Register/index.php">Index</a>
-                                <a class="nav-link" href="Register/create.php">Create</a>
-                                <a class="nav-link" href="Register/edit.php">Edit</a>
-=======
                             data-bs-target="#collapseContactUs" aria-expanded="false" aria-controls="collapseConatctus">
                             <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
                             Contact us Message
@@ -113,7 +101,23 @@
                         <div class="collapse" id="collapseContactUs" aria-labelledby="headingContactUs" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="contactUs/index.php">Index</a>
->>>>>>> 40e11b25bf86228c1d663164212f25742563f19f
+
+                            </nav>
+                        </div>
+
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseRegister" aria-expanded="false" aria-controls="collapseRegister">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
+                            Register
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapseRegister" aria-labelledby="headingRegister" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Register/index.php">Index</a>
+                                <a class="nav-link" href="Register/create.php">Create</a>
+                                <a class="nav-link" href="Register/edit.php">Edit</a>
                             </nav>
                         </div>
                     </div>
@@ -244,8 +248,12 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -261,8 +269,12 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -278,8 +290,12 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -295,8 +311,12 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -312,8 +332,12 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -329,8 +353,12 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -346,8 +374,12 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -363,8 +395,12 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -380,8 +416,12 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
+                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
+                                    More Detail
+                                </a>
+                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
+                                    Renew
+                                </a>
                             </div>
                         </div>
                     </div>
