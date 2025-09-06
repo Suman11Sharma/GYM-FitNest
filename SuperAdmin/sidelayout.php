@@ -68,6 +68,19 @@
                             <a class="nav-link" href="../Register/edit.php">Edit</a>
                         </nav>
                     </div>
+                    <!-- Create-Users -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseUsers" aria-expanded="false" aria-controls="collapseUsers">
+                        <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                        Create-Users
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <div class="collapse" id="collapseUsers" aria-labelledby="headingUsers" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="../Create-Users/create.php">Create</a>
+                        </nav>
+                    </div>
                 </div>
             </div>
             <div class="sb-sidenav-footer">

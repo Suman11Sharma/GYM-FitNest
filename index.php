@@ -25,6 +25,7 @@
                 <img src="uploads/logo_transparent.png" alt="Logo">
             </a>
 
+
             <!-- Toggler -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
                 aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">

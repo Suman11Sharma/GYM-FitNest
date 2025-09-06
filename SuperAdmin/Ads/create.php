@@ -13,7 +13,13 @@
 
         <body class="bg-light">
             <div class="container-md py-5">
-                <h2 class="mb-4 text-center">Advertisement</h2>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0 text-center flex-grow-1">Advertisement</h2>
+                    <a href="../index.php" class="btn btn-light btn-sm border ms-3" title="Back to Home">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+
 
                 <form action="#" method="POST" enctype="multipart/form-data">
 
