@@ -99,7 +99,7 @@
     <!-- Logo on top right -->
     <div class="top-bar">
         <div class="logo">
-            <img src="/uploads/logo_transparent.png" alt="FitNest Logo">
+            <img src="../uploads/logo_transparent.png" alt="FitNest Logo">
         </div>
     </div>
 
@@ -110,7 +110,7 @@
                     <div class="card shadow border-0 rounded-lg card-login p-4">
                         <div class="card-header d-flex justify-content-between align-items-center border-0">
                             <h3 class="text-center font-weight-light my-2">Welcome Back!</h3>
-                            <a href="/index.php" class="btn btn-light btn-sm border" title="Back to Home">
+                            <a href="../index.php" class="btn btn-light btn-sm border" title="Back to Home">
                                 <i class="fas fa-arrow-left"></i>
                             </a>
                         </div>
