@@ -29,19 +29,8 @@
             <!-- Address Section -->
             <div class="mb-3">
                 <label class="form-label">Address</label>
-                <div class="row g-2">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" name="city" placeholder="City" required>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" name="state" placeholder="State/Province" required>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" name="zipcode" placeholder="Zip Code" required>
-                    </div>
-                </div>
+                <input type="text" class="form-control" name="address" required>
             </div>
-
             <!-- Contact Number -->
             <div class="mb-3">
                 <label class="form-label">Contact Number</label>
@@ -52,6 +41,12 @@
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" required>
+            </div>
+            <!-- Gym Photo Upload -->
+            <div class="mb-3">
+                <label class="form-label">Gym Photo</label>
+                <input type="file" class="form-control" name="gymPhoto" accept="image/*" required>
+                <small class="text-muted">Upload a photo of your gym (JPG, PNG, max 5MB)</small>
             </div>
 
             <!-- Map Section -->

@@ -131,6 +131,7 @@
                         <div class="collapse" id="collapseUsers" aria-labelledby="headingUsers" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="Create-Users/create.php">Create</a>
+                                <a class="nav-link" href="Create-Users/index.php">Index</a>
                             </nav>
                         </div>
 
