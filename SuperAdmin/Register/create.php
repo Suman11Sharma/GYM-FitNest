@@ -1,3 +1,63 @@
+<?php
+include "../../database/db_connect.php";
+
+$message = "";
+$status  = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $companyName  = trim($_POST['companyName']);
+    $address      = trim($_POST['address']);
+    $contact      = trim($_POST['contactNumber']);
+    $email        = trim($_POST['email']);
+    $latitude     = trim($_POST['latitude']);
+    $longitude    = trim($_POST['longitude']);
+
+    // 1. Validation: required fields
+    if (empty($companyName) || empty($address) || empty($contact) || empty($email) || empty($latitude) || empty($longitude)) {
+        $message = "❌ All fields are required.";
+        $status  = "error";
+    } else {
+        // 2. Validation: unique email
+        $checkEmail = mysqli_query($conn, "SELECT gym_id FROM gyms WHERE email = '$email'");
+        if (mysqli_num_rows($checkEmail) > 0) {
+            $message = "❌ This email is already registered.";
+            $status  = "error";
+        } else {
+            // 3. Handle file upload
+            $targetDir = "../../uploads/gyms_images/";
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            $fileName = time() . "_" . basename($_FILES["gymPhoto"]["name"]);
+            $targetFilePath = $targetDir . $fileName;
+            $dbFilePath = "uploads/gyms_images/" . $fileName;
+
+            if (move_uploaded_file($_FILES["gymPhoto"]["tmp_name"], $targetFilePath)) {
+                // 4. Insert into DB
+                $sql = "INSERT INTO gyms (name, email, phone, address, image_url, latitude, longitude, created_at, updated_at)
+                        VALUES ('$companyName', '$email', '$contact', '$address', '$dbFilePath', '$latitude', '$longitude', NOW(), NOW())";
+
+                if (mysqli_query($conn, $sql)) {
+                    $message = "✅ Gym added successfully!";
+                    $status  = "success";
+                } else {
+                    $message = "❌ Database error: " . mysqli_error($conn);
+                    $status  = "error";
+                }
+            } else {
+                $message = "❌ Error uploading gym photo.";
+                $status  = "error";
+            }
+        }
+    }
+
+    // Redirect back with message
+    header("Location: create.php?status=$status&msg=" . urlencode($message));
+    exit;
+}
+?>
+
 <?php require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -19,7 +79,28 @@
             </a>
         </div>
 
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <!-- Feedback Modal -->
+        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?> text-white">
+                        <h5 class="modal-title" id="feedbackModalLabel">
+                            <?php echo ($_GET['status'] ?? '') === 'success' ? 'Success' : 'Error'; ?>
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <?php echo isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : ''; ?>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?>" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <form action="create.php" method="POST" enctype="multipart/form-data">
             <!-- Company Name -->
             <div class="mb-3">
                 <label class="form-label">Company Name</label>
@@ -112,5 +193,17 @@
             document.getElementById("longitude").value = e.latlng.lng.toFixed(6);
         });
     </script>
+
+
+    <!-- js for the model -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            <?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
+                var feedbackModal = new bootstrap.Modal(document.getElementById('feedbackModal'));
+                feedbackModal.show();
+            <?php endif; ?>
+        });
+    </script>
+
 
     <?php require("../assets/link.php"); ?>

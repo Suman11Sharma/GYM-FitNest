@@ -1,4 +1,5 @@
-<?php require("../sidelayout.php"); ?>
+<?php
+require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main>
         <div class="container mt-4">
