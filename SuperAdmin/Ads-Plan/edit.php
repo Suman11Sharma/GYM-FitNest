@@ -1,19 +1,27 @@
 <?php
-require("../sidelayout.php");
+include "../../database/db_connect.php";
 
-// Example: fetch ad plan from DB (replace with actual DB code)
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+// Get the plan ID from URL
+$plan_id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-// TODO: Replace this with database fetch using $id
-$plan = [
-    "id" => $id,
-    "name" => "Premium Plan",
-    "duration_days" => 30,
-    "price" => 5000,
-    "description" => "This is a premium ad plan.",
-    "status" => "active"
-];
+if ($plan_id > 0) {
+    // Fetch the plan from DB
+    $stmt = $conn->prepare("SELECT plan_id, name, duration_days, price, description, status FROM ad_plans WHERE plan_id = ?");
+    $stmt->bind_param("i", $plan_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $plan = $result->fetch_assoc();
+
+    if (!$plan) {
+        die("❌ Plan not found");
+    }
+} else {
+    die("❌ Invalid plan ID");
+}
 ?>
+
+<?php require("../sidelayout.php"); ?>
+
 <div id="layoutSidenav_content">
     <main class="container mt-4">
         <div class="card shadow-lg border-0 rounded-3">
@@ -23,7 +31,7 @@ $plan = [
             </div>
             <div class="card-body">
                 <form action="update.php" method="POST" class="needs-validation" novalidate>
-                    <input type="hidden" name="id" value="<?php echo $plan['id']; ?>">
+                    <input type="hidden" name="id" value="<?php echo $plan['plan_id']; ?>">
 
                     <!-- Name -->
                     <div class="mb-3">
@@ -56,7 +64,7 @@ $plan = [
                         <div class="invalid-feedback">Please enter a description.</div>
                     </div>
 
-                    <!-- Status (Dropdown) -->
+                    <!-- Status -->
                     <div class="mb-3">
                         <label for="status" class="form-label">Status</label>
                         <select class="form-select" id="status" name="status" required>

@@ -1,3 +1,36 @@
+<?php
+include "../../database/db_connect.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name          = trim($_POST['name']);
+    $duration_days = (int) $_POST['duration_days'];
+    $price         = (float) $_POST['price'];
+    $description   = trim($_POST['description']);
+    $status        = trim($_POST['status']);
+
+    if (empty($name) || empty($duration_days) || empty($price) || empty($description) || empty($status)) {
+        $msg = "All fields are required.";
+        $statusCode = "error";
+    } else {
+        $sql = "INSERT INTO ad_plans (name, duration_days, price, description, status) 
+                VALUES ('$name', '$duration_days', '$price', '$description', '$status')";
+
+        if (mysqli_query($conn, $sql)) {
+            $msg = "Plan added successfully!";
+            $statusCode = "success";
+        } else {
+            $msg = "Database error: " . mysqli_error($conn);
+            $statusCode = "error";
+        }
+    }
+
+    // Redirect to the same page with feedback
+    header("Location: index.php?status=$statusCode&msg=" . urlencode($msg));
+    exit;
+}
+?>
+
+
 <?php require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main class="container mt-4">
@@ -6,7 +39,9 @@
                 <h4 class="mb-0">Create Ad Plan</h4>
             </div>
             <div class="card-body">
-                <form action="store.php" method="POST" class="needs-validation" novalidate>
+
+
+                <form action="create.php" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
 
                     <!-- Name -->
                     <div class="mb-3">
