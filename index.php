@@ -126,40 +126,77 @@
             </div>
         </div>
     </header>
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?> text-white">
+                    <h5 class="modal-title" id="feedbackModalLabel">
+                        <?php echo ($_GET['status'] ?? '') === 'success' ? 'Success' : 'Error'; ?>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php echo isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : ''; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?>" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Auto-trigger modal if feedback exists -->
+    <?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var feedbackModal = new bootstrap.Modal(document.getElementById("feedbackModal"));
+                feedbackModal.show();
+
+                // When modal is closed, remove query params so it won't reopen on refresh
+                document.getElementById("feedbackModal").addEventListener("hidden.bs.modal", function() {
+                    const url = new URL(window.location.href);
+                    url.search = ""; // clear query string
+                    window.history.replaceState({}, document.title, url);
+                });
+            });
+        </script>
+    <?php endif; ?>
 
     <!-- Contact Us Modal -->
     <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content p-3" style="border-radius: 20px; overflow: hidden;">
                 <div class="contact_inner" style="height: auto; border-radius: 0;">
+
                     <!-- Contact Form -->
-                    <div class="contact_field">
+                    <form action="save_contact.php" method="POST" class="contact_field">
                         <h3 class="contact_title">Contact Us</h3>
                         <p class="contact_subtitle">Feel free to contact us any time. We'll get back to you as soon as we can!</p>
 
                         <!-- Name -->
-                        <input type="text" class="form-control" name="name" placeholder="Name" required />
+                        <input type="text" class="form-control mb-2" name="name" placeholder="Name" required />
 
                         <!-- Email -->
-                        <input type="email" class="form-control" name="email" placeholder="Email" required />
+                        <input type="email" class="form-control mb-2" name="email" placeholder="Email" required />
 
                         <!-- Contact -->
-                        <input type="tel" class="form-control" name="contact" placeholder="Contact Number" pattern="[0-9]{10}" required />
+                        <input type="tel" class="form-control mb-2" name="contact" placeholder="Contact Number" pattern="[0-9]{10}" required />
+
                         <!-- Subject -->
-                        <input type="text" class="form-control" name="subject" placeholder="Subject" required />
+                        <input type="text" class="form-control mb-2" name="subject" placeholder="Subject" required maxlength="35" />
 
                         <!-- Message -->
-                        <textarea class="form-control message_box" name="message" placeholder="Message" rows="4" required></textarea>
+                        <textarea class="form-control message_box mb-2" name="message" placeholder="Message" rows="4" required></textarea>
 
-                        <button class="btn-contact_form_submit">Send</button>
-                    </div>
+                        <button type="submit" class="btn-contact_form_submit">Send</button>
+                    </form>
 
                     <!-- Contact Info -->
                     <div class="contact_info_sec">
                         <div>
                             <h4>Contact Info</h4>
-                            <div class="info_single"><i class="fas fa-headset"></i><span>‪+977 9825160781‬</span></div>
+                            <div class="info_single"><i class="fas fa-headset"></i><span>+977 9825160781</span></div>
                             <div class="info_single"><i class="fas fa-envelope-open-text"></i><span>fitnest@gmail.com</span></div>
                             <div class="info_single"><i class="fas fa-map-marked-alt"></i><span>Pokhara, Nepal</span></div>
                         </div>
@@ -173,6 +210,7 @@
             </div>
         </div>
     </div>
+
 
     <main>
 

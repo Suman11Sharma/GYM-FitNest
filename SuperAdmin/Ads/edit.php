@@ -65,8 +65,8 @@ if ($planQuery && mysqli_num_rows($planQuery) > 0) {
                         <select class="form-select" id="ads_name" name="ads_name" required>
                             <option value="" disabled>-- Select Plan --</option>
                             <?php foreach ($plans as $plan): ?>
-                                <option value="<?= htmlspecialchars($plan['plan_id']) ?>"
-                                    <?= $plan['name'] == $ad['ads_name'] ? 'selected' : '' ?>>
+                                <option value="<?= htmlspecialchars($plan['name']) ?>"
+                                    <?= $plan['plan_id'] == $ad['ads_name'] ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($plan['name']) ?>
                                 </option>
                             <?php endforeach; ?>
@@ -100,7 +100,6 @@ if ($planQuery && mysqli_num_rows($planQuery) > 0) {
 
                         <div class="invalid-feedback">Please upload an image.</div>
                     </div>
-
 
                     <!-- Link URL -->
                     <div class="mb-3">

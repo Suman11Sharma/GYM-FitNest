@@ -56,7 +56,9 @@
                         <input type="text" name="search" class="form-control"
                             placeholder="Search by name, description, or status..."
                             value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
                 </form>
             </div>
