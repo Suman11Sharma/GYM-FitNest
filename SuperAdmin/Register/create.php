@@ -4,7 +4,7 @@ include "../../database/db_connect.php";
 $message = "";
 $status  = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") { 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $companyName  = trim($_POST['companyName']);
     $address      = trim($_POST['address']);
     $contact      = trim($_POST['contactNumber']);
