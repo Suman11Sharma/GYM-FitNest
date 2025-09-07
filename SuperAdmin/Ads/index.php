@@ -1,19 +1,67 @@
 <?php require("../sidelayout.php"); ?>
+
+<!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?> text-white">
+                <h5 class="modal-title" id="feedbackModalLabel">
+                    <?php echo ($_GET['status'] ?? '') === 'success' ? 'Success' : 'Error'; ?>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php echo isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : ''; ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?>" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Auto-trigger modal if feedback exists -->
+<?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var feedbackModal = new bootstrap.Modal(document.getElementById("feedbackModal"));
+            feedbackModal.show();
+
+            // When modal is closed, remove query params so it won't reopen on refresh
+            document.getElementById("feedbackModal").addEventListener("hidden.bs.modal", function() {
+                const url = new URL(window.location.href);
+                url.search = ""; // clear query string
+                window.history.replaceState({}, document.title, url);
+            });
+        });
+    </script>
+<?php endif; ?>
 <div id="layoutSidenav_content">
+
     <main>
         <div class="container mt-4">
             <h3 class="mb-3">Advertisements Table</h3>
 
-            <!-- Add New Button -->
+            <!-- Add New Button + Search -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <a href="create.php" class="btn btn-our ms-3">
                     <i class="fas fa-plus me-1"></i> Add New
                 </a>
+
+                <!-- Search Form -->
+                <form method="GET" class="d-flex">
+                    <input type="text" name="search" class="form-control me-2"
+                        placeholder="Search by ad type, ads name, title, status..."
+                        value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
             </div>
 
-            <!-- Ads Table -->
+            <!-- Table -->
             <div class="table-responsive">
-                <table class="table table-bordered table-hover shadow-sm align-middle">
+                <table class="table table-bordered table-hover shadow-sm">
                     <thead class="table-dark">
                         <tr>
                             <th>SN</th>
@@ -21,72 +69,109 @@
                             <th>Gym ID</th>
                             <th>Ads Name</th>
                             <th>Title</th>
-                            <th>Image</th>
-                            <th>Link URL</th>
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Status</th>
-                            <th class="text-center">Actions</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        // Sample data (replace with DB fetch)
-                        $ads = [
-                            ["id" => 1, "ad_type" => "gym", "gym_id" => "G001", "ads_name" => "Summer Blast", "title" => "Get Fit Now", "image_url" => "ad1.jpg", "link_url" => "https://example.com", "start_date" => "2025-09-01", "end_date" => "2025-09-30", "status" => "active"],
-                            ["id" => 2, "ad_type" => "partner", "gym_id" => "", "ads_name" => "Partner Offer", "title" => "Join Today", "image_url" => "ad2.jpg", "link_url" => "https://example.com", "start_date" => "2025-09-05", "end_date" => "2025-10-05", "status" => "inactive"],
-                        ];
+                        include "../../database/db_connect.php";
 
-                        $sn = 1;
-                        if (!empty($ads)):
-                            foreach ($ads as $ad): ?>
-                                <tr>
-                                    <td><?= $sn++ ?></td>
-                                    <td><?= ucfirst($ad['ad_type']) ?></td>
-                                    <td><?= htmlspecialchars($ad['gym_id'] ?: '-') ?></td>
-                                    <td><?= htmlspecialchars($ad['ads_name']) ?></td>
-                                    <td><?= htmlspecialchars($ad['title']) ?></td>
-                                    <td>
-                                        <?php if (!empty($ad['image_url'])): ?>
-                                            <img src="../uploads/<?= htmlspecialchars($ad['image_url']) ?>" alt="Ad Image" style="width:80px; height:auto;">
-                                        <?php else: ?>
-                                            -
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php if (!empty($ad['link_url'])): ?>
-                                            <a href="<?= htmlspecialchars($ad['link_url']) ?>" target="_blank">Link</a>
-                                        <?php else: ?>
-                                            -
-                                        <?php endif; ?>
-                                    </td>
-                                    <td><?= htmlspecialchars($ad['start_date']) ?></td>
-                                    <td><?= htmlspecialchars($ad['end_date']) ?></td>
-                                    <td>
-                                        <?php if ($ad['status'] === 'active'): ?>
-                                            <span class="badge bg-success"><?= ucfirst($ad['status']) ?></span>
-                                        <?php else: ?>
-                                            <span class="badge bg-secondary"><?= ucfirst($ad['status']) ?></span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="edit.php?id=<?= $ad['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
-                                        <a href="delete.php?id=<?= $ad['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this ad?');">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach;
-                        else: ?>
-                            <tr>
-                                <td colspan="11" class="text-center text-muted">No advertisements found.</td>
-                            </tr>
-                        <?php endif; ?>
+                        // Pagination setup
+                        $limit = 15;
+                        $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+                        $offset = ($page - 1) * $limit;
+
+                        // Search filter
+                        $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+                        $where = "";
+                        if (!empty($search)) {
+                            $searchEscaped = mysqli_real_escape_string($conn, $search);
+                            $where = "WHERE ad_type LIKE '%$searchEscaped%' 
+                              OR ads_name LIKE '%$searchEscaped%' 
+                              OR title LIKE '%$searchEscaped%' 
+                              OR status LIKE '%$searchEscaped%'
+                              OR gym_id LIKE '%$searchEscaped%'";
+                        }
+
+                        // Fetch data with search & pagination
+                        $sql = "SELECT ad_id, ad_type, gym_id, ads_name, title, image_url, start_date, end_date, status 
+                            FROM ads $where 
+                            ORDER BY ad_id DESC 
+                            LIMIT $limit OFFSET $offset";
+                        $result = mysqli_query($conn, $sql);
+
+                        // Count total rows for pagination
+                        $countSql = "SELECT COUNT(*) as total FROM ads $where";
+                        $countResult = mysqli_query($conn, $countSql);
+                        $totalRows = mysqli_fetch_assoc($countResult)['total'];
+                        $totalPages = ceil($totalRows / $limit);
+
+                        if (mysqli_num_rows($result) > 0) {
+                            $sn = $offset + 1;
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<td>" . $sn++ . "</td>";
+                                echo "<td>" . htmlspecialchars($row['ad_type']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['gym_id'] ?: '-') . "</td>";
+                                echo "<td>" . htmlspecialchars($row['ads_name']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['title']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['start_date']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['end_date']) . "</td>";
+                                echo "<td>";
+                                if ($row['status'] === 'active') {
+                                    echo "<span class='badge bg-success'>Active</span>";
+                                } else {
+                                    echo "<span class='badge bg-secondary'>Inactive</span>";
+                                }
+                                echo "</td>";
+                                echo "<td>
+                                <a href='edit.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-warning'>Edit</a>
+                                <a href='delete.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-danger' onclick=\"return confirm('Are you sure you want to delete this ad?');\">Delete</a>
+                            </td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='10' class='text-center p-3'>No advertisements found</td></tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
+
+            <!-- Pagination -->
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <?php if ($page > 1): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($search); ?>">Previous</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>">
+                                <?php echo $i; ?>
+                            </a>
+                        </li>
+                    <?php endfor; ?>
+
+                    <?php if ($page < $totalPages): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($search); ?>">Next</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
+
         </div>
 
         <!-- FontAwesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     </main>
+
+
     <?php require("../assets/link.php"); ?>
 </div>

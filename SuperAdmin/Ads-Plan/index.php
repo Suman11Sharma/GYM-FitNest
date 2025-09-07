@@ -130,7 +130,7 @@
                                 echo "</tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='7' class='text-center text-muted'>No ad plans found.</td></tr>";
+                            echo "<tr><td colspan='7' class='text-center '>No ad plans found.</td></tr>";
                         }
                         ?>
                     </tbody>
