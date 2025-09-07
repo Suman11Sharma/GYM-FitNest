@@ -4,7 +4,7 @@ include "../../database/db_connect.php";
 $message = "";
 $status  = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") { 
     $companyName  = trim($_POST['companyName']);
     $address      = trim($_POST['address']);
     $contact      = trim($_POST['contactNumber']);
@@ -14,13 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 1. Validation: required fields
     if (empty($companyName) || empty($address) || empty($contact) || empty($email) || empty($latitude) || empty($longitude)) {
-        $message = "❌ All fields are required.";
+        $message = "All fields are required.";
         $status  = "error";
     } else {
         // 2. Validation: unique email
         $checkEmail = mysqli_query($conn, "SELECT gym_id FROM gyms WHERE email = '$email'");
         if (mysqli_num_rows($checkEmail) > 0) {
-            $message = "❌ This email is already registered.";
+            $message = "This email is already registered.";
             $status  = "error";
         } else {
             // 3. Handle file upload
@@ -39,14 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         VALUES ('$companyName', '$email', '$contact', '$address', '$dbFilePath', '$latitude', '$longitude', NOW(), NOW())";
 
                 if (mysqli_query($conn, $sql)) {
-                    $message = "✅ Gym added successfully!";
+                    $message = "Gym added successfully!!";
                     $status  = "success";
                 } else {
-                    $message = "❌ Database error: " . mysqli_error($conn);
+                    $message = "Database error: " . mysqli_error($conn);
                     $status  = "error";
                 }
             } else {
-                $message = "❌ Error uploading gym photo.";
+                $message = "Error uploading gym photo.";
                 $status  = "error";
             }
         }
