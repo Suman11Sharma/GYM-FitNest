@@ -2,7 +2,12 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-md py-5">
-            <h2 class="mb-4 text-center">AboutUs</h2>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0 text-center flex-grow-1">AboutUs</h2>
+                <a href="index.php" class="btn btn-light btn-sm border ms-3" title="Back to Index">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
             <form>
 
                 <!-- CARD 1 -->

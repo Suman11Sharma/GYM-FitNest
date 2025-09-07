@@ -4,61 +4,63 @@
         <div class="container mt-4">
             <h3 class="mb-3">Ads Table</h3>
 
-            <!-- Search Form and Add Button -->
+            <!-- Add New Button -->
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <!-- Search form -->
-                <form class="form-inline d-flex" id="searchForm" onsubmit="return false;">
-                    <div class="input-group">
-                        <input
-                            id="searchInput"
-                            class="form-control"
-                            type="text"
-                            placeholder="Search for..."
-                            aria-label="Search for..."
-                            aria-describedby="btnNavbarSearch" />
-                        <button class="btn btn-our" id="btnNavbarSearch" type="button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </form>
-
-                <!-- A tag styled as button -->
                 <a href="create.php" class="btn btn-our ms-3">
                     <i class="fas fa-plus me-1"></i> Add New
                 </a>
             </div>
 
             <!-- Table -->
-            <table class="table table-bordered table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>SN</th>
-                        <th>AdsId</th>
-                        <th>Image</th>
-                        <th>Company Name</th>
-                        <th>Duration</th>
-                        <th>Visibility</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="adsTableBody">
-                    <!-- JS will populate rows -->
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover shadow-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>SN</th>
+                            <th>AdsId</th>
+                            <th>Image</th>
+                            <th>Company Name</th>
+                            <th>Duration</th>
+                            <th>Visibility</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Replace this with actual DB fetch
+                        $adsData = [
+                            ['id' => 1, 'adsId' => 'AD001', 'image' => 'ad1.jpg', 'company' => 'Fitness Co.', 'duration' => '30 days', 'visibility' => 'Public'],
+                            ['id' => 2, 'adsId' => 'AD002', 'image' => 'ad2.jpg', 'company' => 'Health Drinks', 'duration' => '60 days', 'visibility' => 'Private'],
+                        ];
 
-            <!-- Pagination -->
-            <nav>
-                <ul class="pagination justify-content-center" id="pagination">
-                    <!-- JS will populate pagination -->
-                </ul>
-            </nav>
+                        $sn = 1;
+                        foreach ($adsData as $ad): ?>
+                            <tr>
+                                <td><?= $sn++ ?></td>
+                                <td><?= htmlspecialchars($ad['adsId']) ?></td>
+                                <td><img src="uploads/<?= htmlspecialchars($ad['image']) ?>" width="80" alt="Ad"></td>
+                                <td><?= htmlspecialchars($ad['company']) ?></td>
+                                <td><?= htmlspecialchars($ad['duration']) ?></td>
+                                <td><?= htmlspecialchars($ad['visibility']) ?></td>
+                                <td>
+                                    <a href="edit.php?id=<?= $ad['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="delete.php?id=<?= $ad['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+
+                        <?php if (empty($adsData)): ?>
+                            <tr>
+                                <td colspan="7" class="text-center">No ads found.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
- 
-
 
         <!-- FontAwesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     </main>
-
-
     <?php require("../assets/link.php"); ?>
+</div>

@@ -99,9 +99,12 @@
     <!-- Logo on top right -->
     <div class="top-bar">
         <div class="logo">
-            <img src="../uploads/logo_transparent.png" alt="FitNest Logo">
+            <a href="../index.php"> <!-- Change landing.php to your landing page file -->
+                <img src="../uploads/logo_transparent.png" alt="FitNest Logo" style="cursor: pointer;">
+            </a>
         </div>
     </div>
+
 
     <div class="login-wrapper">
         <div class="container">

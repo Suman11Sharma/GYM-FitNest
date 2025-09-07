@@ -23,7 +23,7 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="../ads/index.php">Index</a>
                             <a class="nav-link" href="../ads/create.php">Create</a>
-                            <a class="nav-link" href="../ads/edit.php">Edit</a>
+                            <!-- <a class="nav-link" href="../ads/edit.php">Edit</a> -->
                         </nav>
                     </div>
 
@@ -38,7 +38,7 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="../AboutUs/index.php">Index</a>
                             <a class="nav-link" href="../AboutUS/create.php">Create</a>
-                            <a class="nav-link" href="../AboutUs/edit.php">Edit</a>
+                            <!-- <a class="nav-link" href="../AboutUs/edit.php">Edit</a> -->
                         </nav>
                     </div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -65,7 +65,7 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="../Register/index.php">Index</a>
                             <a class="nav-link" href="../Register/create.php">Create</a>
-                            <a class="nav-link" href="../Register/edit.php">Edit</a>
+                            <!-- <a class="nav-link" href="../Register/edit.php">Edit</a> -->
                         </nav>
                     </div>
                     <!-- Create-Users -->
