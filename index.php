@@ -138,9 +138,20 @@
                         <h3 class="contact_title">Contact Us</h3>
                         <p class="contact_subtitle">Feel free to contact us any time. We'll get back to you as soon as we can!</p>
 
-                        <input type="text" class="form-control" placeholder="Name" />
-                        <input type="text" class="form-control" placeholder="Email" />
-                        <textarea class="form-control message_box" placeholder="Message"></textarea>
+                        <!-- Name -->
+                        <input type="text" class="form-control" name="name" placeholder="Name" required />
+
+                        <!-- Email -->
+                        <input type="email" class="form-control" name="email" placeholder="Email" required />
+
+                        <!-- Contact -->
+                        <input type="tel" class="form-control" name="contact" placeholder="Contact Number" pattern="[0-9]{10}" required />
+                        <!-- Subject -->
+                        <input type="text" class="form-control" name="subject" placeholder="Subject" required />
+
+                        <!-- Message -->
+                        <textarea class="form-control message_box" name="message" placeholder="Message" rows="4" required></textarea>
+
                         <button class="btn-contact_form_submit">Send</button>
                     </div>
 
@@ -162,6 +173,7 @@
             </div>
         </div>
     </div>
+
     <main>
 
         <!-- more detail model -->

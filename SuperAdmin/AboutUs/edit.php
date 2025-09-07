@@ -93,7 +93,7 @@
 
                 <!-- SUBMIT -->
                 <div class="text-center">
-                    <button type="submit" class="btn btn-our px-5 py-2">Submit</button>
+                    <button type="submit" class="btn btn-our px-5 py-2">Update</button>
                 </div>
             </form>
         </div>

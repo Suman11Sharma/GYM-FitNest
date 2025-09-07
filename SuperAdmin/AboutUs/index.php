@@ -32,7 +32,7 @@
             <h2 class="mb-4">About Us Cards</h2>
 
             <div class="d-flex justify-content-between mb-3">
-                <a href="create.php" class="btn btn-primary">Add Card Info</a>
+                <a href="create.php" class="btn btn-our"> + Add Card Info</a>
             </div>
 
             <div class="table-responsive">

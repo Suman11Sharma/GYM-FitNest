@@ -1,58 +1,152 @@
-<?php require("../sidelayout.php"); ?>
+<?php
+require("../sidelayout.php");
+
+// Fetch ad ID from URL
+if (!isset($_GET['id'])) {
+    echo "No ad ID provided.";
+    exit;
+}
+$ad_id = intval($_GET['id']);
+
+// Fetch ad data from DB (replace with your DB logic)
+$ad = [
+    "ad_type" => "gym",
+    "gym_id" => "G001",
+    "ads_name" => "Summer Blast",
+    "title" => "Get Fit Now",
+    "image_url" => "ad1.jpg",
+    "link_url" => "https://example.com",
+    "start_date" => "2025-09-01",
+    "end_date" => "2025-09-30",
+    "status" => "active"
+];
+// Replace the above with actual DB fetch using $ad_id
+?>
+
 <div id="layoutSidenav_content">
-    <main>
-        <!DOCTYPE html>
-        <html lang="en">
+    <main class="container mt-4">
+        <div class="card shadow-lg border-0 rounded-3">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Edit Advertisement</h4>
+                <a href="index.php" class="btn btn-light btn-sm border ms-3" title="Back to Ads Table">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="card-body">
+                <form action="update.php?id=<?= $ad_id ?>" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
 
-        <head>
-            <meta charset="UTF-8">
-            <title>Advertisement</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        </head>
-
-        <body class="bg-light">
-            <div class="container-md py-5">
-                <h2 class="mb-4 text-center">Advertisement</h2>
-
-                <form action="#" method="POST" enctype="multipart/form-data">
-
-                    <!-- Company Name -->
+                    <!-- Ad Type -->
                     <div class="mb-3">
-                        <label for="companyName" class="form-label">Company Name</label>
-                        <input type="text" class="form-control" id="companyName" name="companyName" placeholder="Enter company name" required>
+                        <label for="ad_type" class="form-label">Ad Type</label>
+                        <select class="form-select" id="ad_type" name="ad_type" required onchange="toggleGymId()">
+                            <option value="" disabled>-- Select Type --</option>
+                            <option value="gym" <?= $ad['ad_type'] == 'gym' ? 'selected' : '' ?>>Gym</option>
+                            <option value="partner" <?= $ad['ad_type'] == 'partner' ? 'selected' : '' ?>>Partner</option>
+                        </select>
+                        <div class="invalid-feedback">Please select an ad type.</div>
                     </div>
 
-                    <!-- Duration (number + select weeks/months) -->
+                    <!-- Gym ID (conditional) -->
+                    <div class="mb-3" id="gym_id_div" style="display: <?= $ad['ad_type'] == 'gym' ? 'block' : 'none' ?>;">
+                        <label for="gym_id" class="form-label">Gym ID</label>
+                        <input type="text" class="form-control" id="gym_id" name="gym_id" value="<?= htmlspecialchars($ad['gym_id']) ?>" <?= $ad['ad_type'] == 'gym' ? 'required' : '' ?>>
+                        <div class="invalid-feedback">Please enter Gym ID.</div>
+                    </div>
+
+                    <!-- Ads Name -->
                     <div class="mb-3">
-                        <label class="form-label">Duration</label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" name="durationValue" placeholder="Enter duration" required min="1">
-                            <select class="form-select" name="durationUnit" required>
-                                <option value="weeks">Weeks</option>
-                                <option value="months">Months</option>
-                            </select>
-                        </div>
+                        <label for="ads_name" class="form-label">Ads Name</label>
+                        <input type="text" class="form-control" id="ads_name" name="ads_name" value="<?= htmlspecialchars($ad['ads_name']) ?>" required>
+                        <div class="invalid-feedback">Please enter the ad name.</div>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" value="<?= htmlspecialchars($ad['title']) ?>" required>
+                        <div class="invalid-feedback">Please enter the title.</div>
                     </div>
 
                     <!-- Image Upload -->
-                    <div class="mb-4">
-                        <label for="adImage" class="form-label">Upload Advertisement Image</label>
-                        <input class="form-control" type="file" id="adImage" name="adImage" accept="image/*" required>
+                    <div class="mb-3">
+                        <label for="image_url" class="form-label">Upload Image</label>
+                        <input class="form-control" type="file" id="image_url" name="image_url" accept="image/*">
+                        <?php if (!empty($ad['image_url'])): ?>
+                            <small class="text-muted">Current Image: <?= htmlspecialchars($ad['image_url']) ?></small>
+                        <?php endif; ?>
+                        <div class="invalid-feedback">Please upload an image.</div>
                     </div>
 
-                    <!-- Submit Button -->
+                    <!-- Link URL -->
+                    <div class="mb-3">
+                        <label for="link_url" class="form-label">Link URL</label>
+                        <input type="url" class="form-control" id="link_url" name="link_url" value="<?= htmlspecialchars($ad['link_url']) ?>">
+                        <div class="invalid-feedback">Please enter a valid URL.</div>
+                    </div>
+
+                    <!-- Start & End Date -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date" value="<?= $ad['start_date'] ?>" required>
+                            <div class="invalid-feedback">Please select a start date.</div>
+                        </div>
+                        <div class="col">
+                            <label for="end_date" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date" value="<?= $ad['end_date'] ?>" required>
+                            <div class="invalid-feedback">Please select an end date.</div>
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="" disabled>-- Select Status --</option>
+                            <option value="active" <?= $ad['status'] == 'active' ? 'selected' : '' ?>>Active</option>
+                            <option value="inactive" <?= $ad['status'] == 'inactive' ? 'selected' : '' ?>>Inactive</option>
+                        </select>
+                        <div class="invalid-feedback">Please select a status.</div>
+                    </div>
+
+                    <!-- Submit -->
                     <div class="text-center">
-                        <button type="submit" class=" btn-our px-5 py-2">Submit</button>
+                        <button type="submit" class="btn-our px-5 py-2">Update</button>
                     </div>
 
                 </form>
             </div>
-
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        </body>
-
-        </html>
-
+        </div>
     </main>
     <?php require("../assets/link.php"); ?>
+
+    <script>
+        // Bootstrap form validation
+        (() => {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+
+        // Show/hide Gym ID based on ad_type
+        function toggleGymId() {
+            const adType = document.getElementById('ad_type').value;
+            const gymDiv = document.getElementById('gym_id_div');
+            const gymInput = document.getElementById('gym_id');
+            if (adType === 'gym') {
+                gymDiv.style.display = 'block';
+                gymInput.required = true;
+            } else {
+                gymDiv.style.display = 'none';
+                gymInput.required = false;
+            }
+        }
+    </script>

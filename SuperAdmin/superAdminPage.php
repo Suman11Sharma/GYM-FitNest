@@ -75,6 +75,20 @@
                                 <!-- <a class="nav-link" href="Ads/edit.php">Edit</a> -->
                             </nav>
                         </div>
+                        <!-- Ads Plan -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseAdsPlan" aria-expanded="false" aria-controls="collapseAdsPlan">
+                            <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
+                            Ads-Plan
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapseAdsPlan" aria-labelledby="headingAdsPlan" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Ads-Plan/create.php">Create</a>
+                                <a class="nav-link" href="Ads-Plan/index.php">Index</a>
+                            </nav>
+                        </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseAboutUs" aria-expanded="false" aria-controls="collapseAboutUs">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
