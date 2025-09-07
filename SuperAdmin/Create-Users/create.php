@@ -8,6 +8,24 @@
             <div class="card-body">
                 <form action="store.php" method="POST" class="needs-validation" novalidate>
 
+                    <!-- Role (Dropdown) -->
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="" disabled selected>-- Select Role --</option>
+                            <option value="superadmin">Superadmin</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <div class="invalid-feedback">Please select a role.</div>
+                    </div>
+
+                    <!-- Gym ID (only for Admin) -->
+                    <div class="mb-3 d-none" id="gymIdWrapper">
+                        <label for="gym_id" class="form-label">Gym ID</label>
+                        <input type="text" class="form-control" id="gym_id" name="gym_id">
+                        <div class="invalid-feedback">Please enter Gym ID.</div>
+                    </div>
+
                     <!-- Name -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Full Name</label>
@@ -37,17 +55,6 @@
                         <div class="invalid-feedback">Password must be at least 6 characters long.</div>
                     </div>
 
-                    <!-- Role (Dropdown) -->
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Role</label>
-                        <select class="form-select" id="role" name="role" required>
-                            <option value="" disabled selected>-- Select Role --</option>
-                            <option value="superadmin">Superadmin</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                        <div class="invalid-feedback">Please select a role.</div>
-                    </div>
-
                     <!-- Submit -->
                     <div class="text-center">
                         <button type="submit" class=" btn-our px-5 py-2">Submit</button>
@@ -73,4 +80,18 @@
                 }, false);
             });
         })();
+
+        // Show/hide Gym ID based on role
+        document.getElementById('role').addEventListener('change', function() {
+            const gymIdWrapper = document.getElementById('gymIdWrapper');
+            const gymIdInput = document.getElementById('gym_id');
+            if (this.value === 'admin') {
+                gymIdWrapper.classList.remove('d-none');
+                gymIdInput.setAttribute('required', 'required');
+            } else {
+                gymIdWrapper.classList.add('d-none');
+                gymIdInput.removeAttribute('required');
+                gymIdInput.value = '';
+            }
+        });
     </script>

@@ -96,6 +96,20 @@
                             <a class="nav-link" href="../Create-Users/index.php">Index</a>
                         </nav>
                     </div>
+                    <!-- Saas Plans -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseSaasPlans" aria-expanded="false" aria-controls="collapseSaasPlans">
+                        <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                        Saas Plans
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <div class="collapse" id="collapseSaasPlans" aria-labelledby="headingSaasPlans" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="../SaasPlans/create.php">Create</a>
+                            <a class="nav-link" href="../SaasPlans/index.php">Index</a>
+                        </nav>
+                    </div>
 
 
 
