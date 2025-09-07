@@ -1,26 +1,31 @@
 <?php
 require("../sidelayout.php");
+include "../../database/db_connect.php";
 
-// Fetch ad ID from URL
+// Fetch ad ID
 if (!isset($_GET['id'])) {
     echo "No ad ID provided.";
     exit;
 }
 $ad_id = intval($_GET['id']);
 
-// Fetch ad data from DB (replace with your DB logic)
-$ad = [
-    "ad_type" => "gym",
-    "gym_id" => "G001",
-    "ads_name" => "Summer Blast",
-    "title" => "Get Fit Now",
-    "image_url" => "ad1.jpg",
-    "link_url" => "https://example.com",
-    "start_date" => "2025-09-01",
-    "end_date" => "2025-09-30",
-    "status" => "active"
-];
-// Replace the above with actual DB fetch using $ad_id
+// Fetch ad data
+$query = "SELECT * FROM ads WHERE ad_id = $ad_id LIMIT 1";
+$result = mysqli_query($conn, $query);
+if (!$result || mysqli_num_rows($result) == 0) {
+    echo "Ad not found.";
+    exit;
+}
+$ad = mysqli_fetch_assoc($result);
+
+// Fetch all ad plans for dropdown
+$plans = [];
+$planQuery = mysqli_query($conn, "SELECT plan_id, name FROM ad_plans WHERE status = 'active'");
+if ($planQuery && mysqli_num_rows($planQuery) > 0) {
+    while ($row = mysqli_fetch_assoc($planQuery)) {
+        $plans[] = $row;
+    }
+}
 ?>
 
 <div id="layoutSidenav_content">
@@ -46,24 +51,34 @@ $ad = [
                         <div class="invalid-feedback">Please select an ad type.</div>
                     </div>
 
-                    <!-- Gym ID (conditional) -->
+                    <!-- Gym ID -->
                     <div class="mb-3" id="gym_id_div" style="display: <?= $ad['ad_type'] == 'gym' ? 'block' : 'none' ?>;">
                         <label for="gym_id" class="form-label">Gym ID</label>
-                        <input type="text" class="form-control" id="gym_id" name="gym_id" value="<?= htmlspecialchars($ad['gym_id']) ?>" <?= $ad['ad_type'] == 'gym' ? 'required' : '' ?>>
+                        <input type="text" class="form-control" id="gym_id" name="gym_id"
+                            value="<?= htmlspecialchars($ad['gym_id']) ?>" <?= $ad['ad_type'] == 'gym' ? 'required' : '' ?>>
                         <div class="invalid-feedback">Please enter Gym ID.</div>
                     </div>
 
-                    <!-- Ads Name -->
+                    <!-- Ads Name (dropdown from plans) -->
                     <div class="mb-3">
-                        <label for="ads_name" class="form-label">Ads Name</label>
-                        <input type="text" class="form-control" id="ads_name" name="ads_name" value="<?= htmlspecialchars($ad['ads_name']) ?>" required>
-                        <div class="invalid-feedback">Please enter the ad name.</div>
+                        <label for="ads_name" class="form-label">Ads Name (Plan)</label>
+                        <select class="form-select" id="ads_name" name="ads_name" required>
+                            <option value="" disabled>-- Select Plan --</option>
+                            <?php foreach ($plans as $plan): ?>
+                                <option value="<?= htmlspecialchars($plan['name']) ?>"
+                                    <?= $plan['plan_id'] == $ad['ads_name'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($plan['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="invalid-feedback">Please select an ad plan.</div>
                     </div>
 
                     <!-- Title -->
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" value="<?= htmlspecialchars($ad['title']) ?>" required>
+                        <input type="text" class="form-control" id="title" name="title"
+                            value="<?= htmlspecialchars($ad['title']) ?>" required>
                         <div class="invalid-feedback">Please enter the title.</div>
                     </div>
 
@@ -71,29 +86,41 @@ $ad = [
                     <div class="mb-3">
                         <label for="image_url" class="form-label">Upload Image</label>
                         <input class="form-control" type="file" id="image_url" name="image_url" accept="image/*">
+
                         <?php if (!empty($ad['image_url'])): ?>
-                            <small class="text-muted">Current Image: <?= htmlspecialchars($ad['image_url']) ?></small>
+                            <div class="mt-2">
+                                <img src="/GYM-FitNest/<?= htmlspecialchars($ad['image_url']) ?>"
+                                    alt="Ad Image"
+                                    width="400" height="200"
+                                    class="border rounded shadow-sm"
+                                    style="object-fit: cover;">
+                                <input type="hidden" name="existing_image" value="<?= htmlspecialchars($ad['image_url']) ?>">
+                            </div>
                         <?php endif; ?>
+
                         <div class="invalid-feedback">Please upload an image.</div>
                     </div>
 
                     <!-- Link URL -->
                     <div class="mb-3">
                         <label for="link_url" class="form-label">Link URL</label>
-                        <input type="url" class="form-control" id="link_url" name="link_url" value="<?= htmlspecialchars($ad['link_url']) ?>">
+                        <input type="url" class="form-control" id="link_url" name="link_url"
+                            value="<?= htmlspecialchars($ad['link_url']) ?>">
                         <div class="invalid-feedback">Please enter a valid URL.</div>
                     </div>
 
-                    <!-- Start & End Date -->
+                    <!-- Dates -->
                     <div class="row mb-3">
                         <div class="col">
                             <label for="start_date" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="start_date" name="start_date" value="<?= $ad['start_date'] ?>" required>
+                            <input type="date" class="form-control" id="start_date" name="start_date"
+                                value="<?= $ad['start_date'] ?>" required>
                             <div class="invalid-feedback">Please select a start date.</div>
                         </div>
                         <div class="col">
                             <label for="end_date" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="end_date" name="end_date" value="<?= $ad['end_date'] ?>" required>
+                            <input type="date" class="form-control" id="end_date" name="end_date"
+                                value="<?= $ad['end_date'] ?>" required>
                             <div class="invalid-feedback">Please select an end date.</div>
                         </div>
                     </div>
@@ -109,19 +136,17 @@ $ad = [
                         <div class="invalid-feedback">Please select a status.</div>
                     </div>
 
-                    <!-- Submit -->
                     <div class="text-center">
                         <button type="submit" class="btn-our px-5 py-2">Update</button>
                     </div>
-
                 </form>
             </div>
         </div>
     </main>
+
     <?php require("../assets/link.php"); ?>
 
     <script>
-        // Bootstrap form validation
         (() => {
             'use strict';
             const forms = document.querySelectorAll('.needs-validation');
@@ -136,7 +161,6 @@ $ad = [
             });
         })();
 
-        // Show/hide Gym ID based on ad_type
         function toggleGymId() {
             const adType = document.getElementById('ad_type').value;
             const gymDiv = document.getElementById('gym_id_div');
@@ -150,3 +174,4 @@ $ad = [
             }
         }
     </script>
+</div>

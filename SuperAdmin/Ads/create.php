@@ -1,3 +1,83 @@
+<?php
+include "../../database/db_connect.php";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get POST values
+    $ad_type   = $_POST['ad_type'] ?? '';
+    $gym_id    = $_POST['gym_id'] ?? null; // optional
+    $ads_name  = $_POST['ads_name'] ?? '';
+    $title     = $_POST['title'] ?? '';
+    $link_url  = $_POST['link_url'] ?? '';
+    $status    = $_POST['status'] ?? '';
+    $start_date = $_POST['start_date'] ?? '';
+
+    // Validate required fields
+    if (!$ad_type || !$ads_name || !$title || !$status || !$start_date) {
+        die("❌ Please fill all required fields.");
+    }
+
+    // Fetch duration_days from ad_plans for selected ads_name (plan_id)
+    $planQuery = mysqli_query($conn, "SELECT name, duration_days FROM ad_plans WHERE plan_id='" . (int)$ads_name . "' LIMIT 1");
+
+    if ($planQuery && mysqli_num_rows($planQuery) > 0) {
+        $plan = mysqli_fetch_assoc($planQuery);
+        $duration = (int) $plan['duration_days'];
+        $ads_name_text = $plan['name'];
+        $end_date = date('Y-m-d', strtotime("+$duration days", strtotime($start_date)));
+    } else {
+        die("❌ Selected ad plan not found.");
+    }
+
+    // Handle image upload
+    if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === 0) {
+        $targetDir = "../../uploads/ads_images/";
+        if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
+
+        $fileName = time() . "_" . basename($_FILES["image_url"]["name"]);
+        $targetFilePath = $targetDir . $fileName;
+
+        if (!move_uploaded_file($_FILES["image_url"]["tmp_name"], $targetFilePath)) {
+            die("❌ Error uploading image.");
+        }
+
+        $dbFilePath = "uploads/ads_images/" . $fileName;
+    } else {
+        die("❌ Please upload an image.");
+    }
+
+    // Insert into ads table
+    $sql = "INSERT INTO ads (ad_type, gym_id, title, image_url, link_url, ads_name, start_date, end_date, status)
+            VALUES (
+                '" . mysqli_real_escape_string($conn, $ad_type) . "',
+                " . ($gym_id ? "'" . mysqli_real_escape_string($conn, $gym_id) . "'" : "NULL") . ",
+                '" . mysqli_real_escape_string($conn, $title) . "',
+                '" . mysqli_real_escape_string($conn, $dbFilePath) . "',
+                '" . mysqli_real_escape_string($conn, $link_url) . "',
+                '" . mysqli_real_escape_string($conn, $ads_name_text) . "',
+                '" . mysqli_real_escape_string($conn, $start_date) . "',
+                '" . mysqli_real_escape_string($conn, $end_date) . "',
+                '" . mysqli_real_escape_string($conn, $status) . "'
+            )";
+
+    if (mysqli_query($conn, $sql)) {
+        // Redirect with success
+        header("Location: index.php?status=success&msg=" . urlencode("Ad added successfully!"));
+        exit;
+    } else {
+        header("Location: index.php?status=error&msg=" . urlencode("Database error: " . mysqli_error($conn)));
+        exit;
+    }
+}
+?>
+<?php
+// Fetch all ad plans
+$plans_result = mysqli_query($conn, "SELECT plan_id, name, duration_days FROM ad_plans WHERE status='active'");
+$plans = [];
+while ($row = mysqli_fetch_assoc($plans_result)) {
+    $plans[] = $row;
+}
+?>
+
 <?php require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main class="container mt-4">
@@ -6,7 +86,7 @@
                 <h4 class="mb-0">Create Advertisement</h4>
             </div>
             <div class="card-body">
-                <form action="store.php" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <form action="create.php" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
 
                     <!-- Ad Type -->
                     <div class="mb-3">
@@ -29,9 +109,17 @@
                     <!-- Ads Name -->
                     <div class="mb-3">
                         <label for="ads_name" class="form-label">Ads Name</label>
-                        <input type="text" class="form-control" id="ads_name" name="ads_name" required>
-                        <div class="invalid-feedback">Please enter the ad name.</div>
+                        <select class="form-select" id="ads_name" name="ads_name" required onchange="setDates()">
+                            <option value="" disabled selected>-- Select Ad Plan --</option>
+                            <?php foreach ($plans as $plan): ?>
+                                <option value="<?= $plan['plan_id'] ?>" data-duration="<?= $plan['duration_days'] ?>">
+                                    <?= htmlspecialchars($plan['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="invalid-feedback">Please select an ad plan.</div>
                     </div>
+
 
                     <!-- Title -->
                     <div class="mb-3">
@@ -118,5 +206,32 @@
                 gymDiv.style.display = 'none';
                 gymInput.required = false;
             }
+        }
+
+        function setDates() {
+            const select = document.getElementById('ads_name');
+            const startDateInput = document.getElementById('start_date');
+            const endDateInput = document.getElementById('end_date');
+
+            const selectedOption = select.options[select.selectedIndex];
+            if (!selectedOption || !selectedOption.dataset.duration) return;
+
+            const duration = parseInt(selectedOption.dataset.duration);
+
+            // Set start date as today
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const startDateStr = `${yyyy}-${mm}-${dd}`;
+            startDateInput.value = startDateStr;
+
+            // Calculate end date based on duration
+            const endDate = new Date(today);
+            endDate.setDate(endDate.getDate() + duration);
+            const endY = endDate.getFullYear();
+            const endM = String(endDate.getMonth() + 1).padStart(2, '0');
+            const endD = String(endDate.getDate()).padStart(2, '0');
+            endDateInput.value = `${endY}-${endM}-${endD}`;
         }
     </script>
