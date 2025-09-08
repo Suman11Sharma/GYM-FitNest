@@ -1,3 +1,34 @@
+<?php
+include "../../database/db_connect.php"; // adjust path
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Collect & sanitize form inputs
+    $plan_name = mysqli_real_escape_string($conn, $_POST['plan_name']);
+    $features = mysqli_real_escape_string($conn, $_POST['features']);
+    $amount = (float) $_POST['amount'];
+    $duration_months = (int) $_POST['duration_months'];
+
+
+
+    // Insert query
+    $sql = "INSERT INTO saas_plans (plan_name, features, amount, duration_months) 
+            VALUES ('$plan_name', '$features', '$amount', '$duration_months')";
+
+    if (mysqli_query($conn, $sql)) {
+        $msg = urlencode("Plan added successfully!");
+        header("Location: index.php?status=success&msg=$msg");
+        exit;
+    } else {
+        $msg = urlencode("Error: " . mysqli_error($conn));
+        header("Location: index.php?status=error&msg=$msg");
+        exit;
+    }
+}
+
+mysqli_close($conn);
+?>
+
+
 <?php require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main class="container mt-4">
@@ -6,7 +37,7 @@
                 <h4 class="mb-0">Create SaaS Plan</h4>
             </div>
             <div class="card-body">
-                <form action="store.php" method="POST" class="needs-validation" novalidate>
+                <form action="create.php" method="POST" class="needs-validation" novalidate>
 
                     <!-- Plan Name -->
                     <div class="mb-3">

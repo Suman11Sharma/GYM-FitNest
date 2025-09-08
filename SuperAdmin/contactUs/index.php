@@ -130,7 +130,7 @@ while ($row = mysqli_fetch_assoc($allResult)) {
                     <?php endif; ?>
 
                 </ul>
-            </nav>git add SuperAdmin/contactUs/index.php
+            </nav>
 
 
             <!-- View Modal -->
@@ -180,6 +180,5 @@ while ($row = mysqli_fetch_assoc($allResult)) {
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     </main>
+    <?php require("../assets/link.php"); ?>
 </div>
-
-<?php require("../assets/link.php"); ?>
