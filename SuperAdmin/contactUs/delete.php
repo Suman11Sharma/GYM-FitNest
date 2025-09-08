@@ -1,6 +1,14 @@
 <?php
-$conn = new mysqli("localhost", "username", "password", "database");
+include "../../database/db_connect.php";
+
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $conn->query("DELETE FROM contact_us WHERE id=$id");
+    $sql = "DELETE FROM contact_queries WHERE query_id = $id";
+    if (mysqli_query($conn, $sql)) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'error' => mysqli_error($conn)]);
+    }
+} else {
+    echo json_encode(['success' => false, 'error' => 'ID not provided']);
 }
