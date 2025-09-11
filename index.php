@@ -1,3 +1,6 @@
+<?php
+include "database/db_connect.php"; ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -81,49 +84,74 @@
         <div class="hero">
             <div class="ads">
                 <div class="ad-slider">
-                    <img src="uploads/gym-ads.png" alt="Ad 1" class="ad-img">
-                    <img src="uploads/gym-ads (1).png" alt="Ad 2" class="ad-img">
-                    <img src="uploads/gym-ad-3.jpg" alt="Ad 3" class="ad-img">
+                    <?php
+                    // Fetch only active ads
+                    $query = "SELECT image_url, title FROM ads WHERE status='active'";
+                    $result = mysqli_query($conn, $query);
+
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        while ($ad = mysqli_fetch_assoc($result)) {
+                            // Escape data to avoid XSS
+                            $title = htmlspecialchars($ad['title']);
+                            $img = htmlspecialchars($ad['image_url']);
+
+                            echo "<img src='$img' alt='$title' class='ad-img'>";
+                        }
+                    } else {
+                        echo "<p>No active ads available</p>";
+                    }
+
+                    ?>
                 </div>
             </div>
+
+            <?php
+
+            // Fetch all active about_us cards
+            $sql = "SELECT about_id, main_title, quotes 
+        FROM about_us 
+        WHERE status = 'active'";
+            $result = $conn->query($sql);
+            ?>
+
             <div class="aboutus">
-                <div class="aboutus-card">
-                    <h2>Features We Provide :</h2>
-                    <ul>
-                        <li>Membership Tracking</li>
-                        <li>Real-time Attendance</li>
-                        <li>Class Scheduling</li>
-                        <li>Billing & Invoices</li>
-                        <li>Staff Management</li>
-                    </ul>
-                    <p class="card-subtitle">"All-in-one gym control center."</p>
-                </div>
+                <?php
+                if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $about_id = $row['about_id'];
+                        $main_title = htmlspecialchars($row['main_title']);
+                        $quotes = htmlspecialchars($row['quotes']);
 
-                <div class="aboutus-card">
-                    <h2>Why Choose Us?</h2>
-                    <ul>
-                        <li>Easy to Use</li>
-                        <li>Cloud-Based Access</li>
-                        <li>Customizable Plans</li>
-                        <li>24/7 Support</li>
-                        <li>Built for Nepali Gyms</li>
-                    </ul>
-                    <p class="card-subtitle">"Simple. Scalable. Localized."</p>
-                </div>
+                        // Fetch points for this about card
+                        $points_sql = "SELECT description_point 
+                       FROM about_us_points 
+                       WHERE about_id = ?";
+                        $stmt = $conn->prepare($points_sql);
+                        $stmt->bind_param("i", $about_id);
+                        $stmt->execute();
+                        $points_result = $stmt->get_result();
+                ?>
 
-                <div class="aboutus-card">
-                    <h2>Ready to Launch</h2>
-                    <ul>
-                        <li>Quick Setup</li>
-                        <li>Runs on Any Device</li>
-                        <li>No Installation Needed</li>
-                        <li>Secure & Fast</li>
-                        <li>Launch in Minutes</li>
-                    </ul>
-                    <p class="card-subtitle">"Be live in no time, stress-free."</p>
-                </div>
+                        <div class="aboutus-card">
+                            <h2><?php echo $main_title; ?></h2>
+                            <ul>
+                                <?php while ($point = $points_result->fetch_assoc()) { ?>
+                                    <li><?php echo htmlspecialchars($point['description_point']); ?></li>
+                                <?php } ?>
+                            </ul>
+                            <p class="card-subtitle">"<?php echo $quotes; ?>"</p>
+                        </div>
 
+                <?php
+                        $stmt->close();
+                    }
+                } else {
+                    echo "<p class='text-center'>No active About Us cards found.</p>";
+                }
+                $conn->close();
+                ?>
             </div>
+
         </div>
     </header>
     <!-- Feedback Modal -->
