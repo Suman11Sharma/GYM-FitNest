@@ -110,10 +110,6 @@
                             <a class="nav-link" href="../SaasPlans/index.php">Index</a>
                         </nav>
                     </div>
-
-
-
-
                 </div>
             </div>
             <div class="sb-sidenav-footer">

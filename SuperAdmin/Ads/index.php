@@ -72,6 +72,7 @@
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Status</th>
+                            <th>Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -90,17 +91,17 @@
                         if (!empty($search)) {
                             $searchEscaped = mysqli_real_escape_string($conn, $search);
                             $where = "WHERE ad_type LIKE '%$searchEscaped%' 
-                              OR ads_name LIKE '%$searchEscaped%' 
-                              OR title LIKE '%$searchEscaped%' 
-                              OR status LIKE '%$searchEscaped%'
-                              OR gym_id LIKE '%$searchEscaped%'";
+                          OR ads_name LIKE '%$searchEscaped%' 
+                          OR title LIKE '%$searchEscaped%' 
+                          OR status LIKE '%$searchEscaped%'
+                          OR gym_id LIKE '%$searchEscaped%'";
                         }
 
-                        // Fetch data with search & pagination
-                        $sql = "SELECT ad_id, ad_type, gym_id, ads_name, title, image_url, start_date, end_date, status 
-                            FROM ads $where 
-                            ORDER BY ad_id DESC 
-                            LIMIT $limit OFFSET $offset";
+                        // Fetch data from ads table
+                        $sql = "SELECT ad_id, ad_type, gym_id, ads_name, title, image_url, start_date, end_date, status
+                    FROM ads $where
+                    ORDER BY ad_id DESC
+                    LIMIT $limit OFFSET $offset";
                         $result = mysqli_query($conn, $sql);
 
                         // Count total rows for pagination
@@ -120,6 +121,8 @@
                                 echo "<td>" . htmlspecialchars($row['title']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['start_date']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['end_date']) . "</td>";
+
+                                // Status badge
                                 echo "<td>";
                                 if ($row['status'] === 'active') {
                                     echo "<span class='badge bg-success'>Active</span>";
@@ -127,10 +130,20 @@
                                     echo "<span class='badge bg-secondary'>Inactive</span>";
                                 }
                                 echo "</td>";
+
+                                // Image column
+                                echo "<td>";
+                                if (!empty($row['image_url'])) {
+                                    echo "<img src='../../" . htmlspecialchars($row['image_url']) . "' width='80' height='60' class='img-thumbnail' style='object-fit:cover'>";
+                                } else {
+                                    echo "<span class='text-muted'>No Image</span>";
+                                }
+                                echo "</td>";
+
                                 echo "<td>
-                                <a href='edit.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-warning'>Edit</a>
-                                <a href='delete.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-danger' onclick=\"return confirm('Are you sure you want to delete this ad?');\">Delete</a>
-                            </td>";
+                            <a href='edit.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-warning'>Edit</a>
+                            <a href='delete.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-danger' onclick=\"return confirm('Are you sure you want to delete this ad?');\">Delete</a>
+                          </td>";
                                 echo "</tr>";
                             }
                         } else {
@@ -140,6 +153,7 @@
                     </tbody>
                 </table>
             </div>
+
 
             <!-- Pagination -->
             <nav>

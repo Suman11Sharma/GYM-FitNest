@@ -1,27 +1,28 @@
 <?php
 include "../../database/db_connect.php";
 
-// Check if ID is passed
 if (!isset($_GET['id'])) {
     die("❌ No ad ID provided.");
 }
 
 $ad_id = intval($_GET['id']);
 
-// First, fetch the ad to delete image file as well
+// Fetch the image path first
 $query = "SELECT image_url FROM ads WHERE ad_id = $ad_id LIMIT 1";
 $result = mysqli_query($conn, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
     $ad = mysqli_fetch_assoc($result);
+    $relativePath = $ad['image_url'];  // e.g. uploads/ads_images/image.jpg
+    $fullPath = realpath(__DIR__ . "/../../" . $relativePath);
 
-    // Delete the ad from DB
+    // Delete from database first
     $deleteQuery = "DELETE FROM ads WHERE ad_id = $ad_id";
     if (mysqli_query($conn, $deleteQuery)) {
-        // If image exists on server, delete the file too
-        $filePath = "../../" . $ad['image_url'];
-        if (!empty($ad['image_url']) && file_exists($filePath)) {
-            unlink($filePath);
+
+        // Then delete the image file if it exists
+        if (!empty($relativePath) && $fullPath && file_exists($fullPath)) {
+            unlink($fullPath);
         }
 
         header("Location: index.php?status=success&msg=" . urlencode("Ad deleted successfully."));

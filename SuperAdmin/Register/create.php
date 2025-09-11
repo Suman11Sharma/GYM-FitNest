@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Redirect back with message
-    header("Location: create.php?status=$status&msg=" . urlencode($message));
+    header("Location: index.php?status=$status&msg=" . urlencode($message));
     exit;
 }
 ?>
@@ -78,27 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <i class="fas fa-arrow-left"></i>
             </a>
         </div>
-
-        <!-- Feedback Modal -->
-        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?> text-white">
-                        <h5 class="modal-title" id="feedbackModalLabel">
-                            <?php echo ($_GET['status'] ?? '') === 'success' ? 'Success' : 'Error'; ?>
-                        </h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <?php echo isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : ''; ?>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?>" data-bs-dismiss="modal">OK</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
         <form action="create.php" method="POST" enctype="multipart/form-data">
             <!-- Company Name -->
