@@ -129,16 +129,9 @@
                                 } else {
                                     echo "<span class='badge bg-secondary'>Inactive</span>";
                                 }
-                                echo "</td>";
-
-                                // Image column
-                                echo "<td>";
-                                if (!empty($row['image_url'])) {
-                                    echo "<img src='../../" . htmlspecialchars($row['image_url']) . "' width='80' height='60' class='img-thumbnail' style='object-fit:cover'>";
-                                } else {
-                                    echo "<span class='text-muted'>No Image</span>";
-                                }
-                                echo "</td>";
+                                $imgPath = '../../' . $row['image_url'];      // relative path
+                                $imgPath = str_replace(' ', '%20', $imgPath); // encode spaces
+                                echo "<td><img src='$imgPath' width='80' class='img-thumbnail'></td>";
 
                                 echo "<td>
                             <a href='edit.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-warning'>Edit</a>
