@@ -12,21 +12,81 @@
                     </a>
                     <div class="sb-sidenav-menu-heading">Management</div>
 
+                    <!-- Paid-Ads  -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">
+                        data-bs-target="#collapsePaidAds" aria-expanded="false" aria-controls="collapsePaidAds">
                         <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
-                        Ads
+                        Paid-Ads
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
 
-                    <div class="collapse" id="collapseAds" aria-labelledby="headingAds" data-bs-parent="#sidenavAccordion">
+                    <div class="collapse" id="collapsePaidAds" aria-labelledby="headingPaidAds" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="../ads/index.php">Index</a>
-                            <a class="nav-link" href="../ads/create.php">Create</a>
-                            <a class="nav-link" href="../ads/edit.php">Edit</a>
+                            <a class="nav-link" href="../Paid-Ads/index.php">Index</a>
+                            <a class="nav-link" href="../Paid-Ads/create.php">Create</a>
                         </nav>
                     </div>
 
+                    <!-- Gym-Fees  -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseGymFees" aria-expanded="false" aria-controls="collapseGymFees">
+                        <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
+                        Gym-Fees
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <div class="collapse" id="collapseGymFees" aria-labelledby="headingGymFees" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="../Gym-Fees/index.php">Index</a>
+                            <a class="nav-link" href="../Gym-Fees/create.php">Create</a>
+                        </nav>
+                    </div>
+
+                    <!-- Gym-Subscriptions  -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseGymSubscriptions" aria-expanded="false" aria-controls="collapseGymSubscriptions">
+                        <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
+                        Gym-Subscriptions
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <div class="collapse" id="collapseGymSubscriptions" aria-labelledby="headingGymSubscriptions" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="../Gym-Subscriptions/index.php">Index</a>
+                            <a class="nav-link" href="../Gym-Subscriptions/create.php">Create</a>
+                        </nav>
+                    </div>
+
+
+                    <!-- Customer-Plans  -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseCustomerPlans" aria-expanded="false" aria-controls="collapseCustomerPlans">
+                        <div class="sb-nav-link-icon"><i class="fas fa-clipboard-list"></i></div>
+                        Customer-Plans
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <div class="collapse" id="collapseCustomerPlans" aria-labelledby="headingCustomerPlans" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="../Customer-Plans/index.php">Index</a>
+                            <a class="nav-link" href="../Customer-Plans/create.php">Create</a>
+                        </nav>
+                    </div>
+
+                    <!-- Customer-Subscription  -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseCustomerSubscription" aria-expanded="false" aria-controls="collapseCustomerSubscription">
+                        <div class="sb-nav-link-icon"><i class="fas fa-calendar-check"></i></div>
+                        Customer-Subscription
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <div class="collapse" id="collapseCustomerSubscription" aria-labelledby="headingCustomerSubscription" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="../Customer-Subscription/index.php">Index</a>
+                            <a class="nav-link" href="../Customer-Subscription/create.php">Create</a>
+                        </nav>
+                    </div>
                 </div>
             </div>
             <div class="sb-sidenav-footer">
