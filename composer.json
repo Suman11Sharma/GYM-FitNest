@@ -1,0 +1,7 @@
+{
+    "name": "gym/fitnest",
+    "description": "Gym fitnest app",
+    "require": {
+        "phpmailer/phpmailer": "^6.11"
+    }
+}

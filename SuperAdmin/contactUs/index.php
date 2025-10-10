@@ -99,9 +99,9 @@ while ($row = mysqli_fetch_assoc($allResult)) {
                                 echo "<td>" . htmlspecialchars($row['reply']) . "</td>";
                                 echo "<td>" . date('Y-m-d', strtotime($row['created_at'])) . "</td>";
                                 echo "<td>
-                                        <button class='btn btn-sm btn-info' onclick='viewMessage({$row['query_id']})'>
-                                            <i class='fas fa-eye'></i>
-                                        </button>
+                                       <a href='view.php?id={$row['query_id']}' class='btn btn-sm btn-info'>
+                                                <i class='fas fa-eye'></i>
+                                            </a>
                                         <a href='delete.php?id={$row['query_id']}' class='btn btn-sm btn-danger' onclick=\"return confirm('Are you sure you want to delete this message?');\">
                                             <i class='fas fa-trash'></i>
                                         </a>
@@ -180,5 +180,41 @@ while ($row = mysqli_fetch_assoc($allResult)) {
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     </main>
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?> text-white">
+                    <h5 class="modal-title" id="feedbackModalLabel">
+                        <?php echo ($_GET['status'] ?? '') === 'success' ? 'Success' : 'Error'; ?>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?= isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : '' ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?>" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-trigger modal if feedback exists -->
+    <?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var feedbackModal = new bootstrap.Modal(document.getElementById("feedbackModal"));
+                feedbackModal.show();
+
+                // Clear URL after modal is closed
+                document.getElementById("feedbackModal").addEventListener("hidden.bs.modal", function() {
+                    const url = new URL(window.location.href);
+                    url.search = "";
+                    window.history.replaceState({}, document.title, url);
+                });
+            });
+        </script>
+    <?php endif; ?>
     <?php require("../assets/link.php"); ?>
 </div>
