@@ -1,14 +1,29 @@
-<?php require("../sidelayout.php"); ?>
 <?php
 include "../../database/db_connect.php";
 
+// Handle Close action
+if (isset($_GET['close_id'])) {
+    $close_id = intval($_GET['close_id']);
+
+    // Fetch current status
+    $checkStatus = mysqli_query($conn, "SELECT status FROM contact_queries WHERE query_id = $close_id");
+    $rowStatus = mysqli_fetch_assoc($checkStatus);
+
+    if ($rowStatus['status'] !== 'replied' && $rowStatus['status'] !== 'closed') {
+        // Update status to closed
+        mysqli_query($conn, "UPDATE contact_queries SET status='closed', updated_at=NOW() WHERE query_id=$close_id");
+        header("Location: index.php?status=success&msg=" . urlencode("Query closed successfully."));
+        exit();
+    } else {
+        header("Location: index.php?status=warning&msg=" . urlencode("Cannot close a replied or already closed query."));
+        exit();
+    }
+}
+
+// Fetch query details
 if (isset($_GET['id'])) {
-    $id = intval($_GET['id']); // prevent SQL injection
-
-    $query = "SELECT `query_id`, `gym_id`, `name`, `email`, `contact`, `subject`, `message`, `status`, `reply`, `created_at`, `updated_at` 
-              FROM contact_queries 
-              WHERE query_id = $id";
-
+    $id = intval($_GET['id']);
+    $query = "SELECT * FROM contact_queries WHERE query_id = $id";
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
@@ -19,7 +34,12 @@ if (isset($_GET['id'])) {
 } else {
     die("<div class='container py-5'><div class='alert alert-warning'>Invalid ID.</div></div>");
 }
+
+// Determine if buttons should be disabled
+$disableActions = ($data['status'] === 'replied' || $data['status'] === 'closed');
 ?>
+<?php require("../sidelayout.php"); ?>
+
 
 <div id="layoutSidenav_content">
     <div class="container py-5">
@@ -66,6 +86,8 @@ if (isset($_GET['id'])) {
                     <p><strong><i class="bi bi-info-circle-fill"></i> Status:</strong><br>
                         <?php if ($data['status'] === 'replied'): ?>
                             <span class="badge bg-success">Replied</span>
+                        <?php elseif ($data['status'] === 'closed'): ?>
+                            <span class="badge bg-secondary">Closed</span>
                         <?php else: ?>
                             <span class="badge bg-warning text-dark"><?= ucfirst($data['status']) ?></span>
                         <?php endif; ?>
@@ -89,15 +111,25 @@ if (isset($_GET['id'])) {
                     </div>
                 </div>
 
-                <!-- Reply Button -->
+                <!-- Action Buttons -->
                 <div class="text-end mt-3">
-                    <a href="reply.php?id=<?= $data['query_id'] ?>" class="btn btn-primary mt-3">
+                    <!-- Reply Button -->
+                    <a href="<?= $disableActions ? '#' : "reply.php?id={$data['query_id']}" ?>"
+                        class="btn btn-primary mt-3 <?= $disableActions ? 'disabled' : '' ?>">
                         Reply
                     </a>
 
+                    <!-- Close Button -->
+                    <a href="<?= $disableActions ? '#' : "view.php?close_id={$data['query_id']}" ?>"
+                        class="btn btn-danger mt-3 <?= $disableActions ? 'disabled' : '' ?>"
+                        <?= $disableActions ? 'tabindex="-1" aria-disabled="true"' : '' ?>
+                        onclick="<?= $disableActions ? '' : "return confirm('Are you sure you want to close this query?');" ?>">
+                        Close
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <?php require("../assets/link.php"); ?>
