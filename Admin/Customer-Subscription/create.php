@@ -69,4 +69,5 @@
             </div>
         </div>
     </main>
+    <?php require("../assets/link.php"); ?>
 </div>

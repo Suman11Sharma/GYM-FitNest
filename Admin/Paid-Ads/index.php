@@ -4,14 +4,13 @@
         <div class="container mt-4">
             <h3 class="mb-3">Admin Ads Plans</h3>
 
-            <!-- Add New Button -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <a href="create.php" class="btn btn-our ms-3">
                     <i class="fas fa-plus"></i> Add New
                 </a>
             </div>
 
-            <!-- Table -->
+
             <div class="card shadow-sm">
                 <div class="card-body">
                     <table class="table table-bordered table-hover">
@@ -33,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Example Row -->
+
                             <tr>
                                 <td>1</td>
                                 <td>GYM001</td>
@@ -52,11 +51,11 @@
                                     <a href="delete.php?id=1" class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
-                            <!-- End Example Row -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </main>
+    <?php require("../assets/link.php"); ?>
 </div>
