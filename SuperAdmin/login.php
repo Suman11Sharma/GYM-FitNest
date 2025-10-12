@@ -125,11 +125,14 @@
                                         placeholder="name@example.com" />
                                     <label for="inputEmail">Email address</label>
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputPassword" type="password"
-                                        placeholder="Password" />
+                                <div class="form-floating mb-3 position-relative">
+                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
                                     <label for="inputPassword">Password</label>
+                                    <span style="position:absolute; top:50%; right:10px; transform:translateY(-50%); cursor:pointer;" onclick="togglePassword('inputPassword', 'togglePasswordIcon')">
+                                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                    </span>
                                 </div>
+
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" id="inputRememberPassword" type="checkbox" />
                                     <label class="form-check-label" for="inputRememberPassword">Remember
@@ -162,5 +165,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 </body>
+<script>
+    function togglePassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>
 
 </html>
