@@ -47,12 +47,6 @@ $totalPages = ceil($totalRows / $rowsPerPage);
 
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="create.php" class="btn btn-our">
-                <i class="fas fa-plus me-1"></i> Add New
-            </a>
-        </div>
-
         <!-- Table -->
         <div class="card shadow-lg border-0 rounded-3">
             <div class="card-body p-0">

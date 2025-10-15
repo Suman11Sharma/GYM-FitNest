@@ -112,7 +112,6 @@
                     <div class="collapse" id="collapseVisitorPasses" aria-labelledby="headingVisitorPasses" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="../Visitor_Passes/index.php">Index</a>
-                            <a class="nav-link" href="../Visitor_Passes/create.php">Create</a>
                         </nav>
                     </div>
                 </div>
