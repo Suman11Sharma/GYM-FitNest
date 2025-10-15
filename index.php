@@ -11,7 +11,7 @@ include "database/db_connect.php"; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/landing.css">
     <link rel="stylesheet" href="assets/css/contactus.css">
-   1
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
 </head>
 <style>
@@ -224,9 +224,18 @@ include "database/db_connect.php"; ?>
                     <div class="contact_info_sec">
                         <div>
                             <h4>Contact Info</h4>
-                            <div class="info_single"><i class="fas fa-headset"></i><span>+977 9825160781</span></div>
-                            <div class="info_single"><i class="fas fa-envelope-open-text"></i><span>fitnest@gmail.com</span></div>
-                            <div class="info_single"><i class="fas fa-map-marked-alt"></i><span>Pokhara, Nepal</span></div>
+                            <div class="info_single">
+                                <i class="fas fa-phone-alt"></i>
+                                <span>+977 9825160781</span>
+                            </div>
+                            <div class="info_single">
+                                <i class="fas fa-envelope"></i>
+                                <span>fitnest@gmail.com</span>
+                            </div>
+                            <div class="info_single">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Pokhara, Nepal</span>
+                            </div>
                         </div>
                         <ul class="socil_item_inner">
                             <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
@@ -234,10 +243,12 @@ include "database/db_connect.php"; ?>
                             <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                         </ul>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
 
 
     <main>
@@ -272,7 +283,8 @@ include "database/db_connect.php"; ?>
             </div>
         </div>
 
-        <!-- mode for visitor pass -->
+
+        <!-- Modal for Visitor Pass -->
         <div class="modal fade" id="getPassModal" tabindex="-1" aria-labelledby="getPassModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -284,16 +296,26 @@ include "database/db_connect.php"; ?>
 
                     <form id="gymPassForm" onsubmit="return validateForm(event)">
                         <div class="modal-body">
+
+                            <!-- Full Name -->
                             <div class="mb-3">
                                 <label for="passName" class="form-label">Full Name</label>
                                 <input type="text" class="form-control" id="passName" required>
                             </div>
 
+                            <!-- Contact Number -->
                             <div class="mb-3">
                                 <label for="passContact" class="form-label">Contact Number</label>
                                 <input type="tel" class="form-control" id="passContact" required>
                             </div>
 
+                            <!-- Email Address -->
+                            <div class="mb-3">
+                                <label for="passEmail" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="passEmail" required>
+                            </div>
+
+                            <!-- Date Range -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="dateFrom" class="form-label">From Date</label>
@@ -305,26 +327,22 @@ include "database/db_connect.php"; ?>
                                 </div>
                             </div>
 
+                            <!-- Amount -->
                             <div class="mb-3">
-                                <label for="timeSlot" class="form-label">Preferred Time</label>
-                                <select class="form-select" id="timeSlot" required>
-                                    <option selected disabled value="">Select Time</option>
-                                    <option>Morning (5:00 AM – 9:00 AM)</option>
-                                    <option>Day (10:00 AM – 2:00 PM)</option>
-                                    <option>Evening (4:00 PM – 9:00 PM)</option>
-                                </select>
+                                <label for="passAmount" class="form-label">Amount</label>
+                                <input type="number" class="form-control" id="passAmount" required>
                             </div>
 
+                            <!-- Payment Method -->
                             <div class="mb-3">
                                 <label for="paymentMethod" class="form-label">Payment Method</label>
                                 <select class="form-select" id="paymentMethod" required>
                                     <option selected disabled value="">Select Method</option>
-                                    <option>eSewa</option>
-                                    <option>Khalti</option>
-                                    <option>Cash</option>
-                                    <option>Bank Transfer</option>
+                                    <option>Pay Now</option>
+                                    <option>Pay at Visit</option>
                                 </select>
                             </div>
+
                         </div>
 
                         <div class="modal-footer">
@@ -336,6 +354,7 @@ include "database/db_connect.php"; ?>
                 </div>
             </div>
         </div>
+
 
 
 
