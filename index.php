@@ -11,7 +11,7 @@ include "database/db_connect.php"; ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/landing.css">
     <link rel="stylesheet" href="assets/css/contactus.css">
-   
+
 </head>
 <style>
     .footer-text {
@@ -90,19 +90,22 @@ include "database/db_connect.php"; ?>
 
                     if ($result && mysqli_num_rows($result) > 0) {
                         while ($ad = mysqli_fetch_assoc($result)) {
-                            // Escape data to avoid XSS
                             $title = htmlspecialchars($ad['title']);
-                            $img = htmlspecialchars($ad['image_url']);
+                            $img = htmlspecialchars($ad['image_url']); // e.g., uploads/ads_images/1760262277_gym-ads.png
 
-                            echo "<img src='$img' alt='$title' class='ad-img'>";
+                            // Make browser path relative to your project
+                            // Assuming this file is at root or adjust the path accordingly
+                            $imgUrl = "SuperAdmin/uploads/ads_images/" . $img;
+
+                            echo "<img src='$imgUrl' alt='$title' class='ad-img'>";
                         }
                     } else {
                         echo "<p>No active ads available</p>";
                     }
-
                     ?>
                 </div>
             </div>
+
 
             <?php
 

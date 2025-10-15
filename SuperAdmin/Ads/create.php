@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle image upload
     if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === 0) {
-        $targetDir = "../../uploads/ads_images/";
+        $targetDir = "../uploads/ads_images/";
         if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
 
         $fileName = time() . "_" . basename($_FILES["image_url"]["name"]);

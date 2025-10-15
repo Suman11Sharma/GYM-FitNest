@@ -129,7 +129,7 @@
                                 } else {
                                     echo "<span class='badge bg-secondary'>Inactive</span>";
                                 }
-                                $imgPath = '../../' . $row['image_url'];      // relative path
+                                $imgPath = 'SuperAdmin/uploads/ads_images/' . $row['image_url'];      // relative path
                                 $imgPath = str_replace(' ', '%20', $imgPath); // encode spaces
                                 echo "<td><img src='$imgPath' width='80' class='img-thumbnail'></td>";
 

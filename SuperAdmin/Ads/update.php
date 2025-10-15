@@ -26,7 +26,7 @@ $gym_id = isset($_POST['gym_id']) && $_POST['gym_id'] !== ''
 // Handle image upload
 $image_url = $_POST['existing_image'] ?? "";
 if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-    $uploadDir = "../../uploads/ads_images/";
+    $uploadDir = "../uploads/ads_images/";
     if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
     $filename = time() . "_" . basename($_FILES['image_url']['name']);
