@@ -26,6 +26,14 @@ if ($planQuery && mysqli_num_rows($planQuery) > 0) {
         $plans[] = $row;
     }
 }
+
+// Convert blob to base64 (if available)
+$existingImageSrc = '';
+if (!empty($ad['image_url'])) {
+    $base64 = base64_encode($ad['image_url']);
+    // Assuming JPEG, but you can detect type if needed
+    $existingImageSrc = "data:image/jpeg;base64," . $base64;
+}
 ?>
 
 <div id="layoutSidenav_content">
@@ -66,7 +74,7 @@ if ($planQuery && mysqli_num_rows($planQuery) > 0) {
                             <option value="" disabled>-- Select Plan --</option>
                             <?php foreach ($plans as $plan): ?>
                                 <option value="<?= htmlspecialchars($plan['name']) ?>"
-                                    <?= $plan['plan_id'] == $ad['ads_name'] ? 'selected' : '' ?>>
+                                    <?= $plan['name'] == $ad['ads_name'] ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($plan['name']) ?>
                                 </option>
                             <?php endforeach; ?>
@@ -84,21 +92,21 @@ if ($planQuery && mysqli_num_rows($planQuery) > 0) {
 
                     <!-- Image Upload -->
                     <div class="mb-3">
-                        <label for="image_url" class="form-label">Upload Image</label>
+                        <label for="image_url" class="form-label">Upload Image (Optional)</label>
                         <input class="form-control" type="file" id="image_url" name="image_url" accept="image/*">
 
-                        <?php if (!empty($ad['image_url'])): ?>
+                        <?php if (!empty($existingImageSrc)): ?>
                             <div class="mt-2">
-                                <img src="/GYM-FitNest/<?= htmlspecialchars($ad['image_url']) ?>"
+                                <img src="<?= $existingImageSrc ?>"
                                     alt="Ad Image"
                                     width="400" height="200"
                                     class="border rounded shadow-sm"
                                     style="object-fit: cover;">
-                                <input type="hidden" name="existing_image" value="<?= htmlspecialchars($ad['image_url']) ?>">
+                                <input type="hidden" name="existing_image" value="1">
                             </div>
                         <?php endif; ?>
 
-                        <div class="invalid-feedback">Please upload an image.</div>
+                        <div class="form-text">Leave empty to keep existing image.</div>
                     </div>
 
                     <!-- Link URL -->

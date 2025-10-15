@@ -7,24 +7,15 @@ if (!isset($_GET['id'])) {
 
 $ad_id = intval($_GET['id']);
 
-// Fetch the image path first
-$query = "SELECT image_url FROM ads WHERE ad_id = $ad_id LIMIT 1";
-$result = mysqli_query($conn, $query);
+// First, check if the ad exists
+$checkQuery = "SELECT ad_id FROM ads WHERE ad_id = $ad_id LIMIT 1";
+$checkResult = mysqli_query($conn, $checkQuery);
 
-if ($result && mysqli_num_rows($result) > 0) {
-    $ad = mysqli_fetch_assoc($result);
-    $relativePath = $ad['image_url'];  // e.g. uploads/ads_images/image.jpg
-    $fullPath = realpath(__DIR__ . "/../" . $relativePath);
+if ($checkResult && mysqli_num_rows($checkResult) > 0) {
 
-    // Delete from database first
+    // Delete from database (image will be deleted automatically since it's stored in the same row)
     $deleteQuery = "DELETE FROM ads WHERE ad_id = $ad_id";
     if (mysqli_query($conn, $deleteQuery)) {
-
-        // Then delete the image file if it exists
-        if (!empty($relativePath) && $fullPath && file_exists($fullPath)) {
-            unlink($fullPath);
-        }
-
         header("Location: index.php?status=success&msg=" . urlencode("Ad deleted successfully."));
         exit;
     } else {

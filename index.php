@@ -83,20 +83,28 @@ include "database/db_connect.php"; ?>
             <div class="ads">
                 <div class="ad-slider">
                     <?php
-                    // Fetch only active ads
-                    $query = "SELECT image_url, title FROM ads WHERE status='active'";
+                    // Fetch active ads with image data stored as LONGBLOB
+                    $query = "SELECT title, image_url FROM ads WHERE status='active'";
                     $result = mysqli_query($conn, $query);
 
                     if ($result && mysqli_num_rows($result) > 0) {
                         while ($ad = mysqli_fetch_assoc($result)) {
                             $title = htmlspecialchars($ad['title']);
-                            $img = htmlspecialchars($ad['image_url']); // e.g., uploads/ads_images/1760262277_gym-ads.png
+                            $imageBlob = $ad['image_url']; // This contains binary data
 
-                            // Make browser path relative to your project
-                            // Assuming this file is at root or adjust the path accordingly
-                            $imgUrl = "SuperAdmin/uploads/ads_images/" . $img;
+                            if (!empty($imageBlob)) {
+                                // Convert binary to base64
+                                $base64Image = base64_encode($imageBlob);
+                                // Assuming the image is in PNG or JPEG format — adjust if needed
+                                $imgSrc = "data:image/jpeg;base64," . $base64Image;
+                            } else {
+                                // Placeholder image if no blob data
+                                $imgSrc = "assets/images/placeholder.png";
+                            }
 
-                            echo "<img src='$imgUrl' alt='$title' class='ad-img'>";
+                            echo "<div class='ad-slide'>
+                        <img src='$imgSrc' alt='$title' class='ad-img'>
+                      </div>";
                         }
                     } else {
                         echo "<p>No active ads available</p>";
@@ -104,8 +112,8 @@ include "database/db_connect.php"; ?>
                     ?>
                 </div>
             </div>
-            <?php
 
+            <?php
             // Fetch all active about_us cards
             $sql = "SELECT about_id, main_title, quotes 
         FROM about_us 
