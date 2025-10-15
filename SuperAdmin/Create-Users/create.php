@@ -1,12 +1,47 @@
-<?php require("../sidelayout.php"); ?>
+<?php
+include "../../database/db_connect.php";
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $role = $_POST['role'];
+    $gym_id = isset($_POST['gym_id']) && $_POST['gym_id'] !== '' ? $_POST['gym_id'] : null;
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // ✅ Secure password
+
+    // Prepare the insert query
+    $sql = "INSERT INTO users (role, gym_id, name, email, phone, password, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())";
+    $stmt = $conn->prepare($sql);
+
+    // Bind parameters (gym_id may be null)
+    $stmt->bind_param("sissss", $role, $gym_id, $name, $email, $phone, $password);
+
+    if ($stmt->execute()) {
+        header("Location: index.php?status=success&msg=User+created+successfully");
+        exit();
+    } else {
+        header("Location: index.php?status=error&msg=Failed+to+create+user");
+        exit();
+    }
+}
+?>
+<?php
+require("../sidelayout.php"); ?>
+
+<!-- Your existing form — unchanged -->
 <div id="layoutSidenav_content">
     <main class="container mt-4">
         <div class="card shadow-lg border-0 rounded-3">
-            <div class="card-header bg-dark text-white">
-                <h4 class="mb-0">Create User</h4>
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">create User</h4>
+                <a href="index.php" class="btn btn-light btn-sm border ms-3" title="Back to Create Users Table">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
             </div>
             <div class="card-body">
-                <form action="store.php" method="POST" class="needs-validation" novalidate>
+                <form action="create.php" method="POST" class="needs-validation" novalidate>
 
                     <!-- Role (Dropdown) -->
                     <div class="mb-3">
@@ -51,18 +86,36 @@
                     <!-- Password -->
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" minlength="6" required>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" minlength="6" required>
+                            <span class="input-group-text" style="cursor:pointer;" onclick="togglePassword('password')">
+                                <i class="fas fa-eye" id="togglePasswordIcon1"></i>
+                            </span>
+                        </div>
                         <div class="invalid-feedback">Password must be at least 6 characters long.</div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" minlength="6" required>
+                            <span class="input-group-text" style="cursor:pointer;" onclick="togglePassword('confirm_password')">
+                                <i class="fas fa-eye" id="togglePasswordIcon2"></i>
+                            </span>
+                        </div>
+                        <div class="invalid-feedback">Passwords do not match.</div>
                     </div>
 
                     <!-- Submit -->
                     <div class="text-center">
-                        <button type="submit" class=" btn-our px-5 py-2">Submit</button>
+                        <button type="submit" class="btn-our px-5 py-2">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
     </main>
+
     <?php require("../assets/link.php"); ?>
 
     <script>
@@ -92,6 +145,34 @@
                 gymIdWrapper.classList.add('d-none');
                 gymIdInput.removeAttribute('required');
                 gymIdInput.value = '';
+            }
+        });
+        // Toggle show/hide password
+        function togglePassword(fieldId) {
+            const input = document.getElementById(fieldId);
+            const icon = fieldId === 'password' ? document.getElementById('togglePasswordIcon1') : document.getElementById('togglePasswordIcon2');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Confirm password validation
+        const form = document.querySelector('.needs-validation');
+        form.addEventListener('submit', function(event) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            if (password !== confirmPassword) {
+                event.preventDefault();
+                event.stopPropagation();
+                document.getElementById('confirm_password').classList.add('is-invalid');
+            } else {
+                document.getElementById('confirm_password').classList.remove('is-invalid');
             }
         });
     </script>

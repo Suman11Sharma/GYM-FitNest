@@ -55,13 +55,16 @@ while ($row = mysqli_fetch_assoc($allResult)) {
 <div id="layoutSidenav_content">
     <main>
         <div class="container mt-4">
-            <h3 class="mb-3">Contact Queries</h3>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="mb-0">Contact Queries</h3>
+                <form method="GET" class="d-flex" style="max-width: 400px;">
+                    <input type="text" name="search" class="form-control me-2"
+                        placeholder="Search by name, email, subject, status..."
+                        value="<?= htmlspecialchars($search) ?>">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
 
-            <!-- Search -->
-            <form method="GET" class="d-flex justify-content-end mb-3">
-                <input type="text" name="search" class="form-control me-2" placeholder="Search by name, email, subject, status..." value="<?= htmlspecialchars($search) ?>" style="max-width:400px;">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
 
             <!-- Table -->
             <div class="table-responsive">
