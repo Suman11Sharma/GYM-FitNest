@@ -99,9 +99,9 @@
 
                         // Fetch data from ads table
                         $sql = "SELECT ad_id, ad_type, gym_id, ads_name, title, image_url, start_date, end_date, status
-                    FROM ads $where
-                    ORDER BY ad_id DESC
-                    LIMIT $limit OFFSET $offset";
+                            FROM ads $where
+                            ORDER BY ad_id DESC
+                            LIMIT $limit OFFSET $offset";
                         $result = mysqli_query($conn, $sql);
 
                         // Count total rows for pagination
@@ -129,54 +129,68 @@
                                 } else {
                                     echo "<span class='badge bg-secondary'>Inactive</span>";
                                 }
-                                $imgPath = 'SuperAdmin/uploads/ads_images/' . $row['image_url'];      // relative path
-                                $imgPath = str_replace(' ', '%20', $imgPath); // encode spaces
-                                echo "<td><img src='$imgPath' width='80' class='img-thumbnail'></td>";
+                                echo "</td>";
 
+                                // ✅ Display image from BLOB (Base64)
+                                if (!empty($row['image_url'])) {
+                                    // Detect mime type dynamically (fallback to jpeg)
+                                    $finfo = finfo_open();
+                                    $mimeType = finfo_buffer($finfo, $row['image_url'], FILEINFO_MIME_TYPE);
+                                    finfo_close($finfo);
+
+                                    // If detection fails, fallback to image/jpeg
+                                    if (!$mimeType) {
+                                        $mimeType = 'image/jpeg';
+                                    }
+
+                                    $base64Image = base64_encode($row['image_url']);
+                                    echo "<td><img src='data:$mimeType;base64,$base64Image' width='80' class='img-thumbnail'></td>";
+                                } else {
+                                    echo "<td><span class='text-muted'>No Image</span></td>";
+                                }
+
+                                // Actions
                                 echo "<td>
-                            <a href='edit.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-warning'>Edit</a>
-                            <a href='delete.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-danger' onclick=\"return confirm('Are you sure you want to delete this ad?');\">Delete</a>
-                          </td>";
+                <a href='edit.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-warning'>Edit</a>
+                <a href='delete.php?id=" . $row['ad_id'] . "' class='btn btn-sm btn-danger' onclick=\"return confirm('Are you sure you want to delete this ad?');\">Delete</a>
+              </td>";
                                 echo "</tr>";
                             }
                         } else {
                             echo "<tr><td colspan='10' class='text-center p-3'>No advertisements found</td></tr>";
                         }
                         ?>
-                    </tbody>
-                </table>
+
+
+                        <!-- Pagination -->
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                <?php if ($page > 1): ?>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($search); ?>">Previous</a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                    <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                                        <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>">
+                                            <?php echo $i; ?>
+                                        </a>
+                                    </li>
+                                <?php endfor; ?>
+
+                                <?php if ($page < $totalPages): ?>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($search); ?>">Next</a>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+                        </nav>
+
             </div>
 
-
-            <!-- Pagination -->
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <?php if ($page > 1): ?>
-                        <li class="page-item">
-                            <a class="page-link" href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($search); ?>">Previous</a>
-                        </li>
-                    <?php endif; ?>
-
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-                            <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>">
-                                <?php echo $i; ?>
-                            </a>
-                        </li>
-                    <?php endfor; ?>
-
-                    <?php if ($page < $totalPages): ?>
-                        <li class="page-item">
-                            <a class="page-link" href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($search); ?>">Next</a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </nav>
-
-        </div>
-
-        <!-- FontAwesome -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+            <!-- FontAwesome -->
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     </main>
 
 

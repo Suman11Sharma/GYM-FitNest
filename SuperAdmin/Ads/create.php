@@ -2,56 +2,58 @@
 include "../../database/db_connect.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get POST values
     $ad_type   = $_POST['ad_type'] ?? '';
-    $gym_id    = $_POST['gym_id'] ?? null; // optional
+    $gym_id    = $_POST['gym_id'] ?? null;
     $ads_name  = $_POST['ads_name'] ?? '';
     $title     = $_POST['title'] ?? '';
     $link_url  = $_POST['link_url'] ?? '';
     $status    = $_POST['status'] ?? '';
     $start_date = $_POST['start_date'] ?? '';
 
-    // Validate required fields
     if (!$ad_type || !$ads_name || !$title || !$status || !$start_date) {
         die("❌ Please fill all required fields.");
     }
 
-    // Fetch duration_days from ad_plans for selected ads_name (plan_id)
+    // Fetch ad plan details
     $planQuery = mysqli_query($conn, "SELECT name, duration_days FROM ad_plans WHERE plan_id='" . (int)$ads_name . "' LIMIT 1");
-
     if ($planQuery && mysqli_num_rows($planQuery) > 0) {
         $plan = mysqli_fetch_assoc($planQuery);
-        $duration = (int) $plan['duration_days'];
+        $duration = (int)$plan['duration_days'];
         $ads_name_text = $plan['name'];
         $end_date = date('Y-m-d', strtotime("+$duration days", strtotime($start_date)));
     } else {
         die("❌ Selected ad plan not found.");
     }
 
-    // Handle image upload
+    // ✅ Store actual image as BLOB (no compression)
     if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === 0) {
-        $targetDir = "../uploads/ads_images/";
-        if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
+        $fileTmp = $_FILES['image_url']['tmp_name'];
+        $fileSize = $_FILES['image_url']['size'];
+        $maxSize = 5 * 1024 * 1024; // optional: 5MB max size
 
-        $fileName = time() . "_" . basename($_FILES["image_url"]["name"]);
-        $targetFilePath = $targetDir . $fileName;
-
-        if (!move_uploaded_file($_FILES["image_url"]["tmp_name"], $targetFilePath)) {
-            die("❌ Error uploading image.");
+        if ($fileSize > $maxSize) {
+            die("❌ Image size exceeds 5MB limit.");
         }
 
-        $dbFilePath = "uploads/ads_images/" . $fileName;
+        // Read image content directly
+        $imageData = file_get_contents($fileTmp);
+        if ($imageData === false) {
+            die("❌ Failed to read image file.");
+        }
+
+        // Escape binary for DB
+        $imageDataEscaped = mysqli_real_escape_string($conn, $imageData);
     } else {
         die("❌ Please upload an image.");
     }
 
-    // Insert into ads table
+    // ✅ Insert into DB
     $sql = "INSERT INTO ads (ad_type, gym_id, title, image_url, link_url, ads_name, start_date, end_date, status)
             VALUES (
                 '" . mysqli_real_escape_string($conn, $ad_type) . "',
                 " . ($gym_id ? "'" . mysqli_real_escape_string($conn, $gym_id) . "'" : "NULL") . ",
                 '" . mysqli_real_escape_string($conn, $title) . "',
-                '" . mysqli_real_escape_string($conn, $dbFilePath) . "',
+                '$imageDataEscaped',
                 '" . mysqli_real_escape_string($conn, $link_url) . "',
                 '" . mysqli_real_escape_string($conn, $ads_name_text) . "',
                 '" . mysqli_real_escape_string($conn, $start_date) . "',
@@ -60,15 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             )";
 
     if (mysqli_query($conn, $sql)) {
-        // Redirect with success
-        header("Location: index.php?status=success&msg=" . urlencode("Ad added successfully!"));
+        header("Location: index.php?status=success&msg=" . urlencode("✅ Ad added successfully!"));
         exit;
     } else {
-        header("Location: index.php?status=error&msg=" . urlencode("Database error: " . mysqli_error($conn)));
-        exit;
+        die("❌ Database error: " . mysqli_error($conn));
     }
 }
 ?>
+
 <?php
 // Fetch all ad plans
 $plans_result = mysqli_query($conn, "SELECT plan_id, name, duration_days FROM ad_plans WHERE status='active'");
