@@ -110,6 +110,20 @@
                             <a class="nav-link" href="../SaasPlans/index.php">Index</a>
                         </nav>
                     </div>
+                    <!-- Videos-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseVideos" aria-expanded="false" aria-controls="collapseVideos">
+                        <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
+                        Videos
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+
+                    <div class="collapse" id="collapseVideos" aria-labelledby="headingVideos" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="../Videos/create.php">Create</a>
+                            <a class="nav-link" href="../Videos/index.php">Index</a>
+                        </nav>
+                    </div>
                 </div>
             </div>
             <div class="sb-sidenav-footer">

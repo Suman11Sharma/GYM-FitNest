@@ -53,6 +53,7 @@ html {
   border-bottom: 2px solid black;
   box-sizing: border-box;
 }
+
 .ads {
   /* background-color: #789fa9; */
   aspect-ratio: 4 / 1;
@@ -84,9 +85,11 @@ html {
 .ad-img:nth-child(1) {
   animation-delay: 0s;
 }
+
 .ad-img:nth-child(2) {
   animation-delay: 3s;
 }
+
 .ad-img:nth-child(3) {
   animation-delay: 6s;
 }
@@ -97,6 +100,7 @@ html {
   100% {
     opacity: 0;
   }
+
   10%,
   30% {
     opacity: 1;
@@ -114,6 +118,7 @@ html {
   background-color: #fff;
   box-sizing: border-box;
 }
+
 .aboutus-card {
   flex: 1 1 300px;
   max-width: 400px;
@@ -334,34 +339,5 @@ footer {
 
   .last_footer {
     flex-direction: column;
-  }
-}
-/* Videos Section: Use same card styles as Recommendation */
-
-/* Make video fit inside the card-image container */
-.card-image video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* same effect as images */
-  border-bottom: 1px solid #ddd;
-  display: block;
-}
-
-/* Optional: Make cards hover effect same as images */
-.card-image video:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease;
-}
-
-/* Responsive adjustments for video cards (reuse existing .card-container breakpoints) */
-@media screen and (max-width: 992px) {
-  .card-image video {
-    height: 160px; /* slightly smaller for tablets */
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .card-image video {
-    height: 140px; /* smaller for mobile */
   }
 }

@@ -66,7 +66,7 @@ include "database/db_connect.php"; ?>
                             <i class="fas fa-user fa-fw"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="login.php">Customer</a></li>
+                            <li><a class="dropdown-item" href="Customer/customerPage.php">Customer</a></li>
                             <li><a class="dropdown-item" href="Admin/adminPage.php">Admin</a></li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -538,6 +538,42 @@ include "database/db_connect.php"; ?>
             </div>
 
         </div>
+        <!-- Videos Section -->
+        <div class="card_header" id="videos">
+            <h1>Videos</h1>
+            <hr>
+        </div>
+
+        <div class="card-container">
+            <div class="card custom-card">
+                <div class="card-image">
+                    <video controls>
+                        <source src="uploads/videos/video1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="card-body card-body-custom">
+                    <h5 class="card-title">Video Title 1</h5>
+                    <p class="card-text">Short description about this video.</p>
+                </div>
+            </div>
+
+            <div class="card custom-card">
+                <div class="card-image">
+                    <video controls>
+                        <source src="uploads/videos/video2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="card-body card-body-custom">
+                    <h5 class="card-title">Video Title 2</h5>
+                    <p class="card-text">Short description about this video.</p>
+                </div>
+            </div>
+
+            <!-- Add more video cards as needed -->
+        </div>
+
     </main>
 
     <footer class="py-4 mt-auto">
