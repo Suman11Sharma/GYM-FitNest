@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <?php require_once('Layouts/header.php'); ?>
 <?php require_once('Layouts/navbar.php'); ?>
 <div id="layoutSidenav">
@@ -128,7 +131,17 @@
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                Suman Poudel
+                <?php
+                // Use name/fullname from session
+                if (isset($_SESSION['name'])) {
+                    echo htmlspecialchars($_SESSION['name']);
+                } elseif (isset($_SESSION['fullname'])) {
+                    echo htmlspecialchars($_SESSION['fullname']);
+                } else {
+                    echo "<span class='text-muted'>Guest</span>";
+                }
+                ?>
             </div>
+
         </nav>
     </div>

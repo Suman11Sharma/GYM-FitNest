@@ -97,11 +97,47 @@
 </head>
 
 <body>
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?> text-white">
+                    <h5 class="modal-title" id="feedbackModalLabel">
+                        <?php echo ($_GET['status'] ?? '') === 'success' ? 'Success' : 'Error'; ?>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?php echo isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : ''; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?>" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-trigger modal if feedback exists -->
+    <?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var feedbackModal = new bootstrap.Modal(document.getElementById("feedbackModal"));
+                feedbackModal.show();
+
+                // When modal is closed, remove query params so it won't reopen on refresh
+                document.getElementById("feedbackModal").addEventListener("hidden.bs.modal", function() {
+                    const url = new URL(window.location.href);
+                    url.search = ""; // clear query string
+                    window.history.replaceState({}, document.title, url);
+                });
+            });
+        </script>
+    <?php endif; ?>
     <!-- Logo on top right -->
     <div class="top-bar">
         <div class="logo">
-            <a href="../index.php"> <!-- Change landing.php to your landing page file -->
-                <img src="../uploads/logo_transparent.png" alt="FitNest Logo" style="cursor: pointer;">
+            <a href="index.php"> <!-- Change landing.php to your landing page file -->
+                <img src="uploads/logo_transparent.png" alt="FitNest Logo" style="cursor: pointer;">
             </a>
         </div>
     </div>
@@ -119,27 +155,28 @@
                             </a>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form action="login_process.php" method="POST">
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="inputEmail" type="email"
-                                        placeholder="name@example.com" />
+                                    <input class="form-control" id="inputEmail" type="email" name="email" placeholder="name@example.com" required />
                                     <label for="inputEmail">Email address</label>
                                 </div>
+
                                 <div class="form-floating mb-3 position-relative">
-                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                    <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password" required>
                                     <label for="inputPassword">Password</label>
-                                    <span style="position:absolute; top:50%; right:10px; transform:translateY(-50%); cursor:pointer;" onclick="togglePassword('inputPassword', 'togglePasswordIcon')">
+                                    <span style="position:absolute; top:50%; right:10px; transform:translateY(-50%); cursor:pointer;"
+                                        onclick="togglePassword('inputPassword', 'togglePasswordIcon')">
                                         <i class="fas fa-eye" id="togglePasswordIcon"></i>
                                     </span>
                                 </div>
 
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" id="inputRememberPassword" type="checkbox" />
-                                    <label class="form-check-label" for="inputRememberPassword">Remember
-                                        Password</label>
+                                    <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
                                 </div>
+
                                 <div class="d-grid">
-                                    <a class="btn btn-our" href="superAdminPage.php">Login</a>
+                                    <button type="submit" class="btn btn-our">Login</button>
                                 </div>
                             </form>
                         </div>
@@ -166,16 +203,15 @@
         crossorigin="anonymous"></script>
 </body>
 <script>
-    function togglePassword(inputId, iconId) {
-        const input = document.getElementById(inputId);
+    function togglePassword(fieldId, iconId) {
+        const passwordInput = document.getElementById(fieldId);
         const icon = document.getElementById(iconId);
-
-        if (input.type === "password") {
-            input.type = "text";
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
             icon.classList.remove("fa-eye");
             icon.classList.add("fa-eye-slash");
         } else {
-            input.type = "password";
+            passwordInput.type = "password";
             icon.classList.remove("fa-eye-slash");
             icon.classList.add("fa-eye");
         }

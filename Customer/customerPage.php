@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +47,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="login.php">Logout</a></li>
+                    <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -69,7 +72,16 @@
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    Suman Poudel
+                    <?php
+                    // Use name/fullname from session
+                    if (isset($_SESSION['name'])) {
+                        echo htmlspecialchars($_SESSION['name']);
+                    } elseif (isset($_SESSION['fullname'])) {
+                        echo htmlspecialchars($_SESSION['fullname']);
+                    } else {
+                        echo "<span class='text-muted'>Guest</span>";
+                    }
+                    ?>
                 </div>
             </nav>
         </div>

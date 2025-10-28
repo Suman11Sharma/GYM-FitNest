@@ -84,8 +84,13 @@ require("../sidelayout.php");
                     <!-- Password -->
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Leave blank to keep current password" minlength="6">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Leave blank to keep current password" minlength="6">
+                            <span class="input-group-text" style="cursor:pointer;" onclick="togglePassword('password', 'togglePasswordIcon1')">
+                                <i class="fas fa-eye" id="togglePasswordIcon1"></i>
+                            </span>
+                        </div>
                         <div class="invalid-feedback">Password must be at least 6 characters long.</div>
                     </div>
 
@@ -129,5 +134,19 @@ require("../sidelayout.php");
                 gymIdInput.value = '';
             }
         });
+
+        function togglePassword(fieldId, iconId) {
+            const passwordInput = document.getElementById(fieldId);
+            const icon = document.getElementById(iconId);
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
     </script>
 </div>

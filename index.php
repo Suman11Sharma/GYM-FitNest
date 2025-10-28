@@ -60,21 +60,13 @@ include "database/db_connect.php"; ?>
 
                 <!-- User Dropdown -->
                 <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user fa-fw"></i>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light ms-2" href="login.php">
+                            <i class="fas fa-user"></i> Log In
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="Customer/customerPage.php">Customer</a></li>
-                            <li><a class="dropdown-item" href="Admin/adminPage.php">Admin</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="SuperAdmin/login.php">Super Admin</a></li>
-                        </ul>
                     </li>
                 </ul>
+
             </div>
         </div>
     </nav>

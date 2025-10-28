@@ -23,7 +23,7 @@
                 <li>
                     <hr class="dropdown-divider" />
                 </li>
-                <li><a class="dropdown-item" href="../login.php">Logout</a></li>
+                <li><a class="dropdown-item" href="../../logout.php">Logkout</a></li>
             </ul>
         </li>
     </ul>

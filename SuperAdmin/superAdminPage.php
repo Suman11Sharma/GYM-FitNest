@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +47,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="login.php">Logout</a></li>
+                    <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -175,7 +178,7 @@
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="Videos/index.php">Index</a>
                                 <a class="nav-link" href="Videos/create.php">Create</a>
-                        
+
                             </nav>
                         </div>
 
@@ -183,7 +186,16 @@
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    Suman Poudel
+                    <?php
+                    // Use name/fullname from session
+                    if (isset($_SESSION['name'])) {
+                        echo htmlspecialchars($_SESSION['name']);
+                    } elseif (isset($_SESSION['fullname'])) {
+                        echo htmlspecialchars($_SESSION['fullname']);
+                    } else {
+                        echo "<span class='text-muted'>Guest</span>";
+                    }
+                    ?>
                 </div>
             </nav>
         </div>
@@ -487,6 +499,41 @@
 
                 </div>
             </main>
+            <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?> text-white">
+                            <h5 class="modal-title" id="feedbackModalLabel">
+                                <?php echo ($_GET['status'] ?? '') === 'success' ? 'Success' : 'Error'; ?>
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <?php echo isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : ''; ?>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?>" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auto-trigger modal if feedback exists -->
+            <?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var feedbackModal = new bootstrap.Modal(document.getElementById("feedbackModal"));
+                        feedbackModal.show();
+
+                        // When modal is closed, remove query params so it won't reopen on refresh
+                        document.getElementById("feedbackModal").addEventListener("hidden.bs.modal", function() {
+                            const url = new URL(window.location.href);
+                            url.search = ""; // clear query string
+                            window.history.replaceState({}, document.title, url);
+                        });
+                    });
+                </script>
+            <?php endif; ?>
             <footer class="py-4 bg-dark mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-evenly small">
