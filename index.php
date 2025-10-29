@@ -253,7 +253,6 @@ include "database/db_connect.php"; ?>
     <main>
 
         <!-- more detail model -->
-
         <div class="modal fade" id="gymDetailModal" tabindex="-1" aria-labelledby="gymDetailModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -264,13 +263,13 @@ include "database/db_connect.php"; ?>
                     </div>
 
                     <div class="modal-body">
-                        <h6>🏋️ FitNest Gym, Pokhara</h6>
-                        <p>FitNest Gym offers a complete fitness solution with modern equipment, professional trainers, and various classes including strength training, cardio, Zumba, and yoga.</p>
+                        <h6 id="gymName"></h6>
+                        <p id="gymDescription"></p>
                         <ul>
-                            <li>Opening Hours: 5:00 AM – 9:00 PM</li>
-                            <li>Location: Lakeside, Pokhara</li>
-                            <li>Contact: +977 9825160781</li>
-                            <li>Email: info@fitnest.com</li>
+                            <li><strong>Opening Hours:</strong> <span id="gymTiming"></span></li>
+                            <li><strong>Location:</strong> <span id="gymAddress"></span></li>
+                            <li><strong>Contact:</strong> <span id="gymPhone"></span></li>
+                            <li><strong>Email:</strong> <span id="gymEmail"></span></li>
                         </ul>
                     </div>
 
@@ -283,6 +282,7 @@ include "database/db_connect.php"; ?>
         </div>
 
 
+
         <!-- Modal for Visitor Pass -->
         <div class="modal fade" id="getPassModal" tabindex="-1" aria-labelledby="getPassModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -293,55 +293,54 @@ include "database/db_connect.php"; ?>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="gymPassForm" onsubmit="return validateForm(event)">
+                    <form id="gymPassForm" action="store_pass.php" method="POST">
+                        <input type="hidden" id="gymId" name="gym_id">
                         <div class="modal-body">
-
-                            <!-- Full Name -->
+                            <!-- Visitor Name -->
                             <div class="mb-3">
                                 <label for="passName" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="passName" required>
+                                <input type="text" class="form-control" id="passName" name="name" required>
                             </div>
 
                             <!-- Contact Number -->
                             <div class="mb-3">
                                 <label for="passContact" class="form-label">Contact Number</label>
-                                <input type="tel" class="form-control" id="passContact" required>
+                                <input type="tel" class="form-control" id="passContact" name="contact" required>
                             </div>
 
                             <!-- Email Address -->
                             <div class="mb-3">
                                 <label for="passEmail" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="passEmail" required>
+                                <input type="email" class="form-control" id="passEmail" name="email" required>
                             </div>
 
                             <!-- Date Range -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="dateFrom" class="form-label">From Date</label>
-                                    <input type="date" class="form-control" id="dateFrom" required>
+                                    <input type="date" class="form-control" id="dateFrom" name="time_from" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="dateTo" class="form-label">To Date</label>
-                                    <input type="date" class="form-control" id="dateTo" required>
+                                    <input type="date" class="form-control" id="dateTo" name="time_to" required>
                                 </div>
                             </div>
 
                             <!-- Amount -->
                             <div class="mb-3">
                                 <label for="passAmount" class="form-label">Amount</label>
-                                <input type="number" class="form-control" id="passAmount" required>
+                                <input type="number" class="form-control" id="passAmount" name="amount" required>
                             </div>
 
                             <!-- Payment Method -->
                             <div class="mb-3">
                                 <label for="paymentMethod" class="form-label">Payment Method</label>
-                                <select class="form-select" id="paymentMethod" required>
+                                <select class="form-select" id="paymentMethod" name="payment_method" required>
                                     <option selected disabled value="">Select Method</option>
                                     <option>Pay Now</option>
                                     <option>Pay at Visit</option>
                                 </select>
                             </div>
-
                         </div>
 
                         <div class="modal-footer">
@@ -349,6 +348,8 @@ include "database/db_connect.php"; ?>
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </form>
+
+
 
                 </div>
             </div>
@@ -358,185 +359,11 @@ include "database/db_connect.php"; ?>
 
 
         <div class="card_header" id="recommendation">
-            <h1>Recommendation</h1>
+            <h1>Suggestion</h1>
             <hr>
         </div>
-        <div class="card-container">
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Gym Name</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                            More Detail
-                        </a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#getPassModal">
-                            Get Pass
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Gym Name</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Gym Name</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Gym Name</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Gym Name</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Gym Name</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Gym Name</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Fitnest Gym</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Gym Name</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-image">
-                    <img src="uploads/gym.jpg" alt="Gym Name">
-                </div>
-
-                <div class="card-body card-body-custom">
-                    <div>
-                        <h5 class="card-title">Gym Name</h5>
-
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-primary btn-cool w-100">More Detail</a>
-                        <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor">Get Pass</a>
-                    </div>
-                </div>
-            </div>
-
+        <div id="gymContainer" class="card-container d-flex flex-wrap gap-3">
+            <p>Loading nearby gyms...</p>
         </div>
         <!-- Videos Section -->
         <div class="card_header" id="videos">
@@ -587,6 +414,73 @@ include "database/db_connect.php"; ?>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="assets/js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('.view-details-btn');
+            if (btn) {
+                // Fill modal with gym data
+                document.getElementById('gymName').textContent = '🏋️ ' + btn.dataset.name;
+                document.getElementById('gymDescription').textContent = btn.dataset.description;
+                document.getElementById('gymTiming').textContent = btn.dataset.opening + ' – ' + btn.dataset.closing;
+                document.getElementById('gymAddress').textContent = btn.dataset.address;
+                document.getElementById('gymPhone').textContent = btn.dataset.phone;
+                document.getElementById('gymEmail').textContent = btn.dataset.email;
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // When "Get Pass" button is clicked
+            document.querySelectorAll('.get-pass-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const gymId = this.getAttribute('data-gym-id');
+                    const gymName = this.getAttribute('data-gym-name');
+
+                    document.getElementById('gymId').value = gymId;
+                    document.getElementById('gymName').value = gymName;
+
+                    // Optional: show gym name in modal title
+                    document.getElementById('getPassModalLabel').innerText = `Get Your Gym Pass - ${gymName}`;
+                });
+            });
+        });
+    </script>
+
+    <script>
+        navigator.geolocation.getCurrentPosition(success, error);
+
+        function success(position) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+
+            // Send the coordinates to the backend using AJAX (Fetch)
+            fetch('get_nearby_gyms.php?lat=' + latitude + '&lon=' + longitude)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('gymContainer').innerHTML = data;
+                })
+                .catch(err => console.error(err));
+        }
+
+        function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+            document.getElementById('gymContainer').innerHTML = "<p>Location access denied. Please enable it to see nearby gyms.</p>";
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.get-pass-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const gymId = this.getAttribute('data-gym-id');
+                    console.log("Gym ID set in modal:", gymId); // check in console
+                    document.getElementById('gymId').value = gymId;
+                });
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>
