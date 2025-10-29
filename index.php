@@ -52,12 +52,6 @@ include "database/db_connect.php"; ?>
                     </li>
                 </ul>
 
-                <!-- Search Form -->
-                <form class="d-flex me-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
-                </form>
-
                 <!-- User Dropdown -->
                 <ul class="navbar-nav">
                     <li class="nav-item">

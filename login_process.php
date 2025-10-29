@@ -23,30 +23,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['gym_id'] = $user['gym_id'] ?? null;
             $_SESSION['role'] = $user['role'];
 
-            // Determine redirect based on role
+            // Redirect based on role
             switch ($user['role']) {
                 case 'superadmin':
-                    $redirect = "SuperAdmin/superAdminPage.php";
-                    break;
+                    header("Location: SuperAdmin/superAdminPage.php?status=success&msg=" . urlencode("Welcome " . $user['name'] . "!"));
+                    exit;
                 case 'admin':
-                    $redirect = "Admin/adminPage.php";
-                    break;
+                    header("Location: Admin/adminPage.php?status=success&msg=" . urlencode("Welcome " . $user['name'] . "!"));
+                    exit;
                 case 'trainer':
-                    $redirect = "Trainer/trainer.php";
-                    break;
+                    header("Location: Trainer/trainer.php?status=success&msg=" . urlencode("Welcome " . $user['name'] . "!"));
+                    exit;
                 default:
-                    $redirect = "login.php?status=error&msg=" . urlencode("Invalid role detected.");
-                    break;
+                    header("Location: login.php?status=error&msg=" . urlencode("Invalid role detected."));
+                    exit;
             }
-
-            // Redirect with welcome message
-            header("Location: $redirect?status=success&msg=" . urlencode("Welcome " . $user['name'] . "!"));
-            exit;
         }
     }
 
-    // --- Step 2: If not found, check in customers table ---
-    $stmt = $conn->prepare("SELECT customer_id, gym_id, fullname, email, password FROM customers WHERE email = ? LIMIT 1");
+    // --- Step 2: Check in customers table ---
+    $stmt = $conn->prepare("SELECT customer_id, gym_id, full_name, email, password FROM customers WHERE email = ? LIMIT 1");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -61,13 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['email'] = $customer['email'];
             $_SESSION['gym_id'] = $customer['gym_id'] ?? null;
 
-            // Redirect to customer dashboard
             header("Location: Customer/customerPage.php?status=success&msg=" . urlencode("Welcome " . $customer['fullname'] . "!"));
             exit;
         }
     }
 
-    // --- Step 3: If both failed ---
-    header("Location: login.php?status=error&msg=" . urlencode("Invalid email or password."));
+    // --- Step 3: If no match found in either table ---
+    header("Location: login.php?status=error&msg=" . urlencode("Email or password is incorrect."));
     exit;
 }
