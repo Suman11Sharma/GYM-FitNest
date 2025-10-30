@@ -9376,7 +9376,7 @@ fieldset:disabled .btn {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("../uploads/logo.png");
+  background-image: url("../../uploads/logo.png");
   /* 🔁 Your logo */
   background-repeat: repeat;
   /* ✅ Tile the image */
