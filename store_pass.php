@@ -160,7 +160,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="mt-3">
                     <label class="form-label">Amount (NPR)</label>
                     <input type="number" id="amount" name="amount" class="form-control" readonly>
+
+                    <!-- 🧾 Per-day rate note -->
+                    <small class="text-muted d-block mt-1">
+                        Per day amount: Rs <?= $visitor_fee ?>
+                    </small>
                 </div>
+
 
                 <div class="mb-3 mt-3">
                     <label class="form-label">Payment Method</label>
