@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <?php require_once('Layouts/header.php'); ?>
 <?php require_once('Layouts/navbar.php'); ?>
 <div id="layoutSidenav">

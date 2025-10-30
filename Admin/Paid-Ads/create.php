@@ -1,33 +1,62 @@
-<?php require("../sidelayout.php"); ?>
+<?php
+include "../../database/db_connect.php";
+session_start();
+
+// ✅ Get logged-in gym owner ID from session
+$gym_id = $_SESSION['gym_id'] ?? null;
+if (!$gym_id) {
+    die("⚠️ Gym ID not found in session. Please log in again.");
+}
+
+// ✅ Fetch active ad plans (only active)
+$plans_query = $conn->query("SELECT plan_id, name, price FROM ad_plans WHERE status='active'");
+$plans = [];
+if ($plans_query && $plans_query->num_rows > 0) {
+    $plans = $plans_query->fetch_all(MYSQLI_ASSOC);
+}
+?>
+<?php
+require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main class="container mt-4">
         <div class="card shadow-lg border-0 rounded-3">
             <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                 <h4 class="mb-0">Paid Ads</h4>
             </div>
-            <div class="card-body">
-                <form action="store.php" method="POST" class="needs-validation" novalidate>
 
-                    <!-- Gym ID -->
+            <div class="card-body">
+                <form action="store.php" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+                    <!-- Gym ID (readonly, from session) -->
                     <div class="mb-3">
-                        <label for="gym_id" class="form-label">Gym ID</label>
-                        <input type="text" class="form-control" id="gym_id" name="gym_id" required>
-                        <div class="invalid-feedback">Please enter the gym ID.</div>
+                        <label hidden for="gym_id" class="form-label">Gym ID</label>
+                        <input hidden type="text" class="form-control" id="gym_id" name="gym_id"
+                            value="<?= htmlspecialchars($gym_id) ?>" readonly>
                     </div>
 
                     <!-- Ads Plan -->
                     <div class="mb-3">
                         <label for="ads_plan" class="form-label">Ads Plan</label>
-                        <input type="text" class="form-control" id="ads_plan" name="ads_plan" required>
-                        <div class="invalid-feedback">Please enter the ads plan.</div>
+                        <select class="form-select" id="ads_plan" name="ads_plan" required>
+                            <option value="">Select Ads Plan</option>
+                            <?php foreach ($plans as $plan): ?>
+                                <option value="<?= $plan['plan_id'] ?>" data-price="<?= $plan['price'] ?>">
+                                    <?= htmlspecialchars($plan['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="invalid-feedback">Please select an ads plan.</div>
                     </div>
 
-                    <!-- Image URL -->
+
+
+                    <!-- Upload Image -->
                     <div class="mb-3">
-                        <label for="image_url" class="form-label">Image URL</label>
-                        <input type="text" class="form-control" id="image_url" name="image_url" required>
-                        <div class="invalid-feedback">Please provide the image URL.</div>
+                        <label for="image_file" class="form-label">Upload Image</label>
+                        <input type="file" class="form-control" id="image_file" name="image_file" accept="image/*" required>
+                        <div class="invalid-feedback">Please upload an image file.</div>
                     </div>
+
 
                     <!-- Link URL -->
                     <div class="mb-3">
@@ -36,67 +65,11 @@
                         <div class="invalid-feedback">Please provide a valid link URL.</div>
                     </div>
 
-                    <!-- Start Date -->
-                    <div class="mb-3">
-                        <label for="start_date" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="start_date" name="start_date" required>
-                        <div class="invalid-feedback">Please select a start date.</div>
-                    </div>
-
-                    <!-- End Date -->
-                    <div class="mb-3">
-                        <label for="end_date" class="form-label">End Date</label>
-                        <input type="date" class="form-control" id="end_date" name="end_date" required>
-                        <div class="invalid-feedback">Please select an end date.</div>
-                    </div>
-
                     <!-- Amount -->
                     <div class="mb-3">
                         <label for="amount" class="form-label">Amount (NPR)</label>
-                        <input type="number" class="form-control" id="amount" name="amount" min="0" required>
-                        <div class="invalid-feedback">Please enter the amount.</div>
-                    </div>
-
-                    <!-- Payment Method -->
-                    <div class="mb-3">
-                        <label for="payment_method" class="form-label">Payment Method</label>
-                        <select class="form-select" id="payment_method" name="payment_method" required>
-                            <option value="" disabled selected>-- Select Payment Method --</option>
-                            <option value="esewa">eSewa</option>
-                            <option value="cash">Cash</option>
-                        </select>
-                        <div class="invalid-feedback">Please select a payment method.</div>
-                    </div>
-
-                    <!-- Transaction ID -->
-                    <div class="mb-3">
-                        <label for="transaction_id" class="form-label">Transaction ID</label>
-                        <input type="text" class="form-control" id="transaction_id" name="transaction_id" required>
-                        <div class="invalid-feedback">Please enter the transaction ID.</div>
-                    </div>
-
-                    <!-- Approval Status -->
-                    <div class="mb-3">
-                        <label for="approval_status" class="form-label">Approval Status</label>
-                        <select class="form-select" id="approval_status" name="approval_status" required>
-                            <option value="" disabled selected>-- Select Approval Status --</option>
-                            <option value="pending">Pending</option>
-                            <option value="approved">Approved</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                        <div class="invalid-feedback">Please select an approval status.</div>
-                    </div>
-
-                    <!-- Status -->
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select" id="status" name="status" required>
-                            <option value="" disabled selected>-- Select Status --</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="expired">Expired</option>
-                        </select>
-                        <div class="invalid-feedback">Please select a status.</div>
+                        <input type="number" class="form-control" id="amount" name="amount" readonly required>
+                        <small class="text-muted d-block mt-1">Auto-filled based on selected Ads Plan</small>
                     </div>
 
                     <!-- Submit -->
@@ -108,10 +81,18 @@
             </div>
         </div>
     </main>
+
     <?php require("../assets/link.php"); ?>
 
     <script>
-        // Bootstrap form validation
+        // ✅ Auto-fill amount when selecting an ads plan
+        document.getElementById("ads_plan").addEventListener("change", function() {
+            const selected = this.options[this.selectedIndex];
+            const price = selected.getAttribute("data-price");
+            document.getElementById("amount").value = price || "";
+        });
+
+        // ✅ Bootstrap form validation (no layout change)
         (() => {
             'use strict';
             const forms = document.querySelectorAll('.needs-validation');
