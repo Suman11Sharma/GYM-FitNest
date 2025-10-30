@@ -201,6 +201,20 @@ session_start();
                                 <a class="nav-link" href="Visitor_Passes/index.php">Index</a>
                             </nav>
                         </div>
+                        <!-- Create Customers -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCreateCustomers" aria-expanded="false" aria-controls="collapseCreateCustomers">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
+                            Create Customers
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapseCreateCustomers" aria-labelledby="headingCreateCustomers" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Create-Customers/index.php">Index</a>
+                                <a class="nav-link" href="Create-Customers/create.php">Create</a>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
