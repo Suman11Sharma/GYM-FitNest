@@ -9,7 +9,7 @@ if ($gym_id === 0) {
     die("Invalid Gym ID.");
 }
 // 🧮 Fetch per-day visitor fee for this gym
-$query = $conn->prepare("SELECT visitor_fee FROM visitor_plans WHERE gym_id = ? LIMIT 1");
+$query = $conn->prepare("SELECT visitor_fee FROM visitor_plans WHERE gym_id = ? AND status = 'active' LIMIT 1");
 $query->bind_param("i", $gym_id);
 $query->execute();
 $result = $query->get_result();

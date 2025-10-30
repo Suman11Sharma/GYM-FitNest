@@ -1,3 +1,39 @@
+<?php
+include "../../database/db_connect.php";
+session_start();
+
+// ✅ Get gym_id from session
+$gym_id = $_SESSION['gym_id'] ?? null;
+if (!$gym_id) {
+    die("⚠️ Gym ID not found in session. Please log in again.");
+}
+
+// ✅ Initialize message
+$msg = "";
+$msgClass = "";
+
+// ✅ Handle form submission
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $visitor_fee = floatval($_POST['visitor_fee']);
+    $created_at = $updated_at = date('Y-m-d H:i:s');
+
+    $sql = "INSERT INTO visitor_plans (gym_id, visitor_fee, created_at, updated_at)
+            VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("idss", $gym_id, $visitor_fee, $created_at, $updated_at);
+
+    if ($stmt->execute()) {
+        header("Location: index.php?status=success&msg=Fee created successfully");
+        $msgClass = "alert-success";
+    } else {
+        header("Location: index.php?status=error&msg=Fee create failed!");
+        $msgClass = "alert-danger";
+    }
+
+    $stmt->close();
+}
+?>
+
 <?php require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main class="container mt-4">
@@ -6,19 +42,23 @@
                 <h4 class="mb-0">Create Gym Fees</h4>
             </div>
             <div class="card-body">
-                <form action="store.php" method="POST" class="needs-validation" novalidate>
 
-                    <!-- Gym ID -->
-                    <div class="mb-3">
-                        <label for="gym_id" class="form-label">Gym ID</label>
-                        <input type="text" class="form-control" id="gym_id" name="gym_id" required>
-                        <div class="invalid-feedback">Please enter Gym ID.</div>
-                    </div>
+                <!-- ✅ Success / Error Message -->
+                <?php if ($msg): ?>
+                    <div class="alert <?= $msgClass ?> text-center"><?= htmlspecialchars($msg) ?></div>
+                <?php endif; ?>
+
+                <!-- ✅ Form -->
+                <form action="" method="POST" class="needs-validation" novalidate>
+
+                    <!-- Hidden Gym ID -->
+                    <input type="hidden" name="gym_id" value="<?= htmlspecialchars($gym_id) ?>">
 
                     <!-- Visitor Fee -->
                     <div class="mb-3">
                         <label for="visitor_fee" class="form-label">Visitor Fee (NPR)</label>
                         <input type="number" class="form-control" id="visitor_fee" name="visitor_fee" min="0" required>
+                        <small class="text-muted">Note: Fee is per day basis.</small>
                         <div class="invalid-feedback">Please enter a valid visitor fee.</div>
                     </div>
 
@@ -31,10 +71,11 @@
             </div>
         </div>
     </main>
+
     <?php require("../assets/link.php"); ?>
 
     <script>
-        // Bootstrap form validation
+        // ✅ Bootstrap Form Validation
         (() => {
             'use strict';
             const forms = document.querySelectorAll('.needs-validation');
