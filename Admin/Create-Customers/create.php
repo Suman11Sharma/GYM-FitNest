@@ -2,7 +2,7 @@
 <div id="layoutSidenav_content">
     <main class="container mt-4">
         <div class="card shadow-lg border-0 rounded-3">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                 <h4 class="mb-0">Create Customer</h4>
                 <a href="index.php" class="btn btn-light btn-sm border ms-3" title="Back to Create Users Table">
                     <i class="fas fa-arrow-left"></i>

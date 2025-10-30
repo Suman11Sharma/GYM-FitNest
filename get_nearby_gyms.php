@@ -60,7 +60,7 @@ if (isset($_GET['lat']) && isset($_GET['lon'])) {
                data-email="' . $email . '">
                More Detail
              <a href="store_pass.php?gym_id=' . $gym['gym_id'] . '"
-               class="btn btn-primary btn-cool w-100 btn-bgcolor">
+         class="btn btn-primary btn-cool w-100 btn-bgcolor">
                Get Pass
             </a>
         </div>
