@@ -40,7 +40,7 @@ if (isset($_GET['lat']) && isset($_GET['lon'])) {
         echo '
 <div class="card custom-card">
     <div class="card-image">
-        <img src="' . $imagePath . '" alt="' . $name . '" style="width:100%; height:200px; object-fit:cover; border-radius:10px;">
+        <img src="' . $imagePath . '" alt="' . $name . '" style="width:100%; height:260px; object-fit:cover; border-radius:10px;">
     </div>
     <div class="card-body card-body-custom">
         <h5 class="card-title">' . $name . '</h5>
