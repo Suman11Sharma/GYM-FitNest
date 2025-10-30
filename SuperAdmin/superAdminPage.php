@@ -166,6 +166,20 @@ session_start();
                                 <a class="nav-link" href="SaasPlans/index.php">Index</a>
                             </nav>
                         </div>
+                        <!-- Renew Gym-->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseRenewGym" aria-expanded="false" aria-controls="collapseRenewGym">
+                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
+                            Renew Gym
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapseRenewGym" aria-labelledby="headingRenewGym" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Renew-Gym/create.php">Create</a>
+                                <a class="nav-link" href="Renew-Gym/index.php">Index</a>
+                            </nav>
+                        </div>
                         <!-- Videos -->
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseVideos" aria-expanded="false" aria-controls="collapseVideos">

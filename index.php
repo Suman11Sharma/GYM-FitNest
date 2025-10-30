@@ -98,7 +98,6 @@ include "database/db_connect.php"; ?>
                     ?>
                 </div>
             </div>
-
             <?php
             // Fetch all active about_us cards
             $sql = "SELECT about_id, main_title, quotes 
@@ -408,7 +407,7 @@ include "database/db_connect.php"; ?>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="assets/js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-   
+
     <script>
         document.addEventListener('click', function(e) {
             const btn = e.target.closest('.view-details-btn');

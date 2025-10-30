@@ -9,12 +9,17 @@ session_start();
             <div class="sb-sidenav-menu bg-dark">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Home</div>
-                    <a class="nav-link" href="../adminPage.php">
+                    <a class="nav-link" href="../customerPage.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
                     <div class="sb-sidenav-menu-heading">Management</div>
-
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">
+                        <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
+                        Video
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
                     <!-- to be added  -->
 
                 </div>

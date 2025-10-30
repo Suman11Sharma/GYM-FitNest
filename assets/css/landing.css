@@ -81,13 +81,13 @@ html {
   transition: opacity 1s ease-in-out;
 }
 
-.ad-img:nth-child(1) {
+.ad-slide:nth-child(1) .ad-img {
   animation-delay: 0s;
 }
-.ad-img:nth-child(2) {
+.ad-slide:nth-child(2) .ad-img {
   animation-delay: 3s;
 }
-.ad-img:nth-child(3) {
+.ad-slide:nth-child(3) .ad-img {
   animation-delay: 6s;
 }
 
