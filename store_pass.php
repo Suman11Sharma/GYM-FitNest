@@ -179,8 +179,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <div class="text-center d-flex justify-content-center gap-3 mt-3">
                     <button type="submit" class="btn-our px-5 py-2">Submit</button>
-                    <button
-                        type="button"
+
+                    <a href="index.php" type="button"
                         class="px-5 py-2"
                         style="
             color: #fff;
@@ -196,9 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             transition: all 0.2s ease-in-out; 
             text-decoration: none; 
             user-select: none;
-        ">
-                        Cancel
-                    </button>
+        ">Cancel</a>
                 </div>
 
 
