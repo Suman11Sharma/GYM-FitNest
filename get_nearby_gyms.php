@@ -59,16 +59,10 @@ if (isset($_GET['lat']) && isset($_GET['lon'])) {
                data-phone="' . $phone . '"
                data-email="' . $email . '">
                More Detail
+             <a href="store_pass.php?gym_id=' . $gym['gym_id'] . '"
+               class="btn btn-primary btn-cool w-100 btn-bgcolor">
+               Get Pass
             </a>
-<a href="#"
-   class="btn btn-primary btn-cool w-100 btn-bgcolor get-pass-btn"
-   data-bs-toggle="modal"
-   data-bs-target="#getPassModal"
-   data-gym-id=' . $gym['gym_id'] . '>
-   Get Pass
-</a>
-
-
         </div>
     </div>
 </div>';

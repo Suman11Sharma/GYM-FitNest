@@ -408,6 +408,7 @@ include "database/db_connect.php"; ?>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="assets/js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+   
     <script>
         document.addEventListener('click', function(e) {
             const btn = e.target.closest('.view-details-btn');
@@ -420,24 +421,6 @@ include "database/db_connect.php"; ?>
                 document.getElementById('gymPhone').textContent = btn.dataset.phone;
                 document.getElementById('gymEmail').textContent = btn.dataset.email;
             }
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // When "Get Pass" button is clicked
-            document.querySelectorAll('.get-pass-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const gymId = this.getAttribute('data-gym-id');
-                    const gymName = this.getAttribute('data-gym-name');
-
-                    document.getElementById('gymId').value = gymId;
-                    document.getElementById('gymName').value = gymName;
-
-                    // Optional: show gym name in modal title
-                    document.getElementById('getPassModalLabel').innerText = `Get Your Gym Pass - ${gymName}`;
-                });
-            });
         });
     </script>
 
@@ -462,18 +445,6 @@ include "database/db_connect.php"; ?>
             document.getElementById('gymContainer').innerHTML = "<p>Location access denied. Please enable it to see nearby gyms.</p>";
         }
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.get-pass-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const gymId = this.getAttribute('data-gym-id');
-                    console.log("Gym ID set in modal:", gymId); // check in console
-                    document.getElementById('gymId').value = gymId;
-                });
-            });
-        });
-    </script>
-
 
 </body>
 
