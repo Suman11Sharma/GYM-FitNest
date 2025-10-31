@@ -1,4 +1,6 @@
 <?php
+include "../../database/user_authentication.php";
+include "../../database/db_connect.php";
 require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main>
@@ -39,7 +41,6 @@ require("../sidelayout.php"); ?>
                     </thead>
                     <tbody>
                         <?php
-                        include "../../database/db_connect.php";
 
                         // Pagination setup
                         $limit = 15;

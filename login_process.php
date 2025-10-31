@@ -53,11 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $customer['password'])) {
             // ✅ Password matched in customers table
             $_SESSION['customer_id'] = $customer['customer_id'];
-            $_SESSION['fullname'] = $customer['fullname'];
+            $_SESSION['fullname'] = $customer['full_name'];
             $_SESSION['email'] = $customer['email'];
             $_SESSION['gym_id'] = $customer['gym_id'] ?? null;
 
-            header("Location: Customer/customerPage.php?status=success&msg=" . urlencode("Welcome " . $customer['fullname'] . "!"));
+            header("Location: Customer/customerPage.php?status=success&msg=" . urlencode("Welcome " . $customer['full_name'] . "!"));
             exit;
         }
     }

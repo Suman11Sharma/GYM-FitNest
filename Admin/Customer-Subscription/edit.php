@@ -1,4 +1,6 @@
-<?php require("../sidelayout.php"); ?>
+<?php
+include "../../database/user_authentication.php";
+ require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main class="container mt-4">
         <div class="card shadow-lg border-0 rounded-3">

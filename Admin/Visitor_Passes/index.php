@@ -1,9 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
-session_start();
 
 // ✅ Get Gym ID from session
 $gym_id = $_SESSION['gym_id'] ?? null;

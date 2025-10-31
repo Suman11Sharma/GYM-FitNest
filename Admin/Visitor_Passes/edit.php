@@ -1,9 +1,7 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
-session_start();
 
 // ✅ Check if pass_id is provided
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {

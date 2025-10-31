@@ -1,4 +1,6 @@
-<?php require("../sidelayout.php"); ?>
+<?php
+include "../../database/user_authentication.php";
+require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main>
         <div class="container mt-4">

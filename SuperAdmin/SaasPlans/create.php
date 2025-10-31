@@ -1,4 +1,5 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php"; // adjust path
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

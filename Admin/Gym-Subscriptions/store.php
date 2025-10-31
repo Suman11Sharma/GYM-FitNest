@@ -1,6 +1,6 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
-session_start();
 
 $gym_id = $_POST['gym_id'] ?? null;
 $plan_id = intval($_POST['plan_id'] ?? 0);

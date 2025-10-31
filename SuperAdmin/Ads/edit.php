@@ -1,5 +1,5 @@
 <?php
-require("../sidelayout.php");
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
 
 // Fetch ad ID
@@ -34,6 +34,7 @@ if (!empty($ad['image_url'])) {
     // Assuming JPEG, but you can detect type if needed
     $existingImageSrc = "data:image/jpeg;base64," . $base64;
 }
+require("../sidelayout.php");
 ?>
 
 <div id="layoutSidenav_content">

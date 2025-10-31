@@ -1,5 +1,5 @@
-<?php require("../sidelayout.php"); ?>
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
 
 // Pagination setup
@@ -32,6 +32,7 @@ $countResult = mysqli_query($conn, $countSql);
 $totalRows = mysqli_fetch_assoc($countResult)['total'];
 $totalPages = ceil($totalRows / $limit);
 ?>
+<?php require("../sidelayout.php"); ?>
 
 <div id="layoutSidenav_content">
     <main>

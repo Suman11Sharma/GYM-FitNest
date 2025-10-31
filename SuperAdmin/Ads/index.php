@@ -1,4 +1,7 @@
-<?php require("../sidelayout.php"); ?>
+<?php
+include "../../database/user_authentication.php";
+include "../../database/db_connect.php";
+require("../sidelayout.php"); ?>
 
 <!-- Feedback Modal -->
 <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
@@ -78,7 +81,6 @@
                     </thead>
                     <tbody>
                         <?php
-                        include "../../database/db_connect.php";
 
                         // Pagination setup
                         $limit = 15;

@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "../../database/user_authentication.php";
 ?>
 <?php require_once('Layouts/header.php'); ?>
 <?php require_once('Layouts/navbar.php'); ?>

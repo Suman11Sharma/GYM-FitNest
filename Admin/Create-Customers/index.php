@@ -1,6 +1,6 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
-session_start();
 
 // ✅ Get gym_id from session
 if (!isset($_SESSION['gym_id'])) {

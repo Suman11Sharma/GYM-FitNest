@@ -1,6 +1,6 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
-session_start();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $gym_id = $_SESSION['gym_id'] ?? 0;

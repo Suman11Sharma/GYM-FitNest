@@ -1,6 +1,6 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
-session_start();
 
 // Check if ID is passed
 if (!isset($_GET['id']) || empty($_GET['id'])) {

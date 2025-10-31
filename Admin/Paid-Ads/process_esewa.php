@@ -1,5 +1,7 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
+
 
 // Get data from query
 $gym_id = $_GET['gym_id'] ?? '';

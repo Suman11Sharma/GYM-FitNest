@@ -1,4 +1,5 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
 
 // Check if form is submitted

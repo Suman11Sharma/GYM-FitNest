@@ -1,5 +1,5 @@
-<?php require("../sidelayout.php"); ?>
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
 
 // Validate `id` param
@@ -22,6 +22,7 @@ if (!$plan) {
     exit();
 }
 ?>
+<?php require("../sidelayout.php"); ?>
 
 <div id="layoutSidenav_content">
     <main class="container mt-4">

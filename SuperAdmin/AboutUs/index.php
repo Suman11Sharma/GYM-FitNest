@@ -1,6 +1,6 @@
 <?php
-require("../sidelayout.php");
 
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
 
 // --- Pagination settings ---
@@ -52,6 +52,7 @@ if (!empty($aboutIds)) {
         $aboutData[$p['about_id']]['descriptions'][] = $p['description_point'];
     }
 }
+require("../sidelayout.php");
 ?>
 
 <div id="layoutSidenav_content">

@@ -1,6 +1,6 @@
 <?php
+include "../../database/user_authentication.php";
 ob_start();
-session_start();
 require '../../vendor/autoload.php';
 include '../../database/db_connect.php';
 

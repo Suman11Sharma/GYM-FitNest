@@ -1,4 +1,5 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
 $transaction_id = $_GET['transaction_id'] ?? '';
 $transaction_id = strtok($transaction_id, '?'); // remove anything after ?

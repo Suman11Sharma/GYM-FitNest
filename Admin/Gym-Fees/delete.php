@@ -1,6 +1,6 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
-session_start();
 
 // ✅ Check if gym is logged in
 $gym_id = $_SESSION['gym_id'] ?? null;

@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "../../database/user_authentication.php";
 
 // ✅ Get data from GET (redirect from store.php)
 $gym_id = $_GET['gym_id'] ?? '';

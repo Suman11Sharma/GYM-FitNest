@@ -1,5 +1,5 @@
-<?php require("../sidelayout.php"); ?>
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
 
 // Pagination setup
@@ -51,6 +51,7 @@ while ($row = mysqli_fetch_assoc($allResult)) {
     ];
 }
 ?>
+<?php require("../sidelayout.php"); ?>
 
 <div id="layoutSidenav_content">
     <main>

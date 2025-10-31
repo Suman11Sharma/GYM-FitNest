@@ -1,6 +1,7 @@
 <?php
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
-session_start();
+
 
 if (!isset($_SESSION['gym_id'])) {
     die("❌ Session expired. Please log in again.");

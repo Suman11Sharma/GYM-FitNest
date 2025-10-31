@@ -1,5 +1,5 @@
 <?php
-require("../sidelayout.php");
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
 
 // Get the about_id from GET
@@ -33,6 +33,7 @@ $points = [];
 while ($row = $resPoints->fetch_assoc()) {
     $points[] = $row['description_point'];
 }
+require("../sidelayout.php");
 
 ?>
 
