@@ -1,5 +1,5 @@
 <?php
-include "../../database/user_authentication.php";
+include "../database/admin_authentication.php";
 include("../database/db_connect.php"); // adjust as needed
 
 // --- Ensure user is logged in ---

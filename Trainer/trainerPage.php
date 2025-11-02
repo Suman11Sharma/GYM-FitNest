@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "../database/admin_authentication.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

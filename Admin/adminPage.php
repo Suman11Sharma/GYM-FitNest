@@ -1,5 +1,5 @@
 <?php
-include "../../database/user_authentication.php";
+include "../database/admin_authentication.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

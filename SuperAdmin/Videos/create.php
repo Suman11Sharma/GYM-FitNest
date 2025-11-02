@@ -1,55 +1,54 @@
 <?php
-include "../../database/db_connect.php";
+session_start();
+include("../../database/db_connect.php"); // adjust path as needed
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'] ?? '';
-    $description = $_POST['description'] ?? '';
-    $status = $_POST['status'] ?? 'inactive';
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $title = trim($_POST['title']);
+    $description = trim($_POST['description']);
+    $status = trim($_POST['status']);
 
-    // Validate required fields
-    if (empty($title)) {
-        die("❌ Please enter the video title.");
+    // ✅ Check if file uploaded
+    if (!isset($_FILES['video_file']) || $_FILES['video_file']['error'] !== 0) {
+        header("Location: index.php?status=error&msg=" . urlencode("Please select a valid video file."));
+        exit();
     }
 
-    // Handle video upload
-    if (isset($_FILES['video_file']) && $_FILES['video_file']['error'] === 0) {
-        $targetDir = "../uploads/videos/";
-        if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
-
-        $fileExt = strtolower(pathinfo($_FILES['video_file']['name'], PATHINFO_EXTENSION));
-        $allowedExt = ['mp4', 'webm', 'ogg'];
-
-        if (!in_array($fileExt, $allowedExt)) {
-            die("❌ Invalid file type. Only MP4, WEBM, OGG allowed.");
-        }
-
-        $fileName = time() . "_" . basename($_FILES["video_file"]["name"]);
-        $targetFilePath = $targetDir . $fileName;
-
-        if (!move_uploaded_file($_FILES["video_file"]["tmp_name"], $targetFilePath)) {
-            die("❌ Error uploading video.");
-        }
-
-        $dbFilePath = "uploads/videos/" . $fileName;
-    } else {
-        die("❌ Please upload a video file.");
+    // ✅ Define upload directory
+    $upload_dir = "../../uploads/videos/";
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0777, true); // create folder if not exists
     }
 
-    // Insert into videos table
-    $sql = "INSERT INTO videos (title, description, filename, status)
-            VALUES (
-                '" . mysqli_real_escape_string($conn, $title) . "',
-                '" . mysqli_real_escape_string($conn, $description) . "',
-                '" . mysqli_real_escape_string($conn, $dbFilePath) . "',
-                '" . mysqli_real_escape_string($conn, $status) . "'
-            )";
+    // ✅ File handling
+    $original_name = basename($_FILES['video_file']['name']);
+    $ext = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
+    $allowed = ['mp4', 'mov', 'avi', 'mkv'];
 
-    if (mysqli_query($conn, $sql)) {
-        header("Location: index.php?status=success&msg=" . urlencode("Video added successfully!"));
-        exit;
+    if (!in_array($ext, $allowed)) {
+        header("Location: index.php?status=error&msg=" . urlencode("Only MP4, MOV, AVI, MKV files allowed."));
+        exit();
+    }
+
+    // ✅ Generate unique filename to avoid overwriting
+    $filename = time() . "_" . preg_replace("/[^a-zA-Z0-9_\.-]/", "_", $original_name);
+    $target_path = $upload_dir . $filename;
+
+    // ✅ Move file to upload folder
+    if (!move_uploaded_file($_FILES['video_file']['tmp_name'], $target_path)) {
+        header("Location: index.php?status=error&msg=" . urlencode("Failed to upload video."));
+        exit();
+    }
+
+    // ✅ Insert video details into database
+    $stmt = $conn->prepare("INSERT INTO videos (title, filename, description, status) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $title, $filename, $description, $status);
+
+    if ($stmt->execute()) {
+        header("Location: index.php?status=success&msg=" . urlencode("Video uploaded successfully!"));
+        exit();
     } else {
-        header("Location: index.php?status=error&msg=" . urlencode("Database error: " . mysqli_error($conn)));
-        exit;
+        header("Location: index.php?status=error&msg=" . urlencode("Database error: " . $stmt->error));
+        exit();
     }
 }
 ?>

@@ -25,5 +25,5 @@ if (isset($_SESSION['customer_id']) && isset($_SESSION['gym_id'])) {
 }
 
 // ❌ If none of the above matched — redirect to login
-header("Location: ../../login.php?status=error&msg=" . urlencode("Please login to continue."));
+header("Location: ../login.php?status=error&msg=" . urlencode("Please login to continue."));
 exit();
