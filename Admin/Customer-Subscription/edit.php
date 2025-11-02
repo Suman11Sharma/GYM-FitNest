@@ -1,6 +1,29 @@
 <?php
 include "../../database/user_authentication.php";
- require("../sidelayout.php"); ?>
+include "../../database/db_connect.php";
+require("../sidelayout.php");
+
+// --- Fetch subscription based on ID ---
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$subscription = [];
+
+if ($id) {
+    $query = "SELECT cs.*, c.full_name, cp.plan_name 
+              FROM customer_subscriptions cs
+              LEFT JOIN customers c ON cs.user_id = c.customer_id
+              LEFT JOIN customer_plans cp ON cs.plan_id = cp.plan_id
+              WHERE cs.subscription_id = $id
+              LIMIT 1";
+    $result = mysqli_query($conn, $query);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $subscription = mysqli_fetch_assoc($result);
+    } else {
+        echo "<div class='alert alert-danger'>Subscription not found.</div>";
+        exit;
+    }
+}
+?>
+
 <div id="layoutSidenav_content">
     <main class="container mt-4">
         <div class="card shadow-lg border-0 rounded-3">
@@ -13,80 +36,70 @@ include "../../database/user_authentication.php";
             <div class="card-body p-4">
                 <form action="update.php" method="POST" class="needs-validation" novalidate>
 
-                    <!-- Hidden ID (for update) -->
-                    <input type="hidden" name="id" value="<?php echo isset($subscription['id']) ? $subscription['id'] : ''; ?>">
+                    <!-- Hidden ID -->
+                    <input type="hidden" name="id" value="<?= $subscription['subscription_id'] ?>">
 
-                    <!-- User ID -->
+                    <!-- Username (readonly) -->
                     <div class="mb-3">
-                        <label for="user_id" class="form-label">User ID</label>
-                        <input type="text" class="form-control" id="user_id" name="user_id"
-                            value="<?php echo isset($subscription['user_id']) ? $subscription['user_id'] : ''; ?>" required>
-                        <div class="invalid-feedback">Please enter User ID.</div>
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" value="<?= htmlspecialchars($subscription['full_name']) ?>" readonly>
                     </div>
 
-                    <!-- Plan ID -->
+                    <!-- Plan Name (readonly) -->
                     <div class="mb-3">
-                        <label for="plan_id" class="form-label">Plan ID</label>
-                        <input type="text" class="form-control" id="plan_id" name="plan_id"
-                            value="<?php echo isset($subscription['plan_id']) ? $subscription['plan_id'] : ''; ?>" required>
-                        <div class="invalid-feedback">Please enter Plan ID.</div>
+                        <label class="form-label">Plan Name</label>
+                        <input type="text" class="form-control" value="<?= htmlspecialchars($subscription['plan_name']) ?>" readonly>
                     </div>
 
-                    <!-- Gym ID -->
+                    <!-- Start Date (readonly) -->
                     <div class="mb-3">
-                        <label for="gym_id" class="form-label">Gym ID</label>
-                        <input type="text" class="form-control" id="gym_id" name="gym_id"
-                            value="<?php echo isset($subscription['gym_id']) ? $subscription['gym_id'] : ''; ?>" required>
-                        <div class="invalid-feedback">Please enter Gym ID.</div>
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" value="<?= $subscription['start_date'] ?>" readonly>
                     </div>
 
-                    <!-- Start Date -->
+                    <!-- End Date (readonly) -->
                     <div class="mb-3">
-                        <label for="start_date" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="start_date" name="start_date"
-                            value="<?php echo isset($subscription['start_date']) ? $subscription['start_date'] : ''; ?>" required>
-                        <div class="invalid-feedback">Please select Start Date.</div>
+                        <label class="form-label">End Date</label>
+                        <input type="date" class="form-control" value="<?= $subscription['end_date'] ?>" readonly>
                     </div>
 
-                    <!-- End Date -->
+                    <!-- Amount (readonly) -->
                     <div class="mb-3">
-                        <label for="end_date" class="form-label">End Date</label>
-                        <input type="date" class="form-control" id="end_date" name="end_date"
-                            value="<?php echo isset($subscription['end_date']) ? $subscription['end_date'] : ''; ?>" required>
-                        <div class="invalid-feedback">Please select End Date.</div>
+                        <label class="form-label">Amount</label>
+                        <input type="number" class="form-control" value="<?= $subscription['amount'] ?>" readonly>
                     </div>
 
-                    <!-- Amount -->
-                    <div class="mb-3">
-                        <label for="amount" class="form-label">Amount</label>
-                        <input type="number" class="form-control" id="amount" name="amount" min="0"
-                            value="<?php echo isset($subscription['amount']) ? $subscription['amount'] : ''; ?>" required>
-                        <div class="invalid-feedback">Please enter a valid amount.</div>
-                    </div>
-
-                    <!-- Payment Status -->
+                    <!-- Payment Status (editable) -->
                     <div class="mb-3">
                         <label for="payment_status" class="form-label">Payment Status</label>
                         <select class="form-select" id="payment_status" name="payment_status" required>
-                            <option value="pending" <?php echo (isset($subscription['payment_status']) && $subscription['payment_status'] == 'pending') ? 'selected' : ''; ?>>Pending</option>
-                            <option value="paid" <?php echo (isset($subscription['payment_status']) && $subscription['payment_status'] == 'paid') ? 'selected' : ''; ?>>Paid</option>
-                            <option value="failed" <?php echo (isset($subscription['payment_status']) && $subscription['payment_status'] == 'failed') ? 'selected' : ''; ?>>Failed</option>
+                            <option value="pending" <?= ($subscription['payment_status'] == 'pending') ? 'selected' : '' ?>>Pending</option>
+                            <option value="paid" <?= ($subscription['payment_status'] == 'paid') ? 'selected' : '' ?>>Paid</option>
+                            <option value="failed" <?= ($subscription['payment_status'] == 'failed') ? 'selected' : '' ?>>Failed</option>
                         </select>
                         <div class="invalid-feedback">Please select Payment Status.</div>
                     </div>
 
-                    <!-- Transaction ID -->
+                    <!-- Status (editable) -->
                     <div class="mb-3">
-                        <label for="transaction_id" class="form-label">Transaction ID</label>
-                        <input type="text" class="form-control" id="transaction_id" name="transaction_id"
-                            value="<?php echo isset($subscription['transaction_id']) ? $subscription['transaction_id'] : ''; ?>">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="active" <?= ($subscription['status'] == 'active') ? 'selected' : '' ?>>Active</option>
+                            <option value="inactive" <?= ($subscription['status'] == 'inactive') ? 'selected' : '' ?>>Inactive</option>
+                        </select>
+                        <div class="invalid-feedback">Please select Status.</div>
+                    </div>
+
+                    <!-- Transaction ID (readonly) -->
+                    <div class="mb-3">
+                        <label class="form-label">Transaction ID</label>
+                        <input type="text" class="form-control" value="<?= htmlspecialchars($subscription['transaction_id']) ?>" readonly>
                     </div>
 
                     <!-- Submit -->
                     <div class="text-center">
                         <button type="submit" class="btn btn-our px-5 py-2">Update</button>
                     </div>
-
                 </form>
             </div>
         </div>

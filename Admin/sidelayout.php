@@ -84,7 +84,6 @@
                     <div class="collapse" id="collapseCustomerSubscription" aria-labelledby="headingCustomerSubscription" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="../Customer-Subscription/index.php">Index</a>
-                            <a class="nav-link" href="../Customer-Subscription/create.php">Create</a>
                         </nav>
                     </div>
                     <!-- Visitor_Passes -->
