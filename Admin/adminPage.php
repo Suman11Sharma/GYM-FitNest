@@ -229,6 +229,7 @@ include "../database/admin_authentication.php";
                                 <a class="nav-link" href="Create-Trainer/create.php">Create</a>
                             </nav>
                         </div>
+
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
