@@ -18,7 +18,92 @@ include "../database/admin_authentication.php";
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <style>
+    .admin-card {
+        background-color: #f8f9fa;
+        border-left: 4px solid #20677c;
+        padding: 1rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
 
+    .admin-title {
+        font-size: 5rem;
+        font-weight: 1200;
+        margin-bottom: 0.5rem;
+        color: #20677c;
+    }
+
+    .admin-card h6 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+
+    }
+
+    .admin-card p {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .dashboard-summary {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .summary-card {
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        flex: 1;
+        min-width: 180px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .summary-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
+    .bg-gradient {
+        background: linear-gradient(135deg, #20677c, #1b5e68);
+    }
+
+    .card-info {
+        text-align: left;
+    }
+
+    .summary-title {
+        font-size: 1.1rem;
+        color: #20677c;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .summary-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #495057;
+    }
 </style>
 
 <body class="sb-nav-fixed">
@@ -115,11 +200,11 @@ include "../database/admin_authentication.php";
                             </nav>
                         </div>
 
-                        <!-- Gym-Fees  -->
+                        <!-- Visitor-Fees  -->
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseGymFees" aria-expanded="false" aria-controls="collapseGymFees">
                             <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
-                            Gym-Fees
+                            Visitor-Fees
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
 
@@ -172,20 +257,6 @@ include "../database/admin_authentication.php";
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="Customer-Subscription/index.php">Index</a>
                                 <a class="nav-link" href="Customer-Subscription/create.php">Create</a>
-                            </nav>
-                        </div>
-                        <!-- Visitor_Plans -->
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseVisitorPlans" aria-expanded="false" aria-controls="collapseVisitorPlans">
-                            <div class="sb-nav-link-icon"><i class="fas fa-id-badge"></i></div>
-                            Visitor_Plans
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-
-                        <div class="collapse" id="collapseVisitorPlans" aria-labelledby="headingVisitorPlans" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="Visitor_Plans/index.php">Index</a>
-                                <a class="nav-link" href="Visitor_Plans/create.php">Create</a>
                             </nav>
                         </div>
                         <!-- Visitor_Passes -->
@@ -328,9 +399,248 @@ include "../database/admin_authentication.php";
         </div>
         <div id="layoutSidenav_content">
             <main>
+                <!-- Admin Card -->
+                <div class="admin-card mb-4 p-3 rounded shadow-sm bg-light">
+                    <h6 class="mb-2 admin-title">Admin</h6>
+                    <p class="mb-1"><strong>Name</strong> <?php echo htmlspecialchars($_SESSION['name'] ?? 'Joe'); ?></p>
+                    <p class="mb-0"><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'hjjj@example.com'); ?></p>
+                </div>
+                <!-- Dashboard Summary -->
+                <div class="dashboard-summary mb-4 d-flex gap-3 flex-wrap">
 
+                    <div class="summary-card flex-fill">
+                        <div class="card-content">
+                            <div class="card-icon bg-gradient">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div class="card-info">
+                                <h6 class="summary-title">Total Customers</h6>
+                                <p class="summary-number" id="total-customers">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="summary-card flex-fill">
+                        <div class="card-content">
+                            <div class="card-icon bg-gradient">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="card-info">
+                                <h6 class="summary-title">Total Revenue</h6>
+                                <p class="summary-number" id="total-revenue">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card flex-fill">
+                        <div class="card-content">
+                            <div class="card-icon bg-gradient">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="card-info">
+                                <h6 class="summary-title">Total Trainers</h6>
+                                <p class="summary-number" id="total-trainers">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Analytics & Overview Section -->
+                <section class="container mt-4 analytics-overview">
+                    <h4 class="fw-bold mb-3"><i class="fas fa-chart-pie me-2"></i>Analytics & Overview</h4>
+
+                    <!-- Top Row: Gender, Package, and New Customers Charts -->
+                    <div class="row g-4">
+                        <!-- Gender Chart -->
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="card shadow-sm border-0 rounded-3 h-100">
+                                <div class="card-header bg-white border-0 fw-semibold text-dark">
+                                    <i class="fas fa-venus-mars me-2 text-primary"></i>Customer Gender
+                                </div>
+                                <div class="card-body text-center">
+                                    <canvas id="genderChart" height="120"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Revenue by Package Type -->
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="card shadow-sm border-0 rounded-3 h-100">
+                                <div class="card-header bg-white border-0 fw-semibold text-dark">
+                                    <i class="fas fa-boxes me-2 text-success"></i>Revenue by Package Type
+                                </div>
+                                <div class="card-body text-center">
+                                    <canvas id="packageChart" height="120"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New Customers by Month -->
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="card shadow-sm border-0 rounded-3 h-100">
+                                <div class="card-header bg-white border-0 fw-semibold text-dark">
+                                    <i class="fas fa-users me-2 text-warning"></i>New Customers by Month
+                                </div>
+                                <div class="card-body text-center">
+                                    <canvas id="newCustomersChart" height="120"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Row: Monthly Revenue -->
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-lg-10 col-md-11 col-sm-12">
+                            <div class="card shadow-sm border-0 rounded-3">
+                                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Monthly Revenue Overview</h5>
+                                    <select id="yearSelect" class="form-select form-select-sm w-auto bg-light text-dark">
+                                        <option value="2025" selected>2025</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2023">2023</option>
+                                    </select>
+                                </div>
+                                <div class="card-body px-3 py-4">
+                                    <canvas id="monthlyRevenueChart" height="130"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Chart.js -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        // Gender Pie Chart
+                        new Chart(document.getElementById("genderChart"), {
+                            type: 'pie',
+                            data: {
+                                labels: ['Male', 'Female', 'Others'],
+                                datasets: [{
+                                    data: [60, 35, 5],
+                                    backgroundColor: ['#007bff', '#e83e8c', '#6c757d']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    }
+                                }
+                            }
+                        });
+
+                        // Revenue by Package Type (Doughnut)
+                        new Chart(document.getElementById("packageChart"), {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['1 Month', '3 Months', '6 Months'],
+                                datasets: [{
+                                    data: [45, 30, 25],
+                                    backgroundColor: ['#17a2b8', '#ffc107', '#28a745']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    }
+                                }
+                            }
+                        });
+
+                        // New Customers by Month (Bar Chart)
+                        new Chart(document.getElementById("newCustomersChart"), {
+                            type: 'bar',
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                                datasets: [{
+                                    label: 'New Customers',
+                                    data: [20, 30, 25, 40, 35, 50, 45, 55, 60, 48, 52, 70],
+                                    backgroundColor: '#fd7e14'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+
+                        // Monthly Revenue Line Chart
+                        new Chart(document.getElementById("monthlyRevenueChart"), {
+                            type: 'line',
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                                datasets: [{
+                                    label: 'Monthly Revenue (NPR)',
+                                    data: [12000, 14500, 13800, 16200, 17500, 19000, 21000, 20500, 19800, 22000, 24000, 26000],
+                                    borderColor: '#007bff',
+                                    backgroundColor: 'rgba(0,123,255,0.15)',
+                                    borderWidth: 3,
+                                    tension: 0.3,
+                                    fill: true,
+                                    pointBackgroundColor: '#007bff'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: v => 'NPR ' + v
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+
+                <!-- Styles -->
+                <style>
+                    .analytics-overview .card {
+                        transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    }
+
+                    .analytics-overview .card:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+                    }
+
+                    .analytics-overview .card-header {
+                        font-size: 1rem;
+                    }
+
+                    @media (max-width: 767px) {
+                        .analytics-overview h4 {
+                            font-size: 1.1rem;
+                        }
+                    }
+                </style>
+
+                <!-- Subscription Description -->
                 <div class="card_header" id="recommendation">
-                    <h1>Subscription available</h1>
+                    <h1>Subscription Description</h1>
                     <hr>
                 </div>
                 <div class="card-container">

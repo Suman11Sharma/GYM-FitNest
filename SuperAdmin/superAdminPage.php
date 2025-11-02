@@ -427,6 +427,197 @@ include "../database/admin_authentication.php";
                     </div>
 
                 </div>
+                <!-- Analytics & Overview Section -->
+                <section class="container mt-4 analytics-overview">
+                    <h4 class="fw-bold mb-3"><i class="fas fa-chart-pie me-2"></i>Analytics & Overview</h4>
+
+                    <!-- Top Row: Gender, Package, and New Customers Charts -->
+                    <div class="row g-4">
+                        <!-- Gender Chart -->
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="card shadow-sm border-0 rounded-3 h-100">
+                                <div class="card-header bg-white border-0 fw-semibold text-dark">
+                                    <i class="fas fa-venus-mars me-2 text-primary"></i>Customer Gender
+                                </div>
+                                <div class="card-body text-center">
+                                    <canvas id="genderChart" height="120"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Revenue by Package Type -->
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="card shadow-sm border-0 rounded-3 h-100">
+                                <div class="card-header bg-white border-0 fw-semibold text-dark">
+                                    <i class="fas fa-boxes me-2 text-success"></i>Revenue by Package Type
+                                </div>
+                                <div class="card-body text-center">
+                                    <canvas id="packageChart" height="120"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New Customers by Month -->
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="card shadow-sm border-0 rounded-3 h-100">
+                                <div class="card-header bg-white border-0 fw-semibold text-dark">
+                                    <i class="fas fa-users me-2 text-warning"></i>New Customers by Month
+                                </div>
+                                <div class="card-body text-center">
+                                    <canvas id="newCustomersChart" height="120"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Row: Monthly Revenue -->
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-lg-10 col-md-11 col-sm-12">
+                            <div class="card shadow-sm border-0 rounded-3">
+                                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Monthly Revenue Overview</h5>
+                                    <select id="yearSelect" class="form-select form-select-sm w-auto bg-light text-dark">
+                                        <option value="2025" selected>2025</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2023">2023</option>
+                                    </select>
+                                </div>
+                                <div class="card-body px-3 py-4">
+                                    <canvas id="monthlyRevenueChart" height="130"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Chart.js -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        // Gender Pie Chart
+                        new Chart(document.getElementById("genderChart"), {
+                            type: 'pie',
+                            data: {
+                                labels: ['Male', 'Female', 'Others'],
+                                datasets: [{
+                                    data: [60, 35, 5],
+                                    backgroundColor: ['#007bff', '#e83e8c', '#6c757d']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    }
+                                }
+                            }
+                        });
+
+                        // Revenue by Package Type (Doughnut)
+                        new Chart(document.getElementById("packageChart"), {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['1 Month', '3 Months', '6 Months'],
+                                datasets: [{
+                                    data: [45, 30, 25],
+                                    backgroundColor: ['#17a2b8', '#ffc107', '#28a745']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    }
+                                }
+                            }
+                        });
+
+                        // New Customers by Month (Bar Chart)
+                        new Chart(document.getElementById("newCustomersChart"), {
+                            type: 'bar',
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                                datasets: [{
+                                    label: 'New Customers',
+                                    data: [20, 30, 25, 40, 35, 50, 45, 55, 60, 48, 52, 70],
+                                    backgroundColor: '#fd7e14'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+
+                        // Monthly Revenue Line Chart
+                        new Chart(document.getElementById("monthlyRevenueChart"), {
+                            type: 'line',
+                            data: {
+                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                                datasets: [{
+                                    label: 'Monthly Revenue (NPR)',
+                                    data: [12000, 14500, 13800, 16200, 17500, 19000, 21000, 20500, 19800, 22000, 24000, 26000],
+                                    borderColor: '#007bff',
+                                    backgroundColor: 'rgba(0,123,255,0.15)',
+                                    borderWidth: 3,
+                                    tension: 0.3,
+                                    fill: true,
+                                    pointBackgroundColor: '#007bff'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: v => 'NPR ' + v
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+
+                <!-- Styles -->
+                <style>
+                    .analytics-overview .card {
+                        transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    }
+
+                    .analytics-overview .card:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+                    }
+
+                    .analytics-overview .card-header {
+                        font-size: 1rem;
+                    }
+
+                    @media (max-width: 767px) {
+                        .analytics-overview h4 {
+                            font-size: 1.1rem;
+                        }
+                    }
+                </style>
 
 
 
@@ -649,7 +840,7 @@ include "../database/admin_authentication.php";
 
                 </div>
                 <!-- Analytics Section -->
-                 
+
             </main>
             <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">

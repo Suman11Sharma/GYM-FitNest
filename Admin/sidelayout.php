@@ -27,7 +27,7 @@
                         </nav>
                     </div>
 
-                    <!-- Gym-Fees  -->
+                    <!-- Visitor-Fees  -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapseGymFees" aria-expanded="false" aria-controls="collapseGymFees">
                         <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
@@ -85,20 +85,6 @@
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="../Customer-Subscription/index.php">Index</a>
                             <a class="nav-link" href="../Customer-Subscription/create.php">Create</a>
-                        </nav>
-                    </div>
-                    <!-- Visitor_Plans -->
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#collapseVisitorPlans" aria-expanded="false" aria-controls="collapseVisitorPlans">
-                        <div class="sb-nav-link-icon"><i class="fas fa-id-badge"></i></div>
-                        Visitor_Plans
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-
-                    <div class="collapse" id="collapseVisitorPlans" aria-labelledby="headingVisitorPlans" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="../Visitor_Plans/index.php">Index</a>
-                            <a class="nav-link" href="../Visitor_Plans/create.php">Create</a>
                         </nav>
                     </div>
                     <!-- Visitor_Passes -->
