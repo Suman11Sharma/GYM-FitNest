@@ -147,10 +147,18 @@ $gym = $gym_result->fetch_assoc();
                             Dashboard
                         </a>
                         <div class="sb-sidenav-menu-heading">Management</div>
-                        <a class="nav-link" href="#" id="videosLink">
-                            <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>
-                            Videos
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePaidAds" aria-expanded="false" aria-controls="collapsePaidAds">
+                            <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
+                            Workout Videos
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
+
+                        <div class="collapse" id="collapsePaidAds" aria-labelledby="headingPaidAds" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Videos/index.php">Workout</a>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">

@@ -1,7 +1,6 @@
 <?php
 include "../../database/db_connect.php";
 session_start();
-$gym_id = $_SESSION['gym_id'] ?? null;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $gym_id = $_SESSION['gym_id'] ?? null;
@@ -11,15 +10,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $specialization = trim($_POST['specialization']);
     $rate = trim($_POST['rate_per_session']);
     $status = $_POST['status'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $password_raw = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
 
+    // ✅ Basic validation
     if (!$gym_id) {
         header("Location: create.php?status=error&msg=" . urlencode("Gym ID not found in session."));
         exit;
     }
 
-    $stmt = $conn->prepare("INSERT INTO trainers (gym_id, name, email, phone, specialization, rate_per_session, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
-    $stmt->bind_param("issssds", $gym_id, $name, $email, $phone, $specialization, $rate, $status);
+    if ($password_raw !== $confirm_password) {
+        header("Location: create.php?status=error&msg=" . urlencode("Passwords do not match."));
+        exit;
+    }
+
+    // ✅ Hash the password
+    $password = password_hash($password_raw, PASSWORD_DEFAULT);
+
+    // ✅ Insert Query (with password column)
+    $stmt = $conn->prepare("INSERT INTO trainers 
+        (gym_id, name, email, phone, specialization, rate_per_session, password, status, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+
+    $stmt->bind_param("issssdss", $gym_id, $name, $email, $phone, $specialization, $rate, $password, $status);
 
     if ($stmt->execute()) {
         header("Location: index.php?status=success&msg=" . urlencode("Trainer added successfully."));
@@ -29,8 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 }
+
 require("../sidelayout.php");
 ?>
+
 <div id="layoutSidenav_content">
     <main class="container mt-4">
         <div class="card shadow-lg border-0 rounded-3">

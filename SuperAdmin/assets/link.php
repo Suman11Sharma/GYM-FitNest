@@ -1,5 +1,4 @@
 </div>
-</div>
 <script src="../../assets/js/scripts.js"></script>
 
 <script src="../../assets/js/datatables-simple-demo.js"></script>

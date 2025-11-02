@@ -1,18 +1,57 @@
 <?php
 include "../database/admin_authentication.php";
+include("../database/db_connect.php");
+
+// --- Ensure user is logged in ---
+if (!isset($_SESSION['customer_id']) && !isset($_SESSION['gym_id'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+$customer_id = intval($_SESSION['customer_id']);
+$gym_id = intval($_SESSION['gym_id']);
+
+// --- Fetch Customer Info ---
+$customer_query = $conn->prepare("
+    SELECT customer_id, gym_id, full_name, gender, email, phone, address, 
+           date_of_birth, profile_image, join_date, status 
+    FROM customers 
+    WHERE customer_id = ? AND gym_id = ? LIMIT 1
+");
+$customer_query->bind_param("ii", $customer_id, $gym_id);
+$customer_query->execute();
+$customer_result = $customer_query->get_result();
+
+if ($customer_result->num_rows === 0) {
+    die("❌ No customer found for this gym.");
+}
+$customer = $customer_result->fetch_assoc();
+
+$profile_image = !empty($customer['profile_image'])
+    ? 'data:image/jpeg;base64,' . base64_encode($customer['profile_image'])
+    : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+
+// --- Fetch Gym Info ---
+$gym_query = $conn->prepare("
+    SELECT gym_id, name, email, phone, address, description, opening_time, closing_time, image_url 
+    FROM gyms WHERE gym_id = ? LIMIT 1
+");
+$gym_query->bind_param("i", $gym_id);
+$gym_query->execute();
+$gym_result = $gym_query->get_result();
+$gym = $gym_result->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>FitNest | Trainer Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FitNest | Customer Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../assets/css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../assets/css/landing.css">
+    <link rel="stylesheet" href="../assets/css/landing.css" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
     <style>
@@ -40,30 +79,56 @@ include "../database/admin_authentication.php";
             border: 3px solid #20677c;
         }
 
-        .renew-card {
+        .info-card {
             border-radius: 10px;
             background: #fff;
-            padding: 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
-        .renew-card .card-header {
-            background: #343a40;
-            color: #fff;
-            padding: 1rem 1.25rem;
+        .info-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+        }
+
+        .info-item strong {
+            color: #20677c;
+            display: block;
+        }
+
+        .renew-inline {
+            font-size: 0.9rem;
+            border-radius: 12px;
+            padding: 6px 18px;
         }
     </style>
 </head>
 
 <body class="sb-nav-fixed">
-    <!-- Top Navbar -->
+    <!-- Navbar -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand ps-3" href="#"><img src="uploads/logo_transparent.png" alt="" height="30"></a>
-        <button class="btn btn-link btn-sm" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <a class="navbar-brand ps-3" href="../index.php"><img src="uploads/logo_transparent.png" alt="" height="30"></a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
         <ul class="navbar-nav ms-auto me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
                     <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
                 </ul>
             </li>
@@ -77,13 +142,28 @@ include "../database/admin_authentication.php";
                 <div class="sb-sidenav-menu bg-dark">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Home</div>
-                        <a class="nav-link" href="#" id="dashboardLink"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                        <a class="nav-link" href="#" id="videosLink"><i class="fas fa-video me-2"></i>Videos</a>
+                        <a class="nav-link" href="#" id="dashboardLink">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Management</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePaidAds" aria-expanded="false" aria-controls="collapsePaidAds">
+                            <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
+                            Workout Videos
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapsePaidAds" aria-labelledby="headingPaidAds" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Videos/index.php">Workout</a>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    <?= htmlspecialchars($_SESSION['name'] ?? $_SESSION['fullname'] ?? 'Guest'); ?>
+                    <?php echo htmlspecialchars($_SESSION['fullname'] ?? $_SESSION['name'] ?? 'Guest'); ?>
                 </div>
             </nav>
         </div>
@@ -92,49 +172,50 @@ include "../database/admin_authentication.php";
         <div id="layoutSidenav_content">
             <main class="container-fluid px-4">
 
-                <!-- Dashboard / Trainer Details -->
-                <div id="trainerSection">
-                    <h1 class="mt-4 mb-4">Trainer Dashboard</h1>
-                    <div class="profile-header"> <img src="uploads/profile/demo_user.jpg" alt="Profile Image" onerror="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'">
+                <!-- Dashboard Section -->
+                <div id="customerSection">
+                    <h1 class="mt-4 mb-4">Customer Dashboard</h1>
+                    <div class="profile-header">
+                        <img src="<?php echo $profile_image; ?>" alt="Profile Image">
                         <div class="profile-info">
-                            <h3>John Doe</h3>
-                            <p>Member ID: CUST001</p>
-                            <p>Gym: FitNest - Pokhara</p>
-                            <button class="btn-our renew-inline" id="openRenewBtn" title="Renew Membership">Renew Membership</button>
+                            <h3><?php echo htmlspecialchars($customer['full_name']); ?></h3>
+                            <p>Member ID: <?php echo htmlspecialchars($customer['customer_id']); ?></p>
+                            <p>Gym: <?php echo htmlspecialchars($gym['name']); ?> - <?php echo htmlspecialchars($gym['address']); ?></p>
+                            <button class="btn-our renew-inline" id="openRenewBtn">Renew Membership</button>
                         </div>
                     </div>
+
                     <div class="info-card">
                         <h5 class="mb-3"><i class="fas fa-user-circle me-2 text-primary"></i>Personal Information</h5>
                         <div class="info-row">
-                            <div class="info-item"><strong>Full Name:</strong> John Doe</div>
-                            <div class="info-item"><strong>Gender:</strong> Male</div>
-                            <div class="info-item"><strong>Date of Birth:</strong> 1998-05-22</div>
-                            <div class="info-item"><strong>Email:</strong> johndoe@gmail.com</div>
-                            <div class="info-item"><strong>Phone:</strong> +977-9800000000</div>
-                            <div class="info-item"><strong>Address:</strong> Pokhara, Nepal</div>
+                            <div class="info-item"><strong>Full Name:</strong> <?php echo htmlspecialchars($customer['full_name']); ?></div>
+                            <div class="info-item"><strong>Gender:</strong> <?php echo htmlspecialchars($customer['gender']); ?></div>
+                            <div class="info-item"><strong>Date of Birth:</strong> <?php echo htmlspecialchars($customer['date_of_birth']); ?></div>
+                            <div class="info-item"><strong>Email:</strong> <?php echo htmlspecialchars($customer['email']); ?></div>
+                            <div class="info-item"><strong>Phone:</strong> <?php echo htmlspecialchars($customer['phone']); ?></div>
+                            <div class="info-item"><strong>Address:</strong> <?php echo htmlspecialchars($customer['address']); ?></div>
                         </div>
                     </div>
+
                     <div class="info-card">
                         <h5 class="mb-3"><i class="fas fa-dumbbell me-2 text-primary"></i>Membership Details</h5>
                         <div class="info-row">
-                            <div class="info-item"><strong>Gym ID:</strong> GYM001</div>
-                            <div class="info-item"><strong>Join Date:</strong> 2023-08-12</div>
-                            <div class="info-item"><strong>Plan:</strong> Monthly</div>
-                            <div class="info-item"><strong>Expiry:</strong> 2025-04-30</div>
-                        </div> <!-- Keep the final Status badge here (as requested) -->
+                            <div class="info-item"><strong>Gym ID:</strong> <?php echo htmlspecialchars($customer['gym_id']); ?></div>
+                            <div class="info-item"><strong>Join Date:</strong> <?php echo htmlspecialchars($customer['join_date']); ?></div>
+                            <div class="info-item"><strong>Plan:</strong> N/A</div>
+                            <div class="info-item"><strong>Expiry:</strong> N/A</div>
+                        </div>
                         <div class="mt-4 text-center">
-                            <h5>Status:</h5> <span class="badge bg-success px-4 py-2 fs-6">Active</span>
+                            <h5>Status:</h5>
+                            <?php $status_class = ($customer['status'] === 'active') ? 'bg-success' : 'bg-danger'; ?>
+                            <span class="badge <?php echo $status_class; ?> px-4 py-2 fs-6">
+                                <?php echo ucfirst($customer['status']); ?>
+                            </span>
                         </div>
                     </div>
                 </div>
 
-
-                <!-- Videos -->
-                <div id="videosSection" class="hidden">
-                    <!-- videos.php content will be loaded here -->
-                </div>
-
-                <!-- Renew Section -->
+                <!-- Renew Membership Section -->
                 <div id="renewSection" class="hidden">
                     <main class="container mt-4">
                         <div class="card shadow-lg border-0 rounded-3">
@@ -223,48 +304,47 @@ include "../database/admin_authentication.php";
             </main>
 
             <footer class="py-4 bg-dark mt-auto">
-                <div class="container-fluid text-center text-white small">&copy; 2025 FitNest</div>
+                <div class="container-fluid px-4 text-center text-muted small">
+                    &copy; 2025 FitNest | fitnest@gmail.com
+                </div>
             </footer>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/scripts.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const dashboard = document.getElementById('trainerSection');
-            const videos = document.getElementById('videosSection');
-            const renew = document.getElementById('renewSection');
+        document.addEventListener("DOMContentLoaded", () => {
+            const customerSection = document.getElementById("customerSection");
+            const videosSection = document.getElementById("videosSection");
+            const renewSection = document.getElementById("renewSection");
 
-            document.getElementById('dashboardLink').addEventListener('click', () => {
-                dashboard.classList.remove('hidden');
-                videos.classList.add('hidden');
-                renew.classList.add('hidden');
+            document.getElementById("dashboardLink").addEventListener("click", e => {
+                e.preventDefault();
+                customerSection.classList.remove("hidden");
+                videosSection.classList.add("hidden");
+                renewSection.classList.add("hidden");
             });
 
-            document.getElementById('videosLink').addEventListener('click', () => {
-                dashboard.classList.add('hidden');
-                videos.classList.remove('hidden');
-                renew.classList.add('hidden');
-
-                // Load videos dynamically from videos.php
-                fetch('videos.php')
-                    .then(res => res.text())
-                    .then(html => {
-                        videos.innerHTML = html;
-                    });
+            document.getElementById("videosLink").addEventListener("click", e => {
+                e.preventDefault();
+                customerSection.classList.add("hidden");
+                videosSection.classList.remove("hidden");
+                renewSection.classList.add("hidden");
             });
 
-            document.getElementById('openRenewBtn').addEventListener('click', () => {
-                dashboard.classList.add('hidden');
-                videos.classList.add('hidden');
-                renew.classList.remove('hidden');
+            document.getElementById("openRenewBtn").addEventListener("click", e => {
+                e.preventDefault();
+                customerSection.classList.add("hidden");
+                videosSection.classList.add("hidden");
+                renewSection.classList.remove("hidden");
             });
         });
 
         function goBackToDashboard() {
-            document.getElementById('renewSection').classList.add('hidden');
-            document.getElementById('trainerSection').classList.remove('hidden');
+            document.getElementById("renewSection").classList.add("hidden");
+            document.getElementById("customerSection").classList.remove("hidden");
         }
     </script>
 </body>
