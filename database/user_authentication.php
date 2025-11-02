@@ -23,6 +23,10 @@ if (isset($_SESSION['customer_id']) && isset($_SESSION['gym_id'])) {
     // Customer authenticated ✅
     return;
 }
+if (isset($_SESSION['trainer_id']) && isset($_SESSION['gym_id'])) {
+    // Customer authenticated ✅
+    return;
+}
 
 // ❌ If none of the above matched — redirect to login
 header("Location: ../../login.php?status=error&msg=" . urlencode("Please login to continue."));
