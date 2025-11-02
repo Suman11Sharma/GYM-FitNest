@@ -154,8 +154,8 @@ $gym = $gym_result->fetch_assoc();
 
                         <div class="collapse" id="collapseTrainerAvailability" aria-labelledby="headingTrainerAvailability" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="../Trainer-Availability/index.php">Index</a>
-                                <a class="nav-link" href="../Trainer-Availability/create.php">Create</a>
+                                <a class="nav-link" href="Trainer-Availability/index.php">Index</a>
+                                <a class="nav-link" href="Trainer-Availability/create.php">Create</a>
                             </nav>
                         </div>
                     </div>
