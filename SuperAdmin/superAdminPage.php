@@ -183,7 +183,7 @@ include "../database/admin_authentication.php";
                         <!-- Videos -->
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseVideos" aria-expanded="false" aria-controls="collapseVideos">
-                            <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>
                             Videos
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>

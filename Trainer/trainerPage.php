@@ -134,7 +134,11 @@ $gym = $gym_result->fetch_assoc();
 
                         <div class="sb-sidenav-menu-heading">Management</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+<<<<<<< HEAD
                             data-bs-target="#collapseVideos" aria-expanded="false" aria-controls="collapseVideos">
+=======
+                            data-bs-target="#collapsePaidAds" aria-expanded="false" aria-controls="collapsePaidAds">
+>>>>>>> 581f64cac64d6bf4552b41ea5b7defddf48e7a4f
                             <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>
                             Workout Videos
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -142,6 +146,20 @@ $gym = $gym_result->fetch_assoc();
                         <div class="collapse" id="collapseVideos" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="Videos/index.php">Workout</a>
+                            </nav>
+                        </div>
+                        <!--     Trainer Availability  -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTrainerAvailability" aria-expanded="false" aria-controls="collapseTrainerAvailability">
+                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-day"></i></div>
+                            Schedule
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapseTrainerAvailability" aria-labelledby="headingTrainerAvailability" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Trainer-Availability/index.php">Index</a>
+                                <a class="nav-link" href="Trainer-Availability/create.php">Create</a>
                             </nav>
                         </div>
                     </div>
@@ -158,6 +176,7 @@ $gym = $gym_result->fetch_assoc();
             <main class="container-fluid px-4">
                 <h1 class="mt-4 mb-4">Trainer Dashboard</h1>
 
+<<<<<<< HEAD
                 <!-- Trainer Profile Section -->
                 <div class="profile-header">
                     <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Trainer Image">
@@ -165,6 +184,48 @@ $gym = $gym_result->fetch_assoc();
                         <h3><?= htmlspecialchars($trainer['name']); ?></h3>
                         <p><strong>Trainer ID:</strong> <?= htmlspecialchars($trainer['trainer_id']); ?></p>
                         <p><strong>Gym:</strong> <?= htmlspecialchars($gym['name']); ?> - <?= htmlspecialchars($gym['address']); ?></p>
+=======
+                <!-- Dashboard Section -->
+                <div id="customerSection">
+                    <h1 class="mt-4 mb-4">Trainer Dashboard</h1>
+                    <div class="profile-header">
+                        <img src="<?php echo $profile_image; ?>" alt="Profile Image">
+                        <div class="profile-info">
+                            <h3><?php echo htmlspecialchars($customer['full_name']); ?></h3>
+                            <p>Member ID: <?php echo htmlspecialchars($customer['customer_id']); ?></p>
+                            <p>Gym: <?php echo htmlspecialchars($gym['name']); ?> - <?php echo htmlspecialchars($gym['address']); ?></p>
+                            <button class="btn-our renew-inline" id="openRenewBtn">Renew Membership</button>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h5 class="mb-3"><i class="fas fa-user-circle me-2 text-primary"></i>Personal Information</h5>
+                        <div class="info-row">
+                            <div class="info-item"><strong>Full Name:</strong> <?php echo htmlspecialchars($customer['full_name']); ?></div>
+                            <div class="info-item"><strong>Gender:</strong> <?php echo htmlspecialchars($customer['gender']); ?></div>
+                            <div class="info-item"><strong>Date of Birth:</strong> <?php echo htmlspecialchars($customer['date_of_birth']); ?></div>
+                            <div class="info-item"><strong>Email:</strong> <?php echo htmlspecialchars($customer['email']); ?></div>
+                            <div class="info-item"><strong>Phone:</strong> <?php echo htmlspecialchars($customer['phone']); ?></div>
+                            <div class="info-item"><strong>Address:</strong> <?php echo htmlspecialchars($customer['address']); ?></div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h5 class="mb-3"><i class="fas fa-dumbbell me-2 text-primary"></i>Membership Details</h5>
+                        <div class="info-row">
+                            <div class="info-item"><strong>Gym ID:</strong> <?php echo htmlspecialchars($customer['gym_id']); ?></div>
+                            <div class="info-item"><strong>Join Date:</strong> <?php echo htmlspecialchars($customer['join_date']); ?></div>
+                            <div class="info-item"><strong>Plan:</strong> N/A</div>
+                            <div class="info-item"><strong>Expiry:</strong> N/A</div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <h5>Status:</h5>
+                            <?php $status_class = ($customer['status'] === 'active') ? 'bg-success' : 'bg-danger'; ?>
+                            <span class="badge <?php echo $status_class; ?> px-4 py-2 fs-6">
+                                <?php echo ucfirst($customer['status']); ?>
+                            </span>
+                        </div>
+>>>>>>> 581f64cac64d6bf4552b41ea5b7defddf48e7a4f
                     </div>
                 </div>
 
