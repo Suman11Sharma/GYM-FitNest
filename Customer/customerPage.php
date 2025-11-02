@@ -161,8 +161,8 @@ $subscriptions = $stmt->get_result();
 
                         <div class="collapse" id="collapseTrainerBooking" aria-labelledby="headingTrainerBooking" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="Trainer-Booking/index.php">Index</a>
-                                <a class="nav-link" href="Trainer-Booking/create.php">Create</a>
+                                <a class="nav-link" href="Trainer-Booking/index.php">Book</a>
+                                <a class="nav-link" href="Trainer-Booking/bookedStatus.php">Booked Status</a>
                             </nav>
                         </div>
                     </div>
@@ -236,7 +236,6 @@ $subscriptions = $stmt->get_result();
                             <i class="fas fa-cog"></i> Edit
                         </a>
                     </div>
-
                     <div class="info-row">
                         <div class="info-item"><strong>Full Name:</strong> <?= htmlspecialchars($customer['full_name']); ?></div>
                         <div class="info-item"><strong>Gender:</strong> <?= htmlspecialchars($customer['gender']); ?></div>
@@ -244,6 +243,7 @@ $subscriptions = $stmt->get_result();
                         <div class="info-item"><strong>Email:</strong> <?= htmlspecialchars($customer['email']); ?></div>
                         <div class="info-item"><strong>Phone:</strong> <?= htmlspecialchars($customer['phone']); ?></div>
                         <div class="info-item"><strong>Address:</strong> <?= htmlspecialchars($customer['address']); ?></div>
+
                     </div>
                 </div>
 
@@ -308,9 +308,10 @@ $subscriptions = $stmt->get_result();
                 </div>
             </main>
 
-            <footer class="py-4 bg-dark mt-auto text-center text-muted small">
+            <footer class="py-4 bg-dark mt-auto text-center text-white small">
                 &copy; 2025 FitNest | fitnest@gmail.com
             </footer>
+
         </div>
     </div>
 

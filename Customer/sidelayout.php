@@ -35,8 +35,8 @@
 
                     <div class="collapse" id="collapseTrainerBooking" aria-labelledby="headingTrainerBooking" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="../Trainer-Booking/index.php">Index</a>
-                            <a class="nav-link" href="../Trainer-Booking/create.php">Create</a>
+                            <a class="nav-link" href="../Trainer-Booking/index.php">Booked</a>
+                            <a class="nav-link" href="../Trainer-Booking/bookedStatus.php">Booked Status</a>
                         </nav>
                     </div>
 
