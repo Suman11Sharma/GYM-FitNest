@@ -1,126 +1,130 @@
 <?php
-require("../sidelayout.php");
+include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
 
-// --- Pagination & Search Setup ---
-$limit = 10;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$page = max($page, 1);
-$offset = ($page - 1) * $limit;
-
-$search = isset($_GET['search']) ? trim($_GET['search']) : '';
-
-// --- Base Query ---
-$sql = "SELECT * FROM visitor_plans WHERE 1";
-
-if (!empty($search)) {
-    $sql .= " AND (fee_id LIKE '%$search%' OR gym_id LIKE '%$search%')";
+// ✅ Get gym_id from session
+$gym_id = $_SESSION['gym_id'] ?? null;
+if (!$gym_id) {
+    die("⚠️ Gym ID not found in session. Please log in again.");
 }
 
-// --- Count total rows for pagination ---
-$countSql = str_replace("*", "COUNT(*) as total", $sql);
-$countResult = $conn->query($countSql);
-$totalRows = ($countResult && $countResult->num_rows > 0) ? $countResult->fetch_assoc()['total'] : 0;
-$totalPages = ceil($totalRows / $limit);
-
-// --- Fetch paginated visitor plans ---
-$sql .= " ORDER BY fee_id DESC LIMIT $limit OFFSET $offset";
-$result = $conn->query($sql);
-$plans = ($result && $result->num_rows > 0) ? $result->fetch_all(MYSQLI_ASSOC) : [];
+// ✅ Fetch visitor plans
+$query = "SELECT fee_id, visitor_fee, status, created_at, updated_at 
+          FROM visitor_plans 
+          WHERE gym_id = ? 
+          ORDER BY created_at DESC";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $gym_id);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
+<!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?> text-white">
+                <h5 class="modal-title" id="feedbackModalLabel">
+                    <?php echo ($_GET['status'] ?? '') === 'success' ? 'Success' : 'Error'; ?>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php echo isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : ''; ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?>" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Auto-trigger modal if feedback exists -->
+<?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var feedbackModal = new bootstrap.Modal(document.getElementById("feedbackModal"));
+            feedbackModal.show();
+
+            // When modal is closed, remove query params so it won't reopen on refresh
+            document.getElementById("feedbackModal").addEventListener("hidden.bs.modal", function() {
+                const url = new URL(window.location.href);
+                url.search = ""; // clear query string
+                window.history.replaceState({}, document.title, url);
+            });
+        });
+    </script>
+<?php endif; ?>
+
+<?php require("../sidelayout.php"); ?>
 <div id="layoutSidenav_content">
     <main class="container mt-4">
-        <h3 class="mb-3">Visitor Plans</h3>
 
-        <!-- ✅ Top Controls -->
+        <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="create.php" class="btn btn-our ms-3">
-                <i class="fas fa-plus me-1"></i> Add New Plan
+            <h3 class="fw-bold mb-0">Visitor Plans</h3>
+            <a href="create.php" class="btn btn-our px-4 py-2">
+                <i class="fas fa-plus me-2"></i> Add Visitor Plan
             </a>
-
-            <form method="GET" class="d-flex" style="max-width: 300px;">
-                <input type="text" name="search" class="form-control me-2"
-                    placeholder="Search by Fee ID or Gym ID"
-                    value="<?= htmlspecialchars($search) ?>">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
         </div>
 
-        <!-- ✅ Visitor Plans Table -->
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover shadow-sm align-middle">
-                <thead class="table-dark">
-                    <tr class="text-center">
-                        <th>SN</th>
-                        <th>Fee ID</th>
-                        <th>Gym ID</th>
-                        <th>Visitor Fee</th>
-                        <th>Created At</th>
-                        <th>Updated At</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $sn = $offset + 1;
-                    if (!empty($plans)):
-                        foreach ($plans as $plan): ?>
-                            <tr class="text-center">
-                                <td><?= $sn++ ?></td>
-                                <td><?= htmlspecialchars($plan['fee_id']) ?></td>
-                                <td><?= htmlspecialchars($plan['gym_id']) ?></td>
-                                <td><?= htmlspecialchars($plan['visitor_fee']) ?></td>
-                                <td><?= htmlspecialchars($plan['created_at']) ?></td>
-                                <td><?= htmlspecialchars($plan['updated_at']) ?></td>
-                                <td>
-                                    <span class="badge <?= $plan['status'] === 'active' ? 'bg-success' : 'bg-secondary' ?>">
-                                        <?= ucfirst($plan['status']) ?>
-                                    </span>
-                                </td>
-                                <td class="text-center">
-                                    <a href="edit.php?id=<?= $plan['fee_id'] ?>" class="btn btn-sm btn-warning me-1">Edit</a>
-                                    <a href="delete.php?id=<?= $plan['fee_id'] ?>" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure you want to delete this plan?');">
-                                        Delete
-                                    </a>
-                                </td>
+        <!-- Table Card -->
+        <div class="card shadow-lg border-0 rounded-3">
+            <div class="card-body p-4">
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle text-center shadow-sm">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>SN</th>
+                                <th>Visitor Fee (Rs.)</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
-                        <?php endforeach;
-                    else: ?>
-                        <tr>
-                            <td colspan="8" class="text-center text-muted py-3">No visitor plans found.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if ($result->num_rows > 0):
+                                $sn = 1;
+                                while ($row = $result->fetch_assoc()):
+                            ?>
+                                    <tr>
+                                        <td><?= $sn++; ?></td>
+                                        <td><?= htmlspecialchars($row['visitor_fee']); ?></td>
+                                        <td><?= htmlspecialchars(date("Y-m-d H:i", strtotime($row['created_at']))); ?></td>
+                                        <td><?= htmlspecialchars(date("Y-m-d H:i", strtotime($row['updated_at']))); ?></td>
+                                        <td>
+                                            <span class="badge bg-<?= $row['status'] === 'active' ? 'success' : 'secondary'; ?>">
+                                                <?= ucfirst($row['status']); ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="edit.php?id=<?= $row['fee_id']; ?>" class="btn btn-sm btn-info text-white">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="delete.php?id=<?= $row['fee_id']; ?>"
+                                                    onclick="return confirm('Are you sure you want to delete this plan?');"
+                                                    class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php
+                                endwhile;
+                            else:
+                                ?>
+                                <tr>
+                                    <td colspan="6" class="text-muted py-3">No visitor plans found.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <!-- ✅ Pagination -->
-        <?php if ($totalPages > 1): ?>
-            <nav class="mt-3">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>">Previous</a>
-                    </li>
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                            <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
-                        </li>
-                    <?php endfor; ?>
-                    <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        <?php endif; ?>
-
-        <!-- FontAwesome -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     </main>
-
     <?php require("../assets/link.php"); ?>
 </div>
