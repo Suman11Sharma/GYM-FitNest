@@ -1,6 +1,6 @@
 <?php
 include "../database/admin_authentication.php";
-include("../database/db_connect.php"); // adjust as needed
+include("../database/db_connect.php");
 
 // --- Ensure user is logged in ---
 if (!isset($_SESSION['customer_id']) && !isset($_SESSION['gym_id'])) {
@@ -27,7 +27,6 @@ if ($customer_result->num_rows === 0) {
 }
 $customer = $customer_result->fetch_assoc();
 
-// Convert BLOB to base64 image (if available)
 $profile_image = !empty($customer['profile_image'])
     ? 'data:image/jpeg;base64,' . base64_encode($customer['profile_image'])
     : 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
@@ -41,7 +40,6 @@ $gym_query->bind_param("i", $gym_id);
 $gym_query->execute();
 $gym_result = $gym_query->get_result();
 $gym = $gym_result->fetch_assoc();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +49,6 @@ $gym = $gym_result->fetch_assoc();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FitNest | Customer Dashboard</title>
 
-    <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="../assets/css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/landing.css" />
@@ -60,6 +57,10 @@ $gym = $gym_result->fetch_assoc();
     <style>
         body {
             background-color: #f4f6f9;
+        }
+
+        .hidden {
+            display: none;
         }
 
         .profile-header {
@@ -76,16 +77,6 @@ $gym = $gym_result->fetch_assoc();
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #20677c;
-        }
-
-        .profile-info h3 {
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-        }
-
-        .profile-info p {
-            color: #6c757d;
-            margin-bottom: 0.3rem;
         }
 
         .info-card {
@@ -113,55 +104,6 @@ $gym = $gym_result->fetch_assoc();
             display: block;
         }
 
-        .hidden {
-            display: none;
-        }
-
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-            padding-bottom: 2rem;
-        }
-
-        .custom-card {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-image video {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-        }
-
-        .card-body-custom {
-            padding: 0.75rem;
-        }
-
-        .renew-card {
-            border-radius: 10px;
-            background: #fff;
-            padding: 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
-
-        .renew-card .card-header {
-            background: #343a40;
-            color: #fff;
-            padding: 1rem 1.25rem;
-        }
-
-        .renew-card .card-body {
-            padding: 1.25rem;
-        }
-
         .renew-inline {
             font-size: 0.9rem;
             border-radius: 12px;
@@ -169,42 +111,6 @@ $gym = $gym_result->fetch_assoc();
         }
     </style>
 </head>
-<!-- Feedback Modal -->
-<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?> text-white">
-                <h5 class="modal-title" id="feedbackModalLabel">
-                    <?php echo ($_GET['status'] ?? '') === 'success' ? 'Success' : 'Error'; ?>
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <?php echo isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : ''; ?>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-<?php echo ($_GET['status'] ?? '') === 'success' ? 'success' : 'danger'; ?>" data-bs-dismiss="modal">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Auto-trigger modal if feedback exists -->
-<?php if (isset($_GET['status']) && isset($_GET['msg'])): ?>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var feedbackModal = new bootstrap.Modal(document.getElementById("feedbackModal"));
-            feedbackModal.show();
-
-            // When modal is closed, remove query params so it won't reopen on refresh
-            document.getElementById("feedbackModal").addEventListener("hidden.bs.modal", function() {
-                const url = new URL(window.location.href);
-                url.search = ""; // clear query string
-                window.history.replaceState({}, document.title, url);
-            });
-        });
-    </script>
-<?php endif; ?>
 
 <body class="sb-nav-fixed">
     <!-- Navbar -->
@@ -227,7 +133,6 @@ $gym = $gym_result->fetch_assoc();
                 </ul>
             </li>
         </ul>
-
     </nav>
 
     <div id="layoutSidenav">
@@ -241,7 +146,6 @@ $gym = $gym_result->fetch_assoc();
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-
                         <div class="sb-sidenav-menu-heading">Management</div>
                         <a class="nav-link" href="#" id="videosLink">
                             <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>
@@ -251,16 +155,7 @@ $gym = $gym_result->fetch_assoc();
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    <?php
-                    // Use name/fullname from session
-                    if (isset($_SESSION['name'])) {
-                        echo htmlspecialchars($_SESSION['name']);
-                    } elseif (isset($_SESSION['fullname'])) {
-                        echo htmlspecialchars($_SESSION['fullname']);
-                    } else {
-                        echo "<span class='text-muted'>Guest</span>";
-                    }
-                    ?>
+                    <?php echo htmlspecialchars($_SESSION['fullname'] ?? $_SESSION['name'] ?? 'Guest'); ?>
                 </div>
             </nav>
         </div>
@@ -269,10 +164,9 @@ $gym = $gym_result->fetch_assoc();
         <div id="layoutSidenav_content">
             <main class="container-fluid px-4">
 
-                <!-- Dashboard -->
+                <!-- Dashboard Section -->
                 <div id="customerSection">
                     <h1 class="mt-4 mb-4">Customer Dashboard</h1>
-
                     <div class="profile-header">
                         <img src="<?php echo $profile_image; ?>" alt="Profile Image">
                         <div class="profile-info">
@@ -303,12 +197,9 @@ $gym = $gym_result->fetch_assoc();
                             <div class="info-item"><strong>Plan:</strong> N/A</div>
                             <div class="info-item"><strong>Expiry:</strong> N/A</div>
                         </div>
-
                         <div class="mt-4 text-center">
                             <h5>Status:</h5>
-                            <?php
-                            $status_class = ($customer['status'] === 'active') ? 'bg-success' : 'bg-danger';
-                            ?>
+                            <?php $status_class = ($customer['status'] === 'active') ? 'bg-success' : 'bg-danger'; ?>
                             <span class="badge <?php echo $status_class; ?> px-4 py-2 fs-6">
                                 <?php echo ucfirst($customer['status']); ?>
                             </span>
@@ -316,86 +207,97 @@ $gym = $gym_result->fetch_assoc();
                     </div>
                 </div>
 
-                <!-- Videos -->
+                <!-- Videos Section (moved to separate file) -->
                 <div id="videosSection" class="hidden">
-                    <h1 class="mt-4">Workout Videos</h1>
-                    <hr>
-                    <div class="card-container">
-                        <div class="card custom-card">
-                            <div class="card-image">
-                                <video controls preload="metadata">
-                                    <source src="uploads/videos/video1.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                            <div class="card-body card-body-custom">
-                                <h5 class="card-title">Upper Body Workout</h5>
-                                <p class="card-text">Focus on chest, shoulders, and triceps.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php include 'videos.php'; ?>
                 </div>
 
-                <!-- Renew Membership -->
+                <!-- Renew Membership Section -->
                 <div id="renewSection" class="hidden">
                     <main class="container mt-4">
                         <div class="card shadow-lg border-0 rounded-3">
+                            <!-- Header with back button -->
                             <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                                 <h4 class="mb-0 flex-grow-1 text-center">Renew Gym Membership</h4>
-                                <button type="button" class="btn btn-light btn-sm border ms-3" onclick="goBackToDashboard()">
+                                <!-- Back button: hides renewSection and shows dashboard -->
+                                <button type="button" class="btn btn-light btn-sm border ms-3" title="Back to Dashboard" onclick="goBackToDashboard()">
                                     <i class="fas fa-arrow-left"></i>
                                 </button>
                             </div>
 
+                            <!-- Form -->
                             <div class="card-body p-4">
                                 <form action="renew_store.php" method="POST" class="needs-validation" novalidate>
+
+                                    <!-- Gym ID -->
                                     <div class="mb-3">
-                                        <label class="form-label">Gym ID</label>
-                                        <input type="text" class="form-control" name="gym_id" required
-                                            value="<?php echo htmlspecialchars($customer['gym_id']); ?>">
+                                        <label for="gym_id" class="form-label">Gym ID</label>
+                                        <input type="text" class="form-control" id="gym_id" name="gym_id" required value="GYM001">
+                                        <div class="invalid-feedback">Please enter Gym ID.</div>
                                     </div>
+
+                                    <!-- Plan Name -->
                                     <div class="mb-3">
-                                        <label class="form-label">Plan Name</label>
-                                        <select name="plan_name" class="form-select" required>
+                                        <label for="plan_name" class="form-label">Plan Name</label>
+                                        <select id="plan_name" name="plan_name" class="form-select" required>
                                             <option value="" disabled selected>-- Select Plan --</option>
                                             <option value="monthly">Monthly</option>
                                             <option value="quarterly">Quarterly</option>
                                             <option value="yearly">Yearly</option>
                                         </select>
+                                        <div class="invalid-feedback">Please select a plan.</div>
                                     </div>
+
+                                    <!-- Start Date -->
                                     <div class="mb-3">
-                                        <label class="form-label">Start Date</label>
-                                        <input type="date" class="form-control" name="start_date" required>
+                                        <label for="start_date" class="form-label">Start Date</label>
+                                        <input type="date" class="form-control" id="start_date" name="start_date" required>
+                                        <div class="invalid-feedback">Please select a start date.</div>
                                     </div>
+
+                                    <!-- End Date -->
                                     <div class="mb-3">
-                                        <label class="form-label">End Date</label>
-                                        <input type="date" class="form-control" name="end_date" required>
+                                        <label for="end_date" class="form-label">End Date</label>
+                                        <input type="date" class="form-control" id="end_date" name="end_date" required>
+                                        <div class="invalid-feedback">Please select an end date.</div>
                                     </div>
+
+                                    <!-- Amount -->
                                     <div class="mb-3">
-                                        <label class="form-label">Amount (NPR)</label>
-                                        <input type="number" class="form-control" name="amount" min="0" required>
+                                        <label for="amount" class="form-label">Amount (NPR)</label>
+                                        <input type="number" class="form-control" id="amount" name="amount" min="0" required>
+                                        <div class="invalid-feedback">Please enter a valid amount.</div>
                                     </div>
+
+                                    <!-- Payment Status -->
                                     <div class="mb-3">
-                                        <label class="form-label">Payment Status</label>
-                                        <select class="form-select" name="payment_status" required>
+                                        <label for="payment_status" class="form-label">Payment Status</label>
+                                        <select class="form-select" id="payment_status" name="payment_status" required>
                                             <option value="" disabled selected>-- Select Status --</option>
                                             <option value="pending">Pending</option>
                                             <option value="paid">Paid</option>
                                             <option value="failed">Failed</option>
                                         </select>
+                                        <div class="invalid-feedback">Please select a payment status.</div>
                                     </div>
+
+                                    <!-- Transaction ID -->
                                     <div class="mb-3">
-                                        <label class="form-label">Transaction ID</label>
-                                        <input type="text" class="form-control" name="transaction_id" required>
+                                        <label for="transaction_id" class="form-label">Transaction ID</label>
+                                        <input type="text" class="form-control" id="transaction_id" name="transaction_id" required>
+                                        <div class="invalid-feedback">Please enter transaction ID.</div>
                                     </div>
+
+                                    <!-- Submit Button -->
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-our px-5 py-2">Submit</button>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
                     </main>
                 </div>
-
             </main>
 
             <footer class="py-4 bg-dark mt-auto">
@@ -406,7 +308,6 @@ $gym = $gym_result->fetch_assoc();
         </div>
     </div>
 
-    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/scripts.js"></script>
 
