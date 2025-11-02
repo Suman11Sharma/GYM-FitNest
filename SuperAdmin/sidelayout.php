@@ -113,10 +113,10 @@ session_start();
                             <a class="nav-link" href="../SaasPlans/index.php">Index</a>
                         </nav>
                     </div>
-                       <!-- Renew Gym-->
+                    <!-- Renew Gym-->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapseRenewGym" aria-expanded="false" aria-controls="collapseRenewGym">
-                       <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
                         Renew Gym
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
@@ -130,7 +130,7 @@ session_start();
                     <!-- Videos-->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapseVideos" aria-expanded="false" aria-controls="collapseVideos">
-                        <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>
                         Videos
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>

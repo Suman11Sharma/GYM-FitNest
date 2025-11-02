@@ -149,7 +149,7 @@ $gym = $gym_result->fetch_assoc();
                         <div class="sb-sidenav-menu-heading">Management</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapsePaidAds" aria-expanded="false" aria-controls="collapsePaidAds">
-                            <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>
                             Workout Videos
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
@@ -157,6 +157,20 @@ $gym = $gym_result->fetch_assoc();
                         <div class="collapse" id="collapsePaidAds" aria-labelledby="headingPaidAds" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="Videos/index.php">Workout</a>
+                            </nav>
+                        </div>
+                        <!--     Trainer Availability  -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTrainerAvailability" aria-expanded="false" aria-controls="collapseTrainerAvailability">
+                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-day"></i></div>
+                            Schedule
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapseTrainerAvailability" aria-labelledby="headingTrainerAvailability" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Trainer-Availability/index.php">Index</a>
+                                <a class="nav-link" href="Trainer-Availability/create.php">Create</a>
                             </nav>
                         </div>
                     </div>
@@ -174,7 +188,7 @@ $gym = $gym_result->fetch_assoc();
 
                 <!-- Dashboard Section -->
                 <div id="customerSection">
-                    <h1 class="mt-4 mb-4">Customer Dashboard</h1>
+                    <h1 class="mt-4 mb-4">Trainer Dashboard</h1>
                     <div class="profile-header">
                         <img src="<?php echo $profile_image; ?>" alt="Profile Image">
                         <div class="profile-info">

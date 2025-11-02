@@ -159,6 +159,20 @@ $gym = $gym_result->fetch_assoc();
                                 <a class="nav-link" href="Videos/index.php">Workout</a>
                             </nav>
                         </div>
+                        <!--     Trainer Booking  -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTrainerBooking" aria-expanded="false" aria-controls="collapseTrainerBooking">
+                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-day"></i></div>
+                            Trainer Booking
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapseTrainerBooking" aria-labelledby="headingTrainerBooking" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Trainer-Booking/index.php">Index</a>
+                                <a class="nav-link" href="Trainer-Booking/create.php">Create</a>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
