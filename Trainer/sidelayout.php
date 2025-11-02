@@ -12,24 +12,15 @@
                     </a>
                     <div class="sb-sidenav-menu-heading">Management</div>
 
-<<<<<<< HEAD
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#collapseVideos" aria-expanded="false" aria-controls="collapseVideos">
-=======
                     <!--  Workout Videos  -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapseWorkoutVideos" aria-expanded="false" aria-controls="collapseWorkoutVideos">
->>>>>>> 581f64cac64d6bf4552b41ea5b7defddf48e7a4f
                         <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>
                         Workout Videos
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-<<<<<<< HEAD
-                    <div class="collapse" id="collapseVideos" data-bs-parent="#sidenavAccordion">
-=======
 
                     <div class="collapse" id="collapseWorkoutVideos" aria-labelledby="headingWorkoutVideos" data-bs-parent="#sidenavAccordion">
->>>>>>> 581f64cac64d6bf4552b41ea5b7defddf48e7a4f
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="../Videos/index.php">Workout</a>
                         </nav>
