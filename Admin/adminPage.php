@@ -215,6 +215,20 @@ include "../../database/user_authentication.php";
                                 <a class="nav-link" href="Create-Customers/create.php">Create</a>
                             </nav>
                         </div>
+                        <!-- Create Trainer-->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCreateTrainer" aria-expanded="false" aria-controls="collapseCreateTrainer">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
+                            Create Trainer
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapseCreateTrainer" aria-labelledby="headingCreateTrainer" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Create-Trainer/index.php">Index</a>
+                                <a class="nav-link" href="Create-Trainer/create.php">Create</a>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
