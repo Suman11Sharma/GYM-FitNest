@@ -1,7 +1,28 @@
 <?php
 include "../../database/db_connect.php";
 
-$query = "SELECT * FROM videos ORDER BY uploaded_at DESC";
+// --- Pagination ---
+$limit = 15;
+$page = isset($_GET['page']) && $_GET['page'] > 0 ? intval($_GET['page']) : 1;
+$offset = ($page - 1) * $limit;
+
+// --- Search ---
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$where = "WHERE status = 'active'";
+
+if (!empty($search)) {
+    $searchEscaped = mysqli_real_escape_string($conn, $search);
+    $where .= " AND (title LIKE '%$searchEscaped%' OR description LIKE '%$searchEscaped%')";
+}
+
+// --- Total Count for Pagination ---
+$countQuery = "SELECT COUNT(*) AS total FROM videos $where";
+$countResult = mysqli_query($conn, $countQuery);
+$totalRows = mysqli_fetch_assoc($countResult)['total'];
+$totalPages = ceil($totalRows / $limit);
+
+// --- Main Query ---
+$query = "SELECT * FROM videos $where ORDER BY uploaded_at DESC LIMIT $limit OFFSET $offset";
 $result = mysqli_query($conn, $query);
 
 require("../sidelayout.php");
@@ -9,7 +30,14 @@ require("../sidelayout.php");
 
 <div id="layoutSidenav_content">
     <main class="container py-4">
-        <h3 class="text-center fw-bold mb-4">🎬 Video Gallery</h3>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold">🎬 Video Gallery</h3>
+            <form class="d-flex" method="GET" action="">
+                <input type="text" name="search" class="form-control me-2" placeholder="Search videos..."
+                    value="<?= htmlspecialchars($search); ?>">
+                <button class="btn btn-dark" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
 
         <?php if (mysqli_num_rows($result) > 0): ?>
             <div class="row g-4">
@@ -35,6 +63,29 @@ require("../sidelayout.php");
                     </div>
                 <?php endwhile; ?>
             </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Video Pagination" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    <?php if ($page > 1): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search); ?>">Previous</a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <li class="page-item <?= ($i == $page) ? 'active' : ''; ?>">
+                            <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($search); ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor; ?>
+
+                    <?php if ($page < $totalPages): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search); ?>">Next</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
         <?php else: ?>
             <div class="alert alert-info text-center mt-4">
                 No videos found.
@@ -44,7 +95,7 @@ require("../sidelayout.php");
 
     <!-- Video Modal -->
     <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content bg-dark">
                 <div class="modal-body p-0 position-relative">
                     <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -84,13 +135,18 @@ require("../sidelayout.php");
         }
 
         .video-card:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .video-card video {
             object-fit: cover;
             border-bottom: 2px solid #ddd;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #212529;
+            border-color: #212529;
         }
     </style>
 </div>
