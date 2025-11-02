@@ -358,41 +358,7 @@ include "database/db_connect.php"; ?>
         <div id="gymContainer" class="card-container d-flex flex-wrap gap-3">
             <p>Loading nearby gyms...</p>
         </div>
-        <!-- Videos Section -->
-        <div class="card_header" id="videos">
-            <h1>Videos</h1>
-            <hr>
-        </div>
 
-        <div class="card-container">
-            <div class="card custom-card">
-                <div class="card-image">
-                    <video controls>
-                        <source src="uploads/videos/video1.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="card-body card-body-custom">
-                    <h5 class="card-title">Video Title 1</h5>
-                    <p class="card-text">Short description about this video.</p>
-                </div>
-            </div>
-
-            <div class="card custom-card">
-                <div class="card-image">
-                    <video controls>
-                        <source src="uploads/videos/video2.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="card-body card-body-custom">
-                    <h5 class="card-title">Video Title 2</h5>
-                    <p class="card-text">Short description about this video.</p>
-                </div>
-            </div>
-
-            <!-- Add more video cards as needed -->
-        </div>
 
     </main>
 

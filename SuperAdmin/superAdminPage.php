@@ -18,7 +18,92 @@ include "../database/admin_authentication.php";
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <style>
+    .superadmin-card {
+        background-color: #f8f9fa;
+        border-left: 4px solid #20677c;
+        padding: 1rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
 
+    .superadmin-title {
+        font-size: 5rem;
+        font-weight: 1200;
+        margin-bottom: 0.5rem;
+        color: #20677c;
+    }
+
+    .superadmin-card h6 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+
+    }
+
+    .superadmin-card p {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .dashboard-summary {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .summary-card {
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        flex: 1;
+        min-width: 180px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .summary-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
+    .bg-gradient {
+        background: linear-gradient(135deg, #20677c, #1b5e68);
+    }
+
+    .card-info {
+        text-align: left;
+    }
+
+    .summary-title {
+        font-size: 1.1rem;
+        color: #20677c;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .summary-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #495057;
+    }
 </style>
 
 <body class="sb-nav-fixed">
@@ -292,11 +377,62 @@ include "../database/admin_authentication.php";
                 </form>
             </div>
         </div>
+
+
         <div id="layoutSidenav_content">
             <main>
+                <!-- Superadmin Card -->
+                <div class="superadmin-card mb-4 p-3 rounded shadow-sm bg-light">
+                    <h6 class="mb-2 superadmin-title">Superadmin</h6>
+                    <p class="mb-1"><strong>Name:</strong> <?php echo htmlspecialchars($_SESSION['name'] ?? 'Joe'); ?></p>
+                    <p class="mb-0"><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'hjjj@example.com'); ?></p>
+                </div>
+                <!-- Dashboard Summary -->
+                <div class="dashboard-summary mb-4 d-flex gap-3 flex-wrap">
 
+                    <div class="summary-card flex-fill">
+                        <div class="card-content">
+                            <div class="card-icon bg-gradient">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div class="card-info">
+                                <h6 class="summary-title">Total Gyms</h6>
+                                <p class="summary-number" id="total-gyms">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card flex-fill">
+                        <div class="card-content">
+                            <div class="card-icon bg-gradient">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="card-info">
+                                <h6 class="summary-title">Total Revenue</h6>
+                                <p class="summary-number" id="total-revenue">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card flex-fill">
+                        <div class="card-content">
+                            <div class="card-icon bg-gradient">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="card-info">
+                                <h6 class="summary-title">Total Active Subscriptions</h6>
+                                <p class="summary-number" id="total-active-aubacriptions">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <!-- Subscription cards  -->
                 <div class="card_header" id="recommendation">
-                    <h1>Subscription available</h1>
+                    <h1>Subscription Details</h1>
                     <hr>
                 </div>
                 <div class="card-container">
@@ -512,6 +648,8 @@ include "../database/admin_authentication.php";
                     </div>
 
                 </div>
+                <!-- Analytics Section -->
+                 
             </main>
             <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
