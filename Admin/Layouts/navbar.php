@@ -20,9 +20,8 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li>
-                        <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="../../logout.php">Logout</a></li>
+                    <li><a class="dropdown-item text-danger" href="../../logout.php">Logout</a></li>
                 </ul>
             </li>
         </ul>

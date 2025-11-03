@@ -207,7 +207,7 @@ $totalExpiredSubs = $subsData['expired_count'] ?? 0;
 
                         <div class="collapse" id="collapsePayments" aria-labelledby="headingPayments" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="../Payments/payments.php">Payments</a>
+                                <a class="nav-link" href="Payments/payments.php">Payments</a>
                             </nav>
                         </div>
                         <!-- Ads -->

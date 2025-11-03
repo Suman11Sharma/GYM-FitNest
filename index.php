@@ -43,7 +43,7 @@ include "database/db_connect.php"; ?>
                     </li>
                     <li class="nav-item navbar-content">
                         <a class="nav-link" href="#recommendation">
-                            <i class="fas fa-location-arrow"></i> Suggestion</a>
+                            <i class="fas fa-location-arrow"></i> Recommendation</a>
                     </li>
                     <li class="nav-item navbar-content">
                         <button type="button" class="btn btn-link nav-link" data-bs-toggle="modal" data-bs-target="#contactModal">

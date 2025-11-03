@@ -208,25 +208,32 @@ $totalRevenue = $subRevenue + $visitorRevenue + $bookingRevenue;
         </script>
     <?php endif; ?>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="../index.php"><img src="uploads/logo_transparent.png" alt=""></a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars"></i></button>
-        <ul class="navbar-nav ms-auto">
+        <!-- Navbar Brand -->
+        <a class="navbar-brand ps-3" href="../index.php">
+            <img src="uploads/logo_transparent.png" alt="Logo" height="36">
+        </a>
+
+        <!-- Sidebar Toggle -->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Navbar Items -->
+        <ul class="navbar-nav ms-auto me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
                     <li>
-                        <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="../logout.php">Logout</a></li>
+                    <li><a class="dropdown-item text-danger" href="../logout.php">Logout</a></li>
                 </ul>
             </li>
         </ul>
-
     </nav>
+
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -249,6 +256,20 @@ $totalRevenue = $subRevenue + $visitorRevenue + $bookingRevenue;
                         <div class="collapse" id="collapsePayments" aria-labelledby="headingPayments" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="Payments/payments.php">Payments</a>
+                            </nav>
+                        </div>
+
+
+                        <!-- History Subscription -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseHistory" aria-expanded="false" aria-controls="collapseHistory">
+                            <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
+                            History Subscription
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseHistory" aria-labelledby="headingHistory" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="Gym-Subscriptions/historyData.php">View History</a>
                             </nav>
                         </div>
 
@@ -467,7 +488,10 @@ $totalRevenue = $subRevenue + $visitorRevenue + $bookingRevenue;
             </footer>
         </div>
     </div>
+
     <script src="../assets/js/scripts.js"></script>
+    <!-- ✅ Bootstrap 5 JS (includes Popper automatically) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/datatables-simple-demo.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
