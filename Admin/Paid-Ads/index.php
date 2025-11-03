@@ -227,4 +227,3 @@ require("../sidelayout.php");
     </main>
 
     <?php require("../assets/link.php"); ?>
-</div>
