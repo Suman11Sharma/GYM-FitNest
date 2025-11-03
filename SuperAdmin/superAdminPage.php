@@ -1,6 +1,66 @@
 <?php
 include "../database/admin_authentication.php";
+include "../database/db_connect.php"; // ✅ mysqli connection
+require("paymentCalculation.php");
+
+
+// --- Get Current Month & Year ---
+$currentMonth = date('m');
+$currentYear = date('Y');
+
+// --- Total Gyms ---
+$sqlGyms = "SELECT COUNT(*) AS total_gyms FROM gyms";
+$resGyms = mysqli_query($conn, $sqlGyms);
+$totalGyms = mysqli_fetch_assoc($resGyms)['total_gyms'] ?? 0;
+
+// --- Total Revenue (only current month) ---
+$totalRevenue = 0;
+
+// ✅ From customer_subscriptions (this month)
+$sql1 = "SELECT SUM(amount) AS total FROM customer_subscriptions 
+         WHERE payment_status = 'paid' 
+         AND MONTH(created_at) = '$currentMonth' 
+         AND YEAR(created_at) = '$currentYear'";
+$res1 = mysqli_query($conn, $sql1);
+$totalRevenue += floatval(mysqli_fetch_assoc($res1)['total'] ?? 0);
+
+// ✅ From gym_subscriptions (this month)
+$sql2 = "SELECT SUM(amount) AS total FROM gym_subscriptions 
+         WHERE payment_status = 'paid' 
+         AND MONTH(created_at) = '$currentMonth' 
+         AND YEAR(created_at) = '$currentYear'";
+$res2 = mysqli_query($conn, $sql2);
+$totalRevenue += floatval(mysqli_fetch_assoc($res2)['total'] ?? 0);
+
+// ✅ From trainer_bookings (this month)
+$sql3 = "SELECT SUM(amount) AS total FROM trainer_bookings 
+         WHERE payment_status = 'paid' 
+         AND MONTH(created_at) = '$currentMonth' 
+         AND YEAR(created_at) = '$currentYear'";
+$res3 = mysqli_query($conn, $sql3);
+$totalRevenue += floatval(mysqli_fetch_assoc($res3)['total'] ?? 0);
+
+// ✅ From visitor_passes (this month)
+$sql4 = "SELECT SUM(amount) AS total FROM visitor_passes 
+         WHERE payment_status = 'paid' 
+         AND MONTH(created_at) = '$currentMonth' 
+         AND YEAR(created_at) = '$currentYear'";
+$res4 = mysqli_query($conn, $sql4);
+$totalRevenue += floatval(mysqli_fetch_assoc($res4)['total'] ?? 0);
+
+// --- Total Active and Expired Subscriptions ---
+$sqlSubs = "
+    SELECT 
+        SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS active_count,
+        SUM(CASE WHEN status = 'inactive' THEN 1 ELSE 0 END) AS expired_count
+    FROM gym_subscriptions
+";
+$resSubs = mysqli_query($conn, $sqlSubs);
+$subsData = mysqli_fetch_assoc($resSubs);
+$totalActiveSubs = $subsData['active_count'] ?? 0;
+$totalExpiredSubs = $subsData['expired_count'] ?? 0;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -287,86 +347,6 @@ include "../database/admin_authentication.php";
                 </div>
             </nav>
         </div>
-        <div class="modal fade" id="gymDetailModal" tabindex="-1" aria-labelledby="gymDetailModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="gymDetailModalLabel">Gym Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <h6>🏋️ FitNest Gym, Pokhara</h6>
-                        <p>FitNest Gym offers a complete fitness solution with modern equipment, professional trainers, and various classes including strength training, cardio, Zumba, and yoga.</p>
-                        <ul>
-                            <li>Opening Hours: 5:00 AM – 9:00 PM</li>
-                            <li>Location: Lakeside, Pokhara</li>
-                            <li>Contact: +977 9825160781</li>
-                            <li>Email: info@fitnest.com</li>
-                        </ul>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="renewModal" tabindex="-1" aria-labelledby="renewModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <form class="modal-content needs-validation" novalidate>
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="renewModalLabel">Renew Subscription</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <!-- Name -->
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="name" required>
-                            <div class="invalid-feedback">Please enter your name.</div>
-                        </div>
-
-                        <!-- Contact -->
-                        <div class="mb-3">
-                            <label for="contact" class="form-label">Contact Number</label>
-                            <input type="tel" class="form-control" id="contact" pattern="^[0-9]{7,15}$" required>
-                            <div class="invalid-feedback">Please enter a valid contact number.</div>
-                        </div>
-
-                        <!-- From Date -->
-                        <div class="mb-3">
-                            <label for="fromDate" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="fromDate" min="<?= date('Y-m-d'); ?>" required>
-                            <div class="invalid-feedback">Start date must be today or later.</div>
-                        </div>
-
-                        <!-- To Date -->
-                        <div class="mb-3">
-                            <label for="toDate" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="toDate" required>
-                            <div class="invalid-feedback">Please select a valid end date.</div>
-                        </div>
-
-                        <!-- Payment -->
-                        <div class="mb-3">
-                            <label for="payment" class="form-label">Payment Amount (Rs)</label>
-                            <input type="number" class="form-control" id="payment" min="1" required>
-                            <div class="invalid-feedback">Please enter the payment amount.</div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-our w-100">Submit Renewal</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
 
         <div id="layoutSidenav_content">
             <main>
@@ -376,458 +356,56 @@ include "../database/admin_authentication.php";
                     <p class="mb-1"><strong>Name:</strong> <?php echo htmlspecialchars($_SESSION['name'] ?? 'Joe'); ?></p>
                     <p class="mb-0"><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'hjjj@example.com'); ?></p>
                 </div>
-                <!-- Dashboard Summary -->
+
+                <!-- ✅ Dashboard Summary -->
                 <div class="dashboard-summary mb-4 d-flex gap-3 flex-wrap">
 
+                    <!-- Total Gyms -->
                     <div class="summary-card flex-fill">
-                        <div class="card-content">
+                        <div class="card-content d-flex align-items-center">
                             <div class="card-icon bg-gradient">
                                 <i class="fas fa-dumbbell"></i>
                             </div>
                             <div class="card-info">
                                 <h6 class="summary-title">Total Gyms</h6>
-                                <p class="summary-number" id="total-gyms">0</p>
+                                <p class="summary-number"><?= $totalGyms ?></p>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Total Revenue (Current Month) -->
                     <div class="summary-card flex-fill">
-                        <div class="card-content">
+                        <div class="card-content d-flex align-items-center">
                             <div class="card-icon bg-gradient">
                                 <i class="fas fa-user-tie"></i>
                             </div>
                             <div class="card-info">
-                                <h6 class="summary-title">Total Revenue</h6>
-                                <p class="summary-number" id="total-revenue">0</p>
+                                <h6 class="summary-title">Income (<?= date('F Y') ?>)</h6>
+                                <p class="summary-number">Rs. <?= number_format($totalRevenue, 2) ?></p>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Total Active/Expired Subscriptions -->
                     <div class="summary-card flex-fill">
-                        <div class="card-content">
+                        <div class="card-content d-flex align-items-center">
                             <div class="card-icon bg-gradient">
                                 <i class="fas fa-users"></i>
                             </div>
                             <div class="card-info">
-                                <h6 class="summary-title">Total Active Subscriptions</h6>
-                                <p class="summary-number" id="total-active-aubacriptions">0</p>
+                                <h6 class="summary-title">Gym Subscriptions</h6>
+                                <p class="summary-number">
+                                    <span class="text-success">Active: <?= $totalActiveSubs ?></span> |
+                                    <span class="text-danger">Expired: <?= $totalExpiredSubs ?></span>
+                                </p>
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <!-- Analytics & Overview Section -->
-                <section class="container mt-4 analytics-overview">
-                    <h4 class="fw-bold mb-3"><i class="fas fa-chart-pie me-2"></i>Analytics & Overview</h4>
 
-                    <!-- Top Row: Gender, Package, and New Customers Charts -->
-                    <div class="row g-4">
-                        <!-- Gender Chart -->
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="card shadow-sm border-0 rounded-3 h-100">
-                                <div class="card-header bg-white border-0 fw-semibold text-dark">
-                                    <i class="fas fa-venus-mars me-2 text-primary"></i>Customer Gender
-                                </div>
-                                <div class="card-body text-center">
-                                    <canvas id="genderChart" height="120"></canvas>
-                                </div>
-                            </div>
-                        </div>
+                <?php require("analyticChart.php"); ?>
+                <?php require("gymFetch.php"); ?>
 
-                        <!-- Revenue by Package Type -->
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="card shadow-sm border-0 rounded-3 h-100">
-                                <div class="card-header bg-white border-0 fw-semibold text-dark">
-                                    <i class="fas fa-boxes me-2 text-success"></i>Revenue by Package Type
-                                </div>
-                                <div class="card-body text-center">
-                                    <canvas id="packageChart" height="120"></canvas>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- New Customers by Month -->
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            <div class="card shadow-sm border-0 rounded-3 h-100">
-                                <div class="card-header bg-white border-0 fw-semibold text-dark">
-                                    <i class="fas fa-users me-2 text-warning"></i>New Customers by Month
-                                </div>
-                                <div class="card-body text-center">
-                                    <canvas id="newCustomersChart" height="120"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bottom Row: Monthly Revenue -->
-                    <div class="row justify-content-center mt-4">
-                        <div class="col-lg-10 col-md-11 col-sm-12">
-                            <div class="card shadow-sm border-0 rounded-3">
-                                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Monthly Revenue Overview</h5>
-                                    <select id="yearSelect" class="form-select form-select-sm w-auto bg-light text-dark">
-                                        <option value="2025" selected>2025</option>
-                                        <option value="2024">2024</option>
-                                        <option value="2023">2023</option>
-                                    </select>
-                                </div>
-                                <div class="card-body px-3 py-4">
-                                    <canvas id="monthlyRevenueChart" height="130"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Chart.js -->
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                        // Gender Pie Chart
-                        new Chart(document.getElementById("genderChart"), {
-                            type: 'pie',
-                            data: {
-                                labels: ['Male', 'Female', 'Others'],
-                                datasets: [{
-                                    data: [60, 35, 5],
-                                    backgroundColor: ['#007bff', '#e83e8c', '#6c757d']
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom'
-                                    }
-                                }
-                            }
-                        });
-
-                        // Revenue by Package Type (Doughnut)
-                        new Chart(document.getElementById("packageChart"), {
-                            type: 'doughnut',
-                            data: {
-                                labels: ['1 Month', '3 Months', '6 Months'],
-                                datasets: [{
-                                    data: [45, 30, 25],
-                                    backgroundColor: ['#17a2b8', '#ffc107', '#28a745']
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom'
-                                    }
-                                }
-                            }
-                        });
-
-                        // New Customers by Month (Bar Chart)
-                        new Chart(document.getElementById("newCustomersChart"), {
-                            type: 'bar',
-                            data: {
-                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                                datasets: [{
-                                    label: 'New Customers',
-                                    data: [20, 30, 25, 40, 35, 50, 45, 55, 60, 48, 52, 70],
-                                    backgroundColor: '#fd7e14'
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    }
-                                },
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
-
-                        // Monthly Revenue Line Chart
-                        new Chart(document.getElementById("monthlyRevenueChart"), {
-                            type: 'line',
-                            data: {
-                                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                                datasets: [{
-                                    label: 'Monthly Revenue (NPR)',
-                                    data: [12000, 14500, 13800, 16200, 17500, 19000, 21000, 20500, 19800, 22000, 24000, 26000],
-                                    borderColor: '#007bff',
-                                    backgroundColor: 'rgba(0,123,255,0.15)',
-                                    borderWidth: 3,
-                                    tension: 0.3,
-                                    fill: true,
-                                    pointBackgroundColor: '#007bff'
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    }
-                                },
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        ticks: {
-                                            callback: v => 'NPR ' + v
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    });
-                </script>
-
-                <!-- Styles -->
-                <style>
-                    .analytics-overview .card {
-                        transition: transform 0.2s ease, box-shadow 0.2s ease;
-                    }
-
-                    .analytics-overview .card:hover {
-                        transform: translateY(-3px);
-                        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-                    }
-
-                    .analytics-overview .card-header {
-                        font-size: 1rem;
-                    }
-
-                    @media (max-width: 767px) {
-                        .analytics-overview h4 {
-                            font-size: 1.1rem;
-                        }
-                    }
-                </style>
-
-
-
-                <!-- Subscription cards  -->
-                <div class="card_header" id="recommendation">
-                    <h1>Subscription Details</h1>
-                    <hr>
-                </div>
-                <div class="card-container">
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-                                <span class="text-success">Days Remaining 78</span>
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card custom-card">
-                        <div class="card-image">
-                            <img src="uploads/gym.jpg" alt="Gym Name">
-                        </div>
-
-                        <div class="card-body card-body-custom">
-                            <div>
-                                <h5 class="card-title">Gym Name</h5>
-
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-outline-primary btn-cool w-100 " data-bs-toggle="modal" data-bs-target="#gymDetailModal">
-                                    More Detail
-                                </a>
-                                <a href="#" class="btn btn-primary btn-cool w-100 btn-bgcolor" data-bs-toggle="modal" data-bs-target="#renewModal">
-                                    Renew
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
                 <!-- Analytics Section -->
 
             </main>

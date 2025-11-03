@@ -1,5 +1,4 @@
 <?php
-include "../database/user_authentication.php";
 include "../database/db_connect.php";
 
 $gym_id = $_SESSION['gym_id'] ?? 0;

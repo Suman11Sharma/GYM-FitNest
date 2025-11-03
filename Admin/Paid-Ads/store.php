@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $payment_status = "Pending";
     $status = "Inactive";
-    $approval_status = "Pending";
+    $approval_status = "approved";
     $created_at = $updated_at = date('Y-m-d H:i:s');
     $start_date = date('Y-m-d');
 
