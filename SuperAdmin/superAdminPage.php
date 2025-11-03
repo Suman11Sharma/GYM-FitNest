@@ -197,6 +197,19 @@ $totalExpiredSubs = $subsData['expired_count'] ?? 0;
                             Dashboard
                         </a>
                         <div class="sb-sidenav-menu-heading">Management</div>
+                        <!-- Payments -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePayments" aria-expanded="false" aria-controls="collapsePayments">
+                            <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
+                            Payments
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse" id="collapsePayments" aria-labelledby="headingPayments" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="../Payments/payments.php">Payments</a>
+                            </nav>
+                        </div>
                         <!-- Ads -->
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseAds" aria-expanded="false" aria-controls="collapseAds">

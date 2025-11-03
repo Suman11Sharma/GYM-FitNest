@@ -91,7 +91,7 @@ $gyms = array_slice($gyms, $offset, $limit);
                 <h5 class="card-title"><?= $name ?></h5>
                 <p><?= $badge ?></p>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-outline-primary btn-cool w-50 view-details-btn"
+                    <button class="btn btn-outline-primary w-100"
                         data-bs-toggle="modal"
                         data-bs-target="#gymDetailModal"
                         data-name="<?= $name ?>"
@@ -103,7 +103,7 @@ $gyms = array_slice($gyms, $offset, $limit);
                         data-email="<?= $email ?>">
                         More Detail
                     </button>
-                    <a href="Renew-Gym/renew.php?gym_id=<?= $gym['gym_id'] ?>" class="btn btn-our btn-cool w-50 btn-bgcolor text-white">Renew</a>
+                    <a href="Renew-Gym/renew.php?gym_id=<?= $gym['gym_id'] ?>" class="btn btn-our w-100">Renew</a>
                 </div>
             </div>
         </div>
