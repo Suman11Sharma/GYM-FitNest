@@ -11,6 +11,7 @@
                         Dashboard
                     </a>
                     <div class="sb-sidenav-menu-heading">Management</div>
+
                     <!-- Payments -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapsePayments" aria-expanded="false" aria-controls="collapsePayments">
@@ -24,6 +25,21 @@
                             <a class="nav-link" href="../Payments/payments.php">Payments</a>
                         </nav>
                     </div>
+
+
+                    <!-- History Subscription -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseHistory" aria-expanded="false" aria-controls="collapseHistory">
+                        <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
+                        History Subscription
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseHistory" aria-labelledby="headingHistory" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="../Gym-Subscriptions/historyData.php">View History</a>
+                        </nav>
+                    </div>
+
                     <!-- Paid-Ads  -->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                         data-bs-target="#collapsePaidAds" aria-expanded="false" aria-controls="collapsePaidAds">

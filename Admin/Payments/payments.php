@@ -44,61 +44,76 @@ $payouts = $conn->query($sql);
 <?php require("../sidelayout.php"); ?>
 
 <div id="layoutSidenav_content">
-    <main class="container mt-4">
-        <div class="card shadow-lg border-0 rounded-3">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">Gym Payout Records</h4>
-            </div>
+    <main class="container-fluid mt-4">
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="payoutTable" class="table table-bordered table-striped align-middle text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>SN</th>
-                                <th>Payment Type</th>
-                                <th>Name</th>
-                                <th>Amount (Rs)</th>
-                                <th>Payout Status</th>
-                                <th>Paid At</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if ($payouts && $payouts->num_rows > 0) {
-                                $sn = 1;
-                                while ($row = $payouts->fetch_assoc()) { ?>
-                                    <tr>
-                                        <td><?= $sn++; ?></td>
-                                        <td><?= ucfirst(str_replace('_', ' ', $row['payment_type'])) ?></td>
-                                        <td><?= htmlspecialchars($row['person_name'] ?: 'N/A') ?></td>
-                                        <td><?= number_format($row['amount'], 2) ?></td>
-                                        <td>
-                                            <?php if ($row['payout_status'] == 'paid') { ?>
-                                                <span class="badge bg-success">Paid</span>
-                                            <?php } else { ?>
-                                                <span class="badge bg-warning text-dark">Pending</span>
-                                            <?php } ?>
-                                        </td>
-                                        <td><?= $row['paid_at'] ? date("Y-m-d h:i A", strtotime($row['paid_at'])) : '-' ?></td>
-                                    </tr>
-                                <?php }
-                            } else { ?>
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted py-3">
-                                        No payout records found for your gym.
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
+        <!-- ✅ Title + Search (Clean & Aligned) -->
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <h4 class="fw-bold mb-0">Gym Payout Records</h4>
+
+            <div class="d-flex align-items-center gap-2" style="flex-shrink: 0;">
+                <input type="text" id="customSearchBox" name="search"
+                    class="form-control form-control-sm"
+                    placeholder="Search Payment Type, Name, Amount, Status, or Date..."
+                    value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
+                    style="min-width: 280px;" />
+                <button type="button" class="btn btn-sm btn-our" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </div>
-    </main>
+
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="payoutTable" class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>SN</th>
+                            <th>Payment Type</th>
+                            <th>Name</th>
+                            <th>Amount (Rs)</th>
+                            <th>Payout Status</th>
+                            <th>Paid At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($payouts && $payouts->num_rows > 0) {
+                            $sn = 1;
+                            while ($row = $payouts->fetch_assoc()) { ?>
+                                <tr>
+                                    <td><?= $sn++; ?></td>
+                                    <td><?= ucfirst(str_replace('_', ' ', $row['payment_type'])) ?></td>
+                                    <td><?= htmlspecialchars($row['person_name'] ?: 'N/A') ?></td>
+                                    <td><?= number_format($row['amount'], 2) ?></td>
+                                    <td>
+                                        <?php if ($row['payout_status'] == 'paid') { ?>
+                                            <span class="badge bg-success">Paid</span>
+                                        <?php } else { ?>
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        <?php } ?>
+                                    </td>
+                                    <td><?= $row['paid_at'] ? date("Y-m-d h:i A", strtotime($row['paid_at'])) : '-' ?></td>
+                                </tr>
+                            <?php }
+                        } else { ?>
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-3">
+                                    No payout records found for your gym.
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 </div>
 
-<!-- ✅ DataTables CDN -->
+<?php require("../assets/link.php"); ?>
+
+</div>
+
+<!-- ✅ DataTables + jQuery -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
@@ -106,20 +121,25 @@ $payouts = $conn->query($sql);
 
 <script>
     $(document).ready(function() {
-        $('#payoutTable').DataTable({
+        var table = $('#payoutTable').DataTable({
             pageLength: 15,
             order: [
                 [0, 'asc']
             ],
+            dom: 't<"d-flex justify-content-between align-items-center mt-3"ip>',
             language: {
                 search: "_INPUT_",
-                searchPlaceholder: "Search by Type, Name, Amount, Status, Date..."
+                searchPlaceholder: "Search..."
             },
             columnDefs: [{
-                    targets: 0,
-                    orderable: false
-                }, // disable sort for SN column
-            ]
+                targets: 0,
+                orderable: false
+            }]
+        });
+
+        // ✅ Custom Search Integration
+        $('#customSearchBox').on('keyup', function() {
+            table.search(this.value).draw();
         });
     });
 </script>
