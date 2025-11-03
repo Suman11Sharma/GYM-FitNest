@@ -45,11 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (mysqli_query($conn, $insertQuery)) {
         $_SESSION['success'] = "Subscription renewed successfully!";
-        header("Location: index.php");
+        header("Location: ../adminPage.php?status=success&msg=" . urlencode("Subscription created successfully!"));
+
         exit;
     } else {
         $_SESSION['error'] = "Error: " . mysqli_error($conn);
-        header("Location: renew.php?user_id=$user_id");
+        header("Location: ../adminPage.php?status=error&msg=" . urlencode("Error: " . mysqli_error($conn)));
         exit;
     }
 } else {

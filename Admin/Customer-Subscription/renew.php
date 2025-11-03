@@ -1,22 +1,24 @@
 <?php
 include "../../database/user_authentication.php";
 include "../../database/db_connect.php";
-require "../sidelayout.php";
 
 // ✅ Get user_id and subscription_id from URL
 $user_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
 $subscription_id = isset($_GET['subscription_id']) ? intval($_GET['subscription_id']) : 0;
 
-// --- Fetch the subscription row to get gym_id ---
+// ✅ Default gym_id from session (for new subscription)
+$gym_id = $_SESSION['gym_id'] ?? 0;
+
+// --- Fetch the subscription row to get gym_id if renewing ---
 $subscription = [];
 if ($subscription_id) {
     $subQuery = "SELECT * FROM customer_subscriptions WHERE subscription_id = $subscription_id LIMIT 1";
     $subResult = mysqli_query($conn, $subQuery);
     if ($subResult && mysqli_num_rows($subResult) > 0) {
         $subscription = mysqli_fetch_assoc($subResult);
+        $gym_id = $subscription['gym_id']; // overwrite if found
     }
 }
-$gym_id = $subscription['gym_id'] ?? 0;
 
 // --- Fetch all active plans for this gym ---
 $plans = [];
@@ -32,46 +34,51 @@ if ($gym_id) {
 $today = date('Y-m-d');
 $defaultStartDate = $today;
 
-// Check last subscription for this user
-$lastQuery = "SELECT * FROM customer_subscriptions 
-              WHERE user_id = $user_id AND gym_id = $gym_id 
-              ORDER BY end_date DESC LIMIT 1";
-$lastResult = mysqli_query($conn, $lastQuery);
-if ($lastResult && mysqli_num_rows($lastResult) > 0) {
-    $lastSub = mysqli_fetch_assoc($lastResult);
-    if ($lastSub['end_date'] >= $today) {
-        $defaultStartDate = date('Y-m-d', strtotime($lastSub['end_date'] . ' +1 day'));
+// --- Check last subscription for this user in this gym ---
+if ($gym_id && $user_id) {
+    $lastQuery = "SELECT * FROM customer_subscriptions 
+                  WHERE user_id = $user_id AND gym_id = $gym_id 
+                  ORDER BY end_date DESC LIMIT 1";
+    $lastResult = mysqli_query($conn, $lastQuery);
+    if ($lastResult && mysqli_num_rows($lastResult) > 0) {
+        $lastSub = mysqli_fetch_assoc($lastResult);
+        if ($lastSub['end_date'] >= $today) {
+            // Start after current ends
+            $defaultStartDate = date('Y-m-d', strtotime($lastSub['end_date'] . ' +1 day'));
+        }
     }
 }
+
+require "../sidelayout.php";
 ?>
 
 <div id="layoutSidenav_content">
     <main class="container mt-4">
         <div class="card shadow-lg border-0 rounded-3">
             <div class="card-header bg-dark text-white">
-                <h4 class="mb-0">Renew Subscription</h4>
+                <h4 class="mb-0"><?= $subscription_id ? "Renew Subscription" : "New Subscription" ?></h4>
             </div>
             <div class="card-body p-4">
                 <form action="store.php" method="POST">
 
-                    <!-- User ID (hidden) -->
+                    <!-- User ID -->
                     <input type="hidden" name="user_id" value="<?= $user_id ?>">
 
-                    <!-- Gym ID (hidden) -->
+                    <!-- Gym ID -->
                     <input type="hidden" name="gym_id" value="<?= $gym_id ?>">
 
                     <!-- Plan Dropdown -->
                     <div class="mb-3">
-                        <label for="plan_id" class="form-label">Plan</label>
+                        <label for="plan_id" class="form-label">Select Plan</label>
                         <select class="form-select" id="plan_id" name="plan_id" required onchange="updatePlanDetails()">
-                            <option value="">Select Plan</option>
+                            <option value="">Choose Plan</option>
                             <?php foreach ($plans as $plan): ?>
                                 <option
                                     value="<?= $plan['plan_id'] ?>"
                                     data-duration="<?= $plan['duration_days'] ?>"
                                     data-amount="<?= $plan['amount'] ?>"
                                     data-start="<?= $defaultStartDate ?>">
-                                    <?= htmlspecialchars($plan['plan_name']) ?>
+                                    <?= htmlspecialchars($plan['plan_name']) ?> (<?= $plan['duration_days'] ?> days)
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -100,48 +107,52 @@ if ($lastResult && mysqli_num_rows($lastResult) > 0) {
                         <label for="payment_status" class="form-label">Payment Status</label>
                         <select class="form-select" id="payment_status" name="payment_status" required>
                             <option value="paid" selected>Paid</option>
+                            <option value="pending">Pending</option>
                         </select>
                     </div>
 
                     <!-- Transaction ID -->
                     <div class="mb-3">
                         <label for="transaction_id" class="form-label">Transaction ID</label>
-                        <input type="text" class="form-control" name="transaction_id" value="cash" readonly>
+                        <input type="text" class="form-control" name="transaction_id" value="cash">
                     </div>
 
                     <!-- Submit -->
                     <div class="text-center">
-                        <button type="submit" class="btn btn-our px-5 py-2">Renew</button>
+                        <button type="submit" class="btn btn-our px-5 py-2">
+                            <?= $subscription_id ? "Renew" : "Create" ?>
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </main>
+
+    <?php require("../assets/link.php"); ?>
+
+    <script>
+        function updatePlanDetails() {
+            const planSelect = document.getElementById('plan_id');
+            const selectedOption = planSelect.options[planSelect.selectedIndex];
+            if (!selectedOption.value) return;
+
+            const duration = parseInt(selectedOption.getAttribute('data-duration'));
+            const amount = selectedOption.getAttribute('data-amount');
+            const startDate = selectedOption.getAttribute('data-start');
+
+            document.getElementById('start_date').value = startDate;
+
+            // Calculate end date
+            const start = new Date(startDate);
+            start.setDate(start.getDate() + duration - 1);
+            const yyyy = start.getFullYear();
+            const mm = String(start.getMonth() + 1).padStart(2, '0');
+            const dd = String(start.getDate()).padStart(2, '0');
+            document.getElementById('end_date').value = `${yyyy}-${mm}-${dd}`;
+
+            document.getElementById('amount').value = amount;
+        }
+
+        document.addEventListener('DOMContentLoaded', updatePlanDetails);
+    </script>
 </div>
-
-<script>
-    function updatePlanDetails() {
-        const planSelect = document.getElementById('plan_id');
-        const selectedOption = planSelect.options[planSelect.selectedIndex];
-        if (!selectedOption.value) return;
-
-        const duration = parseInt(selectedOption.getAttribute('data-duration'));
-        const amount = selectedOption.getAttribute('data-amount');
-        const startDate = selectedOption.getAttribute('data-start');
-
-        document.getElementById('start_date').value = startDate;
-
-        // Calculate end date
-        const start = new Date(startDate);
-        start.setDate(start.getDate() + duration - 1);
-        const yyyy = start.getFullYear();
-        const mm = String(start.getMonth() + 1).padStart(2, '0');
-        const dd = String(start.getDate()).padStart(2, '0');
-        document.getElementById('end_date').value = `${yyyy}-${mm}-${dd}`;
-
-        document.getElementById('amount').value = amount;
-    }
-
-    // Trigger once on page load
-    document.addEventListener('DOMContentLoaded', updatePlanDetails);
-</script>
